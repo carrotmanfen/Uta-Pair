@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_200"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="400sp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_app_foreground" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80sp"
+        android:layout_marginLeft="50sp"
+        android:layout_marginRight="50sp"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        android:background="@drawable/custom_button"
+        android:text="PLAY"
+        android:fontFamily="@font/impact"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toTopOf="@+id/GridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <GridLayout
+        android:id="@+id/GridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0sp"
+        android:background="@color/brown_100"
+        android:columnCount="3"
+        android:padding="0sp"
+        android:rowCount="1"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/scoreboard_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:background="@color/brown_100"
+            android:src="@mipmap/ic_scoreboard_foreground" />
+
+        <ImageButton
+            android:id="@+id/profile_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:background="@color/brown_100"
+            android:src="@mipmap/ic_profile_foreground" />
+
+        <ImageButton
+            android:id="@+id/setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:background="@color/brown_100"
+            android:src="@mipmap/ic_setting_foreground" />
+
+    </GridLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
