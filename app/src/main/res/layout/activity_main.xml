@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="400sp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/play_btn"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -26,7 +26,7 @@
 
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/play_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="80sp"
