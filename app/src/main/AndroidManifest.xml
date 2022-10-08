@@ -14,9 +14,21 @@
         android:theme="@style/Theme.UtaPair"
         tools:targetApi="31">
         <activity
+            android:name=".AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScoreboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".SelectLevelActivity"
             android:exported="false"
-            android:theme="@style/Theme.UtaPair.NoActionBar"/>
+            android:theme="@style/Theme.UtaPair.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
