@@ -14,7 +14,7 @@
         android:theme="@style/Theme.UtaPair"
         tools:targetApi="31">
         <activity
-            android:name=".activity_register"
+            android:name=".LoginActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
