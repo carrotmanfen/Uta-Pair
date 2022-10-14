@@ -19,10 +19,11 @@ import com.example.utapair.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
     private Button buttonPlay;
-
+    private ImageButton buttonProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +36,23 @@ public class MainActivity extends AppCompatActivity {
                 openSelectLevelActivity();
             }
         });
+
+        buttonProfile = (ImageButton) findViewById(R.id.profile_btn);
+        buttonProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openLoginActivity();
+            }
+        });
     }
 
     public void openSelectLevelActivity(){
         Intent intent=new Intent(this, SelectLevelActivity.class);
         startActivity(intent);
     }
-
+    public void openLoginActivity(){
+        Intent intent=new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 
 }
