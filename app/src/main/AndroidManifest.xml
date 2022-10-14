@@ -22,16 +22,20 @@
         </activity>
         <activity
             android:name=".AccountActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.UtaPair.NoActionBar"/>
         <activity
             android:name=".ScoreboardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.UtaPair.NoActionBar"/>
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.UtaPair.NoActionBar"/>
         <activity
             android:name=".SettingActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.UtaPair.NoActionBar"/>
         <activity
             android:name=".SelectLevelActivity"
             android:exported="false"
