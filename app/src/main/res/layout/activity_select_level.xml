@@ -39,8 +39,7 @@
             android:fontFamily="@font/impact"
             android:textSize="40sp"
             android:layout_gravity="center"
-            >
-        </TextView>
+            />
 
         <Button
             android:id="@+id/easy_btn"
