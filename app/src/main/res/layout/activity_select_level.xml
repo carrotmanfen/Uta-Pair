@@ -51,6 +51,7 @@
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
             android:text="EASY"
+            android:textColor="@color/white"
             android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
@@ -65,6 +66,7 @@
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
             android:text="NORMAL"
+            android:textColor="@color/white"
             android:textSize="32sp"
             app:layout_constraintTop_toBottomOf="@+id/easy_btn"
             tools:layout_editor_absoluteX="16dp" />
@@ -78,6 +80,7 @@
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
             android:text="HARD"
+            android:textColor="@color/white"
             android:textSize="32sp"
             app:layout_constraintTop_toBottomOf="@+id/normal_btn"
             tools:layout_editor_absoluteX="0dp" />

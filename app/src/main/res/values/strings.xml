@@ -3,4 +3,10 @@
     <string name="name">NAME</string>
     <string name="password">PASSWORD</string>
     <string name="login_btn">Login</string>
+
+    <string-array name="level">
+        <item> EASY </item>
+        <item>NORMAL</item>
+        <item>HARD</item>
+    </string-array>
 </resources>
