@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SelectLevelActivity"
+    android:background="@color/purple_100">
+
+    <ImageButton
+        android:id="@+id/backward_btn"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:background="@color/purple_100"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:layout_marginTop="10sp"
+        android:layout_marginLeft="10sp"
+        android:src="@mipmap/ic_backward_foreground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"></ImageButton>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40sp"
+            android:text="SELECT LEVEL"
+            android:textColor="@color/white"
+            android:fontFamily="@font/impact"
+            android:textSize="40sp"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:id="@+id/easy_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70sp"
+            android:layout_marginRight="70sp"
+            android:layout_marginBottom="40sp"
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/impact"
+            android:text="EASY"
+            android:textSize="32sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="110dp" />
+
+        <Button
+            android:id="@+id/normal_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70sp"
+            android:layout_marginRight="70sp"
+            android:layout_marginBottom="40sp"
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/impact"
+            android:text="NORMAL"
+            android:textSize="32sp"
+            app:layout_constraintTop_toBottomOf="@+id/easy_btn"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <Button
+            android:id="@+id/hard_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70sp"
+            android:layout_marginRight="70sp"
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/impact"
+            android:text="HARD"
+            android:textSize="32sp"
+            app:layout_constraintTop_toBottomOf="@+id/normal_btn"
+            tools:layout_editor_absoluteX="0dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
