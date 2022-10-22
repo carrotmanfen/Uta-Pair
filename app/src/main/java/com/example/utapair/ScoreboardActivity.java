@@ -41,4 +41,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     }
 
 
+    public void onCheckboxClicked(View view) {
+    }
 }

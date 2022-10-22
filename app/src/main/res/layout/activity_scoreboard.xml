@@ -86,8 +86,7 @@
             android:textColor="@color/white"
             android:text="  MODE BLIND"
             android:textSize="24sp"
-            android:onClick="onCheckboxClicked"
-            tools:ignore="OnClick" />
+            android:onClick="onCheckboxClicked"/>
 
         <LinearLayout
             android:layout_width="match_parent"
