@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class ScoreboardRecyclerAdapter extends RecyclerView.Adapter<ScoreboardRecyclerAdapter.MyViewHolder>{
-    private ArrayList<ScoreboardUser> scoreBoardUserArrayList;
+    private ArrayList<ScoreboardUser> scoreboardUserArrayList;
 
     public ScoreboardRecyclerAdapter(ArrayList<ScoreboardUser> userList){
-        this.scoreBoardUserArrayList=userList;
+        this.scoreboardUserArrayList=userList;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -40,10 +40,10 @@ public class ScoreboardRecyclerAdapter extends RecyclerView.Adapter<ScoreboardRe
 
     @Override
     public void onBindViewHolder(@NonNull ScoreboardRecyclerAdapter.MyViewHolder holder, int position) {
-        int number = scoreBoardUserArrayList.get(position).getNumber();
+        int number = scoreboardUserArrayList.get(position).getNumber();
         String num = String.valueOf(number);
-        String username = scoreBoardUserArrayList.get(position).getUsername();
-        String time = scoreBoardUserArrayList.get(position).getTime();
+        String username = scoreboardUserArrayList.get(position).getUsername();
+        String time = scoreboardUserArrayList.get(position).getTime();
         holder.numberText.setText(num);
         holder.usernameText.setText(username);
         holder.timeText.setText(time);
@@ -51,6 +51,6 @@ public class ScoreboardRecyclerAdapter extends RecyclerView.Adapter<ScoreboardRe
 
     @Override
     public int getItemCount() {
-        return scoreBoardUserArrayList.size();
+        return scoreboardUserArrayList.size();
     }
 }

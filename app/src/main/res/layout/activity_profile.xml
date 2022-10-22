@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginBottom="70sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,14 +59,15 @@
             android:fontFamily="@font/impact"
             android:text="NAME: SPRINT"
             android:textColor="@color/white"
-            android:textSize="36sp" />
+            android:textSize="30sp" />
 
         <ImageButton
             android:id="@+id/editname_btn"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
             android:layout_marginLeft="0sp"
             android:layout_marginTop="0sp"
+            android:paddingTop="5sp"
             android:adjustViewBounds="true"
             android:background="@color/purple_100"
             android:scaleType="centerInside"
@@ -83,7 +85,7 @@
             android:text="YOUR BEST 5 GAME"
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
-            android:textSize="36sp"
+            android:textSize="30sp"
             android:layout_gravity="center"
             />
 
@@ -97,13 +99,14 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="MODE BLIND"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:onClick="onCheckboxClicked"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:layout_marginBottom="10sp"
             android:gravity="center">
 
             <TextView
@@ -113,7 +116,7 @@
                 android:text="LEVEL"
                 android:textColor="@color/white"
                 android:fontFamily="@font/impact"
-                android:textSize="30sp" />
+                android:textSize="24sp" />
 
             <Space
                 android:layout_width="0dp"
@@ -130,7 +133,7 @@
                 android:textAlignment="center"
                 android:background="@drawable/custom_spinner"
                 android:fontFamily="@font/impact"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 />
 
         </LinearLayout>
@@ -141,6 +144,7 @@
         android:orientation="vertical"
         android:layout_marginLeft="50sp"
         android:layout_marginRight="50sp"
+        android:layout_marginBottom="10sp"
         android:background="@drawable/custom_scoreboard_body">
 
         <LinearLayout
@@ -156,13 +160,19 @@
                 android:scaleType="centerInside"
                 android:src="@mipmap/ic_scoreboard_foreground"/>
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NAME"
+                android:layout_gravity="center"
                 android:fontFamily="@font/impact"
+                android:text="SCORE BOARD"
                 android:textColor="@color/white"
-                android:textSize="30sp"/>
+                android:textSize="24sp" />
 
             <Space
                 android:layout_width="0dp"
@@ -176,9 +186,14 @@
                 android:text="TIME"
                 android:fontFamily="@font/impact"
                 android:textColor="@color/white"
-                android:textSize="30sp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profile_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="185sp"/>
 
     </LinearLayout>
         <Button
