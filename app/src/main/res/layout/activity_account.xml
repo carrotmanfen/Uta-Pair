@@ -53,6 +53,7 @@
             android:fontFamily="@font/impact"
             android:text="LOGIN"
             android:textSize="32sp"
+            android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
@@ -67,9 +68,53 @@
             android:fontFamily="@font/impact"
             android:text="REGISTER"
             android:textSize="32sp"
+            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/easy_btn"
             tools:layout_editor_absoluteX="16dp" />
 
     </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/GridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0sp"
+        android:background="@color/brown_100"
+        android:columnCount="3"
+        android:padding="0sp"
+        android:rowCount="1"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/scoreboard_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:background="@color/brown_100"
+            android:src="@mipmap/ic_scoreboard_foreground" />
+
+        <ImageButton
+            android:id="@+id/profile_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:background="@color/brown_100"
+            android:src="@mipmap/ic_profile_foreground" />
+
+        <ImageButton
+            android:id="@+id/setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:background="@color/brown_100"
+            android:src="@mipmap/ic_setting_foreground" />
+
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

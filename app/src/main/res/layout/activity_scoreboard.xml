@@ -28,12 +28,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="80sp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40sp"
+            android:layout_marginBottom="20sp"
             android:text="SCOREBOARD"
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
@@ -86,8 +87,7 @@
             android:textColor="@color/white"
             android:text="  MODE BLIND"
             android:textSize="24sp"
-            android:onClick="onCheckboxClicked"
-            tools:ignore="OnClick" />
+            android:onClick="onCheckboxClicked"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -136,12 +136,14 @@
                     android:textColor="@color/white"
                     android:textSize="24sp"/>
 
-
             </LinearLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/scoreboard_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="370sp"/>
 
         </LinearLayout>
-
 
     </LinearLayout>
 
