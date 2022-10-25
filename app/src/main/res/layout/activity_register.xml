@@ -132,7 +132,7 @@
             tools:ignore="OnClick" />
 
         <Button
-            android:id="@+id/sign_in_btn"
+            android:id="@+id/sign_up_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50sp"
@@ -140,12 +140,24 @@
             android:layout_marginBottom="40sp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
-            android:text="SIGN IN"
+            android:text="SIGN UP"
             android:textColor="@color/white"
             android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="110dp" />
+            tools:layout_editor_absoluteX="110dp"
+            android:onClick="signup"/>
 
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:text="Status"
+            android:textColor="@color/white"
+            android:fontFamily="@font/impact"
+            android:textSize="40sp"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

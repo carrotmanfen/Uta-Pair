@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openLoginActivity();
+                openRegisterActivity();
             }
         });
 
@@ -62,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openLoginActivity(){
         Intent intent=new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void openRegisterActivity(){
+        Intent intent=new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
