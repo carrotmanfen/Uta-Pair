@@ -117,7 +117,8 @@
             android:hint="@string/password"
             />
 
-        <CheckBox android:id="@+id/blind_mode_checkbox"
+        <CheckBox
+            android:id="@+id/blind_mode_checkbox"
             android:buttonTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,7 +140,7 @@
             android:layout_marginBottom="40sp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
-            android:text="SIGN IN"
+            android:text="SIGN UP"
             android:textColor="@color/white"
             android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
