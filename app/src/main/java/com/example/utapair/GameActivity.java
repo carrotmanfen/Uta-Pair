@@ -1,11 +1,15 @@
 package com.example.utapair;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Random;
@@ -24,6 +28,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private Boolean isBusy = false;
 
+    private ImageButton pauseButton;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private Button resumeButton, restartButton, homeButton;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
@@ -66,8 +76,35 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+        pauseButton = findViewById(R.id.pause_btn);
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseGame();
+            }
+        });
 
     }
+
+    public void pauseGame(){
+        dialogBuilder = new AlertDialog.Builder(this,R.style.dialog);
+        final View popupView = getLayoutInflater().inflate(R.layout.popup_game_pause,null);
+        resumeButton = popupView.findViewById(R.id.resume_popup_btn);
+        restartButton = popupView.findViewById(R.id.restart_popup_btn);
+        homeButton = popupView.findViewById(R.id.home_popup_btn);
+
+        dialogBuilder.setView(popupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
     public void shuffleButtonGraphics(){
         Random rand = new Random();
         for (int i = 0 ; i < numberOfElements ; i++){

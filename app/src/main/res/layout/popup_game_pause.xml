@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/purple_100">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40sp"
+        android:fontFamily="@font/impact"
+        android:text="RESUME"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/resume_popup_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30sp"
+        android:layout_marginLeft="80sp"
+        android:layout_marginRight="80sp"
+        android:paddingBottom="10sp"
+        android:paddingTop="10sp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/impact"
+        android:text="CONFIRM"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/restart_popup_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="80sp"
+        android:layout_marginRight="80sp"
+        android:paddingBottom="10sp"
+        android:paddingTop="10sp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/impact"
+        android:text="RESTART"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintTop_toBottomOf="@+id/resume_popup_btn"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/home_popup_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="80sp"
+        android:layout_marginRight="80sp"
+        android:layout_marginBottom="30sp"
+        android:paddingBottom="10sp"
+        android:paddingTop="10sp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/impact"
+        android:text="HOME"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintTop_toBottomOf="@+id/restart_popup_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

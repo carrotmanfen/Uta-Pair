@@ -32,7 +32,7 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
-            android:theme="@style/Theme.UtaPair.NoActionBar"/>
+            android:theme="@style/Theme.UtaPair.NoActionBar" />
         <activity
             android:name=".SettingActivity"
             android:exported="false"
