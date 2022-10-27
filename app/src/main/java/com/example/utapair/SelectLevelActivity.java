@@ -5,18 +5,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 
 public class SelectLevelActivity extends AppCompatActivity {
 
+    private Button easyButton; // dimension = ? 2 rows , 3 cols
+    private Button mediumButton; // dimension = ?
+    private Button HardButton; // dimension = ?
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_level);
+    protected void onCreate(Bundle saveInstanceState){
+        super.onCreate(saveInstanceState);
+        setContentView(R.layout.activity_select_level); // หน้า menu file layout
 
+        easyButton = (Button) findViewById(R.id.easy_btn);
+        // if you wanna try new method just learn it
 
+        easyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEasyGameActivity();
+            }
+        });
+    }
 
+    public void openEasyGameActivity(){
+        Intent intent=new Intent(this, GameActivity.class);
+        startActivity(intent);
     }
 
 }

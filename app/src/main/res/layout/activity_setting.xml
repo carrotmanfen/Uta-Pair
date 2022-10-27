@@ -53,8 +53,7 @@
             android:textColor="@color/white"
             android:text="  MUSIC"
             android:textSize="22sp"
-            android:onClick="onCheckboxClicked"
-            tools:ignore="OnClick" />
+            android:onClick="onCheckboxClicked"/>
 
         <CheckBox android:id="@+id/vibration_checkbox"
             android:buttonTint="@color/white"
@@ -67,8 +66,7 @@
             android:textColor="@color/white"
             android:text="  VIBRATION"
             android:textSize="22sp"
-            android:onClick="onCheckboxClicked"
-            tools:ignore="OnClick" />
+            android:onClick="onCheckboxClicked"/>
 
         <CheckBox android:id="@+id/sound_click_checkbox"
             android:buttonTint="@color/white"
@@ -81,8 +79,7 @@
             android:textColor="@color/white"
             android:text="  SOUND CLICK"
             android:textSize="22sp"
-            android:onClick="onCheckboxClicked"
-            tools:ignore="OnClick" />
+            android:onClick="onCheckboxClicked"/>
 
         <CheckBox android:id="@+id/blind_mode_checkbox"
             android:buttonTint="@color/white"
@@ -95,8 +92,7 @@
             android:textColor="@color/white"
             android:text="  BLIND MODE"
             android:textSize="22sp"
-            android:onClick="onCheckboxClicked"
-            tools:ignore="OnClick" />
+            android:onClick="onCheckboxClicked"/>
 
         <TextView
             android:layout_width="wrap_content"

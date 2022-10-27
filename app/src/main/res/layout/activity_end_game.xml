@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EndgameActivity"
+    android:background="@color/purple_100">
+
+    <ImageButton
+        android:id="@+id/home_btn"
+        android:layout_width="70sp"
+        android:layout_height="70sp"
+        android:background="@color/purple_100"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="5sp"
+        android:src="@mipmap/ic_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"></ImageButton>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40sp"
+            android:text="YOUR SCORE"
+            android:textColor="@color/white"
+            android:fontFamily="@font/impact"
+            android:textSize="40sp"
+            android:layout_gravity="center"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="250sp"
+            android:layout_height="70sp"
+            android:layout_marginBottom="40sp"
+            android:gravity="center"
+            android:background="@drawable/custom_button"
+            android:text="3:00"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/impact"
+            android:textSize="32sp"
+            android:layout_gravity="center">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LEVEL - HARD"
+            android:textColor="@color/white"
+            android:fontFamily="@font/impact"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            >
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="50sp">
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+        <ImageButton
+            android:id="@+id/share_btn_1"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:background="@drawable/custom_button2"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_share_foreground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints"></ImageButton>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/share_btn_2"
+            android:layout_width="120sp"
+            android:layout_height="50sp"
+            android:background="@drawable/custom_button2"
+            android:fontFamily="@font/impact"
+            android:text="SHARE"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="110dp" />
+
+        <Space
+            android:layout_width="18dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+        <ImageButton
+            android:id="@+id/play_again_btn_1"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/custom_button2"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_play_again_foreground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints"></ImageButton>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/play_again_btn_2"
+            android:layout_width="120sp"
+            android:layout_height="50sp"
+            android:background="@drawable/custom_button2"
+            android:fontFamily="@font/impact"
+            android:text="PLAY AGAIN"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="110dp" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

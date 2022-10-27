@@ -66,6 +66,7 @@
         android:layout_height="wrap_content"
         android:columnCount="3"
         android:rowCount="6"
+        android:id="@+id/GridLayout_easy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
