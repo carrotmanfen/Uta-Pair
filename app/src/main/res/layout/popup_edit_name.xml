@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_100">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30sp"
+        android:fontFamily="@font/impact"
+        android:text="EDIT PROFILE"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:fontFamily="@font/impact"
+        android:text="NEW NAME"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/new_name_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="60sp"
+        android:layout_marginRight="60sp"
+        android:background="@drawable/custom_input"
+        android:padding="5sp"
+        android:fontFamily="@font/impact"
+        android:textSize="32sp"
+        android:textColor="@color/purple_100"
+        android:textAlignment="center"
+        android:text="NAME"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp"
+        android:layout_marginBottom="40sp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_name_edittext"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/cancel_popup_btn"
+            android:layout_width="140sp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button3"
+            android:fontFamily="@font/impact"
+            android:text="CANCEL"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/confirm_popup_btn"
+            android:layout_width="140sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/impact"
+            android:text="CONFIRM"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
