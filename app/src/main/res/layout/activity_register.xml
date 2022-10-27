@@ -129,7 +129,7 @@
             android:textColor="@color/white"
             android:text="  ARE YOU BLIND"
             android:textSize="22sp"
-            android:onClick="onCheckboxClicked"/>
+            />
 
         <Button
             android:id="@+id/sign_up_btn"
@@ -145,20 +145,9 @@
             android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp"
-
+            android:onClick="signup"
             />
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10sp"
-            android:text="Status"
-            android:textColor="@color/white"
-            android:fontFamily="@font/impact"
-            android:textSize="40sp"
-            android:layout_gravity="center"
-            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
