@@ -54,7 +54,7 @@
             android:exported="false"
             android:theme="@style/Theme.UtaPair.NoActionBar" />
         <activity
-            android:name=".GameActivityMedium"
+            android:name=".GameActivity"
             android:exported="false"
             android:theme="@style/Theme.UtaPair.NoActionBar" />
         <activity
