@@ -1,6 +1,5 @@
 package com.example.utapair;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Random;
 
-public class GameActivity extends AppCompatActivity implements View.OnClickListener {
+public class GameActivityMedium extends AppCompatActivity implements View.OnClickListener {
 
     private int numberOfElements;
 
@@ -28,12 +27,23 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private Boolean isBusy = false;
 
+    // variable for constructor
+    private int mode;
+    private int layout_id;
+    private int grid_id;
+
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.activity_game_easy2); // หน้า ตอนเล่นเกม
 
-        GridLayout gridLayout = (GridLayout) findViewById(R.id.GridLayout_easy); // ต้องไปเขียนหน้า layout ที่จะให้ grid อยู่ก็คือหน้าเล่นเกม (in-game)
+        Bundle bundle = getIntent().getExtras();
+        mode = bundle.getInt("mode");
+        layout_id = bundle.getInt("layout_id");
+        grid_id = bundle.getInt("grid_id");
+
+        setContentView(layout_id); // หน้า ตอนเล่นเกม
+
+        GridLayout gridLayout = (GridLayout) findViewById(grid_id); // ต้องไปเขียนหน้า layout ที่จะให้ grid อยู่ก็คือหน้าเล่นเกม (in-game)
 
         numColumns = gridLayout.getColumnCount(); // อย่าลืม ไป define หน้าเดียวกันกับบรรทัดที่ 28
         numRows = gridLayout.getRowCount();
@@ -46,10 +56,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraphic = new int[numberOfElements/2];
 
         // generate รูปที่ต้องใช้ตามขนาดจะทำแบบไหน ? แบบนี้ fix ไว้ (2 x 3)/2 = 3 unique picture
-        buttonGraphic[0] = R.drawable.bttn_1;
-        buttonGraphic[1] = R.drawable.bttn_2;
-        buttonGraphic[2] = R.drawable.bttn_3;
-
+        setButtonGraphic();
+//        buttonGraphic[0] = R.drawable.bttn_1;
+//        buttonGraphic[1] = R.drawable.bttn_2;
+//        buttonGraphic[2] = R.drawable.bttn_3;
 
 
         // สร้าง array สำหรับเก็บรูปของตำแหน่งนั้นว่าเป็นอะไร
@@ -101,6 +111,35 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         return checkAllMatched;
+    }
+
+    public void setButtonGraphic(){
+        switch (mode){
+            case -1: // easy mode
+                buttonGraphic[0] = R.drawable.bttn_1;
+                buttonGraphic[1] = R.drawable.bttn_2;
+                buttonGraphic[2] = R.drawable.bttn_3;
+                break;
+//            case 0: // normal mode
+//                buttonGraphic[0] = R.drawable.bttn_1;
+//                buttonGraphic[1] = R.drawable.bttn_2;
+//                buttonGraphic[2] = R.drawable.bttn_3;
+//                buttonGraphic[3] = R.drawable.bttn_4;
+//                buttonGraphic[4] = R.drawable.bttn_5;
+//                buttonGraphic[5] = R.drawable.bttn_6;
+//                break;
+//            case 1: // hard mode
+//                buttonGraphic[0] = R.drawable.bttn_1;
+//                buttonGraphic[1] = R.drawable.bttn_2;
+//                buttonGraphic[2] = R.drawable.bttn_3;
+//                buttonGraphic[3] = R.drawable.bttn_4;
+//                buttonGraphic[4] = R.drawable.bttn_5;
+//                buttonGraphic[5] = R.drawable.bttn_6;
+//                buttonGraphic[6] = R.drawable.bttn_7;
+//                buttonGraphic[7] = R.drawable.bttn_8;
+//                buttonGraphic[8] = R.drawable.bttn_9;
+//                break;
+        }
     }
 
     @Override
