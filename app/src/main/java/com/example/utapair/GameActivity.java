@@ -1,6 +1,7 @@
 package com.example.utapair;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -22,6 +23,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private MemoryButton selectedButton1;
     private MemoryButton selectedButton2;
 
+    private int numRows;
+    private int numColumns;
+
     private Boolean isBusy = false;
 
     @Override
@@ -31,8 +35,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         GridLayout gridLayout = (GridLayout) findViewById(R.id.GridLayout_easy); // ต้องไปเขียนหน้า layout ที่จะให้ grid อยู่ก็คือหน้าเล่นเกม (in-game)
 
-        int numColumns = gridLayout.getColumnCount(); // อย่าลืม ไป define หน้าเดียวกันกับบรรทัดที่ 28
-        int numRows = gridLayout.getRowCount();
+        numColumns = gridLayout.getColumnCount(); // อย่าลืม ไป define หน้าเดียวกันกับบรรทัดที่ 28
+        numRows = gridLayout.getRowCount();
 
         gridLayout.setUseDefaultMargins(true); // ตรงนี้ถ้าอยาก specifile เองก็อาจจะต้องเขียนโค้ด อันนี้ใช่ default
         numberOfElements = numRows * numColumns;
@@ -67,6 +71,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+
     }
     public void shuffleButtonGraphics(){
         Random rand = new Random();
@@ -82,6 +87,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             buttonGraphicLocation[randindex] = temp;
 
         }
+    }
+
+    public boolean checkAllMatched(){
+        boolean checkAllMatched = true;
+        for(int r = 0; r < numRows ; r++){
+            for(int c = 0 ; c < numColumns ; c++){
+                if( button[r * numColumns + c].isMatched == false){
+                    checkAllMatched = false;
+                }
+
+
+            }
+        }
+        return checkAllMatched;
     }
 
     @Override
@@ -101,6 +120,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(selectedButton1.getId() == button.getId()){
             return; // กดอันเดิมซ้ำๆมันก็ไม่ทำอะไร จนกว่าจะไปกดอันที่สอง
         }
+        // วนเช็คว่า
 
         if(selectedButton1.getFrontDrawableId() == button.getFrontDrawableId()){ // matched
             button.filpped();
@@ -132,6 +152,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     isBusy = false;  // delay จบแล้ว
                 }
             }, 500);
+        }
+        // วนเช็คว่าทุก button == true แล้ว
+        if(checkAllMatched() == true){
+            Intent intent = new Intent(this, ScoreboardActivity.class);
+            startActivity(intent);
         }
     }
 }
