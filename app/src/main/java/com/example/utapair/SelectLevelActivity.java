@@ -50,7 +50,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     }
 
     public void openEasyGameActivity(){
-        Intent intent = new Intent(this, GameActivityMedium.class);
+        Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("mode", -1);
         intent.putExtra("layout_id", R.layout.activity_game_easy2);
         intent.putExtra("grid_id", R.id.GridLayout_easy);
