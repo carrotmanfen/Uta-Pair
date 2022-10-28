@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView status;
     private CheckBox btncheck;
     private Button btn;
-    private String URL = "http://192.168.182.113/RegisterLogin/register.php";
+    private String URL = "http://192.168.182.50/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
