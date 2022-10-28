@@ -26,6 +26,14 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.UtaPair.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AccountActivity"
             android:exported="false"
             android:theme="@style/Theme.UtaPair.NoActionBar"/>
