@@ -227,7 +227,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         // วนเช็คว่าทุก button == true แล้ว
         if(checkAllMatched() == true){
-            Intent intent = new Intent(this, ScoreboardActivity.class);
+            Intent intent = new Intent(this, EndgameActivity.class);
             startActivity(intent);
         }
     }
