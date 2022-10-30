@@ -29,7 +29,8 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView status;
     private CheckBox btncheck;
     private Button btn;
-    private String URL = "http://192.168.182.113/RegisterLogin/register.php";
+    //https://a504-183-88-39-249.ap.ngrok.io
+    private String URL = "https://a504-183-88-39-249.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
