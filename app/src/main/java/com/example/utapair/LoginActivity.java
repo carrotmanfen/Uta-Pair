@@ -25,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText name,password;
     private String username,spassword;
     private Button buttonLogin;
-    //https://a504-183-88-39-249.ap.ngrok.io
-    private String URL = "https://a504-183-88-39-249.ap.ngrok.io/RegisterLogin/login.php";
+
+    private String URL = "https://7cb9-180-183-121-178.ap.ngrok.io/RegisterLogin/login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

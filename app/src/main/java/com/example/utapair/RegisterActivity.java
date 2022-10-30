@@ -29,14 +29,15 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView status;
     private CheckBox btncheck;
     private Button btn;
-    //https://a504-183-88-39-249.ap.ngrok.io
-    private String URL = "https://a504-183-88-39-249.ap.ngrok.io/RegisterLogin/register.php";
+    //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
+    private String URL = "https://7cb9-180-183-121-178.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+//        Declare variable
         name = findViewById(R.id.name);
         password = findViewById(R.id.password);
         repassword = findViewById(R.id.confirm_password);
@@ -46,14 +47,16 @@ public class RegisterActivity extends AppCompatActivity {
         blind = "0";
     }
 
-
+//    when users click sign up button.
     public void signup(View view) {
         username = name.getText().toString().trim();
         spassword = password.getText().toString().trim();
         srepassword = repassword.getText().toString().trim();
+//        If users select blind in the checkbox blind has a value equal to 1.
         if(btncheck.isChecked()){
             blind = "1";
         }
+//        If users send password not equal with confirm password.
         if(!spassword.equals(srepassword)){
             Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
         }
@@ -64,10 +67,13 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onResponse(String response) {
                     if (response.equals("success")) {
                         Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
-
                         btn.setClickable(false);
+                        openAccountActivity();
                     } else if (response.equals("failure")) {
                         Toast.makeText(RegisterActivity.this, "Something wrong!", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(response.equals("exist")){
+                        Toast.makeText(RegisterActivity.this, "This username is already used by someone else .Please try a different name ", Toast.LENGTH_SHORT).show();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -89,5 +95,13 @@ public class RegisterActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             requestQueue.add(stringRequest);
         }
+        else{
+            Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void openAccountActivity(){
+        Intent intent=new Intent(this, AccountActivity.class);
+        startActivity(intent);
     }
 }
