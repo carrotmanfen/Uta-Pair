@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="70sp"
+        android:layout_marginBottom="100sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
             android:fontFamily="@font/impact"
             android:text="NAME: SPRINT"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="32sp" />
 
         <ImageButton
             android:id="@+id/editname_btn"
@@ -85,7 +85,7 @@
             android:text="YOUR BEST 5 GAME"
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
-            android:textSize="30sp"
+            android:textSize="32sp"
             android:layout_gravity="center"
             />
 

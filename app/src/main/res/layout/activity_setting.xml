@@ -52,7 +52,7 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  MUSIC"
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:onClick="onCheckboxClicked"/>
 
         <CheckBox android:id="@+id/vibration_checkbox"
@@ -65,7 +65,7 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  VIBRATION"
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:onClick="onCheckboxClicked"/>
 
         <CheckBox android:id="@+id/sound_click_checkbox"
@@ -78,7 +78,7 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  SOUND CLICK"
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:onClick="onCheckboxClicked"/>
 
         <CheckBox android:id="@+id/blind_mode_checkbox"
@@ -91,19 +91,20 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  BLIND MODE"
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:onClick="onCheckboxClicked"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="42sp"
             android:layout_marginBottom="100sp"
             android:fontFamily="@font/impact"
-            android:text="BLIND MODE IS SIMULATE PLAYER TO BE BLIND !!"
+            android:text="BLIND MODE IS SIMULATE PLAYER TO BE BLIND!!"
             android:textColor="@color/white"
             app:layout_constraintLeft_toLeftOf="@+id/blind_mode_checkbox"
-            android:textSize="10sp"></TextView>
+            android:textSize="15sp"></TextView>
 
     </LinearLayout>
 
