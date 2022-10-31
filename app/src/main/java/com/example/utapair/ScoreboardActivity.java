@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 public class ScoreboardActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private ArrayList<ScoreboardUser> scoreboardUserList;
     private RecyclerView recyclerView;
+    private ImageButton buttonProfile;
+    private ImageButton buttonSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +38,33 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         scoreboardUserList = new ArrayList<>();
         setUserInfo();
         setAdapter();
+
+        buttonProfile = (ImageButton) findViewById(R.id.profile_btn);
+        buttonProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAccountActivity();
+            }
+        });
+
+        buttonSetting = (ImageButton) findViewById(R.id.setting_btn);
+        buttonSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSettingActivity();
+            }
+        });
     }
 
+    public void openAccountActivity(){
+        Intent intent=new Intent(this, AccountActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSettingActivity(){
+        Intent intent=new Intent(this, SettingActivity.class);
+        startActivity(intent);
+    }
     private void setAdapter() {
         ScoreboardRecyclerAdapter scoreboardRecyclerAdapter = new ScoreboardRecyclerAdapter(scoreboardUserList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());

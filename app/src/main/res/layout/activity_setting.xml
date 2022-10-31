@@ -97,14 +97,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="42sp"
+            android:layout_marginLeft="115sp"
             android:layout_marginBottom="100sp"
             android:fontFamily="@font/impact"
             android:text="BLIND MODE IS SIMULATE PLAYER TO BE BLIND!!"
             android:textColor="@color/white"
             app:layout_constraintLeft_toLeftOf="@+id/blind_mode_checkbox"
-            android:textSize="15sp"></TextView>
+            android:textSize="13sp"></TextView>
 
     </LinearLayout>
 

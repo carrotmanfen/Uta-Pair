@@ -43,10 +43,9 @@
 
         <Button
             android:id="@+id/easy_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70sp"
-            android:layout_marginRight="70sp"
+            android:layout_width="250sp"
+            android:layout_height="70sp"
+            android:layout_gravity="center"
             android:layout_marginBottom="40sp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
@@ -58,10 +57,9 @@
 
         <Button
             android:id="@+id/normal_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70sp"
-            android:layout_marginRight="70sp"
+            android:layout_width="250sp"
+            android:layout_height="70sp"
+            android:layout_gravity="center"
             android:layout_marginBottom="40sp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
@@ -73,10 +71,9 @@
 
         <Button
             android:id="@+id/hard_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70sp"
-            android:layout_marginRight="70sp"
+            android:layout_width="250sp"
+            android:layout_height="70sp"
+            android:layout_gravity="center"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
             android:text="HARD"

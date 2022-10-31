@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonPlay;
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
+    private ImageButton buttonSetting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +54,18 @@ public class MainActivity extends AppCompatActivity {
                 openScoreboardActivity();
             }
         });
+
+        buttonSetting = (ImageButton) findViewById(R.id.setting_btn);
+        buttonSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSettingActivity();
+            }
+        });
     }
 
     public void openSelectLevelActivity(){
         Intent intent=new Intent(this, SelectLevelActivity.class);
-        startActivity(intent);
-    }
-
-    public void openLoginActivity(){
-        Intent intent=new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -72,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openScoreboardActivity(){
         Intent intent=new Intent(this, ScoreboardActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSettingActivity(){
+        Intent intent=new Intent(this, SettingActivity.class);
         startActivity(intent);
     }
 
