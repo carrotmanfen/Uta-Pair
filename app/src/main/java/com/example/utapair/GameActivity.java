@@ -136,6 +136,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         boolean checkAllMatched = true;
         for(int r = 0; r < numRows ; r++){
             for(int c = 0 ; c < numColumns ; c++){
+
                 if( button[r * numColumns + c].isMatched == false){
                     checkAllMatched = false;
                 }
@@ -192,6 +193,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(selectedButton1.getId() == button.getId()){
             return; // กดอันเดิมซ้ำๆมันก็ไม่ทำอะไร จนกว่าจะไปกดอันที่สอง
         }
+
         // วนเช็คว่า
 
         if(selectedButton1.getFrontDrawableId() == button.getFrontDrawableId()){ // matched
@@ -225,6 +227,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 500);
         }
+
         // วนเช็คว่าทุก button == true แล้ว
         if(checkAllMatched() == true){
             Intent intent = new Intent(this, EndgameActivity.class);
