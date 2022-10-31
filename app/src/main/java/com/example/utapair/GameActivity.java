@@ -273,7 +273,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         // วนเช็คว่าทุก button == true แล้ว
         if(checkAllMatched() == true){
-            timerTask.cancel();
             Intent intent = new Intent(this, EndgameActivity.class);
             intent.putExtra("TIME_SCORE",getTimerText());
             startActivity(intent);
