@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox btncheck;
     private Button btn;
     //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
-    private String URL = "https://7cb9-180-183-121-178.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://acd9-180-183-121-178.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
@@ -73,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Something wrong!", Toast.LENGTH_SHORT).show();
                     }
                     else if(response.equals("exist")){
-                        Toast.makeText(RegisterActivity.this, "This username is already used by someone else .Please try a different name ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "This username is already used by someone else.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }, new Response.ErrorListener() {
