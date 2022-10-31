@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +27,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private AlertDialog dialog;
     private EditText popupEditText;
     private Button popupCancelButton , popupConfirmButton;
+    private ImageButton buttonScoreboard;
+    private ImageButton buttonSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,32 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 EditName();
             }
         });
+
+        buttonScoreboard = (ImageButton) findViewById(R.id.scoreboard_btn);
+        buttonScoreboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openScoreboardActivity();
+            }
+        });
+
+        buttonSetting = (ImageButton) findViewById(R.id.setting_btn);
+        buttonSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSettingActivity();
+            }
+        });
+    }
+
+    public void openScoreboardActivity(){
+        Intent intent=new Intent(this, ScoreboardActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSettingActivity(){
+        Intent intent=new Intent(this, SettingActivity.class);
+        startActivity(intent);
     }
 
     public void EditName(){

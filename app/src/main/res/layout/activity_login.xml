@@ -45,12 +45,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10sp"
             android:layout_marginLeft="50sp"
+            android:layout_marginBottom="10sp"
+            android:fontFamily="@font/impact"
             android:text="NAME"
             android:textColor="@color/white"
-            android:fontFamily="@font/impact"
-            android:textSize="24sp" />
+            android:textSize="32sp" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name"
@@ -61,7 +61,7 @@
             android:layout_marginBottom="40sp"
             android:padding="10sp"
             android:fontFamily="@font/impact"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
             android:hint="sprint" />
@@ -74,7 +74,7 @@
             android:text="PASSWORD"
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
-            android:textSize="24sp" />
+            android:textSize="32sp" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
@@ -89,14 +89,13 @@
             android:inputType="textPassword"
             android:padding="10sp"
             android:textColor="@color/purple_100"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/login_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50sp"
-            android:layout_marginRight="50sp"
+            android:layout_width="250sp"
+            android:layout_height="70sp"
+            android:layout_gravity="center"
             android:layout_marginBottom="40sp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"

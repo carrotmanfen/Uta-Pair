@@ -7,6 +7,7 @@
     tools:context=".AccountActivity"
     android:background="@color/purple_100">
 
+
     <ImageButton
         android:id="@+id/backward_btn"
         android:layout_width="50sp"
@@ -44,10 +45,9 @@
 
         <Button
             android:id="@+id/login_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70sp"
-            android:layout_marginRight="70sp"
+            android:layout_width="250sp"
+            android:layout_height="70sp"
+            android:layout_gravity="center"
             android:layout_marginBottom="40sp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
@@ -59,10 +59,9 @@
 
         <Button
             android:id="@+id/register_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70sp"
-            android:layout_marginRight="70sp"
+            android:layout_width="250sp"
+            android:layout_height="70sp"
+            android:layout_gravity="center"
             android:layout_marginBottom="40sp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/impact"
