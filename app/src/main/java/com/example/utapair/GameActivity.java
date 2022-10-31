@@ -108,7 +108,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         dialog = dialogBuilder.create();
         dialog.show();
 
-        restartButton.setOnClickListener(new View.OnClickListener() {
+        resumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
