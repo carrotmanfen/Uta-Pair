@@ -95,7 +95,7 @@
             tools:ignore="MissingConstraints"></ImageButton>
 
         <Space
-            android:layout_width="0dp"
+            android:layout_width="3dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
@@ -107,7 +107,7 @@
             android:fontFamily="@font/impact"
             android:text="SHARE"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
@@ -129,7 +129,7 @@
             tools:ignore="MissingConstraints"></ImageButton>
 
         <Space
-            android:layout_width="0dp"
+            android:layout_width="3dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
@@ -141,7 +141,7 @@
             android:fontFamily="@font/impact"
             android:text="PLAY AGAIN"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
