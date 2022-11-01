@@ -8,7 +8,7 @@
     tools:ignore="MissingDefaultResource">
 
     <ImageButton
-        android:id="@+id/backward_btn"
+        android:id="@+id/pause_btn"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:background="@color/purple_100"
@@ -50,14 +50,15 @@
             android:src="@mipmap/ic_clock_foreground" />
 
         <TextView
+            android:id="@+id/time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
             android:fontFamily="@font/impact"
             android:text="3:00"
             android:textAlignment="gravity"
+            android:layout_gravity="center"
             android:textColor="@color/white"
-            android:textSize="28sp" />
+            android:textSize="32sp" />
 
     </LinearLayout>
 
@@ -65,95 +66,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="3"
-        android:rowCount="6"
+        android:rowCount="4"
+        android:id="@+id/GridLayout_meduim"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-        <ImageButton
-            android:id="@+id/btn1_1"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item" />
-
-        <ImageButton
-            android:id="@+id/btn1_2"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn1_3"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn2_1"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn2_2"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn2_3"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn3_1"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn3_2"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn3_3"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn4_1"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn4_2"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
-
-        <ImageButton
-            android:id="@+id/btn4_3"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_margin="4sp"
-            android:background="@drawable/custom_pair_item"/>
 
     </GridLayout>
 
