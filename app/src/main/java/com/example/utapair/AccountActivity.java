@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class AccountActivity extends AppCompatActivity {
 
     Button regisbtn,loginbtn;
+    private ImageButton buttonScoreboard;
+    private ImageButton buttonSetting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,22 @@ public class AccountActivity extends AppCompatActivity {
                 openLoginActivity();
             }
         });
+
+        buttonScoreboard = (ImageButton) findViewById(R.id.scoreboard_btn);
+        buttonScoreboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openScoreboardActivity();
+            }
+        });
+
+        buttonSetting = (ImageButton) findViewById(R.id.setting_btn);
+        buttonSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSettingActivity();
+            }
+        });
     }
     public void openRegisterActivity(){
         Intent intent=new Intent(this, RegisterActivity.class);
@@ -37,6 +56,16 @@ public class AccountActivity extends AppCompatActivity {
 
     public void openLoginActivity(){
         Intent intent=new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void openScoreboardActivity(){
+        Intent intent=new Intent(this, ScoreboardActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSettingActivity(){
+        Intent intent=new Intent(this, SettingActivity.class);
         startActivity(intent);
     }
 }

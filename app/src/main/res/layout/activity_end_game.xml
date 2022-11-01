@@ -43,6 +43,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/score_time_text"
             android:layout_width="250sp"
             android:layout_height="70sp"
             android:layout_marginBottom="40sp"
@@ -78,7 +79,7 @@
         android:layout_marginBottom="50sp">
 
         <Space
-            android:layout_width="20dp"
+            android:layout_width="25dp"
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
@@ -95,7 +96,7 @@
             tools:ignore="MissingConstraints"></ImageButton>
 
         <Space
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
@@ -107,7 +108,7 @@
             android:fontFamily="@font/impact"
             android:text="SHARE"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
@@ -129,7 +130,7 @@
             tools:ignore="MissingConstraints"></ImageButton>
 
         <Space
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
@@ -141,12 +142,12 @@
             android:fontFamily="@font/impact"
             android:text="PLAY AGAIN"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
         <Space
-            android:layout_width="20dp"
+            android:layout_width="25dp"
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
