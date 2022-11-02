@@ -150,6 +150,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
         timerTask.cancel();
@@ -249,9 +250,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             selectedButton1.setMatched(true); // บอกว่ามันถูกจับคู่แล้ว
             button.setMatched(true);
 
-//            Drawable visible = getDrawable(R.drawable.custom_pair_item); // *** ใส่พื้นหลังม่วง
-//            selectedButton1.setBackGroundButton(visible);
-//            button.setBackGroundButton(visible);
+            Drawable visible = getDrawable(R.drawable.custom_pair_item_disable);
+            selectedButton1.setBackGroundButton(visible);
+            button.setBackGroundButton(visible);
 
 
             selectedButton1.setEnabled(false); // ปิดปุ่มไม่ให้สามารถกดได้อีกต่อไป
@@ -287,6 +288,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, EndgameActivity.class);
             intent.putExtra("TIME_SCORE",getTimerText());
             intent.putExtra("MODE",mode);
+            finish();
             startActivity(intent);
         }
     }

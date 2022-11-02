@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +69,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="50sp"
+            android:layout_marginBottom="0sp"
+            android:fontFamily="@font/impact"
+            android:text="Please enter at least 6 characters."
+            android:textColor="#F7F8F6"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
             android:layout_marginLeft="50sp"
             android:text="PASSWORD"
@@ -94,6 +105,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="0sp"
+            android:layout_marginLeft="50sp"
+            android:text="Please enter at least 6 characters."
+            android:textColor="#F7F8F6"
+            android:fontFamily="@font/impact"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
             android:layout_marginLeft="50sp"
             android:text="CONFIRM-PASSWORD"
@@ -116,6 +137,15 @@
             android:background="@drawable/custom_input"
             android:hint="@string/password"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0sp"
+            android:layout_marginLeft="50sp"
+            android:text="Passwords do not match."
+            android:textColor="#F88379"
+            android:fontFamily="@font/impact"
+            android:textSize="15sp" />
 
         <CheckBox
             android:id="@+id/blind_mode_checkbox"
