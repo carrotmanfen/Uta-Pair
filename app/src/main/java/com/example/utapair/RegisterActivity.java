@@ -26,7 +26,7 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText name,password,repassword;
-    private TextView status;
+    private TextView mismatch,usernameerror,passworderror;
     private CheckBox btncheck;
     private Button btn;
     //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
@@ -43,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
         repassword = findViewById(R.id.confirm_password);
         btn = findViewById(R.id.sign_up_btn);
         btncheck =findViewById(R.id.blind_mode_checkbox);
+        mismatch = findViewById(R.id.password_mismatch);
+        usernameerror = findViewById(R.id.username_errorText);
+        passworderror = findViewById(R.id.password_errorText);
         username = spassword = srepassword = "";
         blind = "0";
     }
@@ -52,13 +55,17 @@ public class RegisterActivity extends AppCompatActivity {
         username = name.getText().toString().trim();
         spassword = password.getText().toString().trim();
         srepassword = repassword.getText().toString().trim();
+        usernameerror.setText("");
+        mismatch.setText("");
+        passworderror.setText("");
 //        If users select blind in the checkbox blind has a value equal to 1.
         if(btncheck.isChecked()){
             blind = "1";
         }
 //        If users send password not equal with confirm password.
         if(!spassword.equals(srepassword)){
-            Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
+            mismatch.setText("Password Mismatch");
+            //Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
         }
         else if(!username.equals("") && !spassword.equals("")) {
             if ((username.length() <= 16) && (password.length() <= 16)) {
@@ -94,8 +101,12 @@ public class RegisterActivity extends AppCompatActivity {
                 RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 requestQueue.add(stringRequest);
             }
+            else if(username.length()>16){
+                usernameerror.setText("");
+                Toast.makeText(this, "Invalid username input", Toast.LENGTH_SHORT).show();
+            }
             else {
-                Toast.makeText(this, "Error can't input more than 16 character", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Invalid password input", Toast.LENGTH_SHORT).show();
             }
         }
         else {

@@ -59,19 +59,21 @@
             android:layout_marginLeft="50sp"
             android:layout_marginRight="50sp"
             android:layout_marginBottom="10sp"
-            android:padding="10sp"
-            android:fontFamily="@font/impact"
-            android:textSize="24sp"
-            android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="sprint" />
+            android:fontFamily="@font/impact"
+            android:hint="sprint"
+            android:padding="10sp"
+            android:textColor="@color/purple_100"
+            android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/username_errorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50sp"
             android:layout_marginBottom="0sp"
             android:fontFamily="@font/impact"
+            android:visibility="invisible"
             android:text="Please enter at least 6 characters."
             android:textColor="#F7F8F6"
             android:textSize="15sp" />
@@ -103,6 +105,7 @@
             />
 
         <TextView
+            android:id="@+id/password_errorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0sp"
@@ -138,11 +141,12 @@
             android:hint="@string/password"
             />
         <TextView
+            android:id="@+id/password_mismatch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0sp"
             android:layout_marginLeft="50sp"
-            android:text="Passwords do not match."
+            android:text=""
             android:textColor="#F88379"
             android:fontFamily="@font/impact"
             android:textSize="15sp" />
