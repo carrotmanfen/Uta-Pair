@@ -72,7 +72,7 @@
             android:layout_marginLeft="50sp"
             android:layout_marginBottom="0sp"
             android:fontFamily="@font/impact"
-            android:text="Please enter at least 6 characters."
+            android:text="Please enter no more than 16 characters."
             android:textColor="#F7F8F6"
             android:textSize="15sp" />
 
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0sp"
             android:layout_marginLeft="50sp"
-            android:text="Please enter at least 6 characters."
+            android:text="Please enter no more than 16 characters."
             android:textColor="#F7F8F6"
             android:fontFamily="@font/impact"
             android:textSize="15sp" />
