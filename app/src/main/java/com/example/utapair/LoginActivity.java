@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private String username,spassword;
     private Button buttonLogin;
 
-    private String URL = "https://aaee-202-28-7-98.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://19fd-180-183-125-154.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         username = spassword = "";
         name = findViewById(R.id.name);
         password = findViewById(R.id.password);
-        buttonLogin = (Button) findViewById(R.id.login_btn);
+        buttonLogin = findViewById(R.id.login_btn);
     }
 
 

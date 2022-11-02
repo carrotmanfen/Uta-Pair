@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox btncheck;
     private Button btn;
     //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
-    private String URL = "https://aaee-202-28-7-98.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://19fd-180-183-125-154.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
@@ -55,6 +55,11 @@ public class RegisterActivity extends AppCompatActivity {
         username = name.getText().toString().trim();
         spassword = password.getText().toString().trim();
         srepassword = repassword.getText().toString().trim();
+//        Set ค่า background ให้เป็น ค่าเดิมทุกครั้งที่กด register แล้วค่อยเข้าเงื่อนไข
+        name.setBackground(getResources().getDrawable(R.drawable.custom_input));
+        password.setBackground(getResources().getDrawable(R.drawable.custom_input));
+        repassword.setBackground(getResources().getDrawable(R.drawable.custom_input));
+
         usernameerror.setText("");
         mismatch.setText("");
         passworderror.setText("");
@@ -64,7 +69,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
 //        If users send password not equal with confirm password.
         if(!spassword.equals(srepassword)){
-            mismatch.setText("Password Mismatch");
+            mismatch.setText("Password do not match.");
+//            Set ค่า background ให้เป็นสีแดง
+            password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+            repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             //Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
         }
         else if(!username.equals("") && !spassword.equals("")) {
@@ -79,7 +87,9 @@ public class RegisterActivity extends AppCompatActivity {
                         } else if (response.equals("failure")) {
                             Toast.makeText(RegisterActivity.this, "Something wrong!", Toast.LENGTH_SHORT).show();
                         } else if (response.equals("exist")) {
-                            Toast.makeText(RegisterActivity.this, "This username is already used by someone else.", Toast.LENGTH_SHORT).show();
+                            usernameerror.setText("This username is already used by someone else.");
+                            name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                            //Toast.makeText(RegisterActivity.this, "This username is already used by someone else.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -102,17 +112,25 @@ public class RegisterActivity extends AppCompatActivity {
                 requestQueue.add(stringRequest);
             }
             else if(username.length()>16){
-                usernameerror.setText("");
+                usernameerror.setText("Please enter at least 6 - 16 characters.");
+                name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 Toast.makeText(this, "Invalid username input", Toast.LENGTH_SHORT).show();
             }
             else {
+                passworderror.setText("Please enter at least 6 - 16 characters.");
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 Toast.makeText(this, "Invalid password input", Toast.LENGTH_SHORT).show();
             }
         }
         else {
-            Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
+                name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     public void openAccountActivity(){
         Intent intent=new Intent(this, AccountActivity.class);
