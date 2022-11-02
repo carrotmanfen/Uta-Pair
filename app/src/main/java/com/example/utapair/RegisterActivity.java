@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox btncheck;
     private Button btn;
     //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
-    private String URL = "https://acd9-180-183-121-178.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://aaee-202-28-7-98.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
@@ -60,42 +60,45 @@ public class RegisterActivity extends AppCompatActivity {
         if(!spassword.equals(srepassword)){
             Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
         }
-        else if(!username.equals("") && !spassword.equals("")){
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
+        else if(!username.equals("") && !spassword.equals("")) {
+            if ((username.length() <= 16) && (password.length() <= 16)) {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    @Override
 
-                public void onResponse(String response) {
-                    if (response.equals("success")) {
-                        Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        btn.setClickable(false);
-                        openAccountActivity();
-                    } else if (response.equals("failure")) {
-                        Toast.makeText(RegisterActivity.this, "Something wrong!", Toast.LENGTH_SHORT).show();
+                    public void onResponse(String response) {
+                        if (response.equals("success")) {
+                            Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            openAccountActivity();
+                        } else if (response.equals("failure")) {
+                            Toast.makeText(RegisterActivity.this, "Something wrong!", Toast.LENGTH_SHORT).show();
+                        } else if (response.equals("exist")) {
+                            Toast.makeText(RegisterActivity.this, "This username is already used by someone else.", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else if(response.equals("exist")){
-                        Toast.makeText(RegisterActivity.this, "This username is already used by someone else.", Toast.LENGTH_SHORT).show();
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
-                }
-            }){
-                @Nullable
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String,String> data = new HashMap<>();
-                    data.put("username",username);
-                    data.put("password",spassword);
-                    data.put("blind",blind);
-                    return data;
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(stringRequest);
+                }) {
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> data = new HashMap<>();
+                        data.put("username", username);
+                        data.put("password", spassword);
+                        data.put("blind", blind);
+                        return data;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(stringRequest);
+            }
+            else {
+                Toast.makeText(this, "Error can't input more than 16 character", Toast.LENGTH_SHORT).show();
+            }
         }
-        else{
+        else {
             Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
         }
     }
