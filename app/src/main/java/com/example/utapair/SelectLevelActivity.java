@@ -65,7 +65,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     }
     public void openHardGameActivity(){
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("mode", -1);
+        intent.putExtra("mode", 1);
         intent.putExtra("layout_id", R.layout.activity_game_hard);
         intent.putExtra("grid_id",R.id.GridLayout_hard);
         startActivity(intent);
