@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openAccountActivity(){
-        Intent intent=new Intent(this, RegisterActivity.class);
+        Intent intent=new Intent(this, AccountActivity.class);
         startActivity(intent);
     }
 
