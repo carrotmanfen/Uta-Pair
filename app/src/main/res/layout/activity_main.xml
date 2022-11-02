@@ -32,7 +32,7 @@
         android:layout_marginLeft="50sp"
         android:layout_marginRight="50sp"
         android:layout_marginBottom="80sp"
-        android:background="@drawable/custom_button"
+        android:background="@drawable/custom_button4"
         android:fontFamily="@font/impact"
         android:paddingTop="10sp"
         android:paddingBottom="10sp"

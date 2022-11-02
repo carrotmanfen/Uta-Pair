@@ -1,17 +1,21 @@
 package com.example.utapair;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,6 +43,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Button resumeButton, restartButton, homeButton;
+
+    private TextView timerText;
+    private Timer timer;
+    private TimerTask timerTask;
+    private int time = 0;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -96,7 +105,42 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        timerText = findViewById(R.id.time_text);
+        timer = new Timer();
+        starTimer();
+
     }
+
+    private void starTimer() {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        timerText.setText(getTimerText());
+                        time++;
+                    }
+                });
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask,0,1);
+    }
+
+    public String getTimerText() {
+        int round =(int) Math.round(time);
+       // int second = ((round % 864000)%3600)%60;
+        //int minute = ((round % 864000)%3600)/60;
+        int miliSec = time%100;
+        int second = (time/1000)%60;
+        int minute = (time/1000)/60;
+        return formatTime(miliSec,second,minute);
+    }
+
+    public  String formatTime(int miliSec,int second, int minute){
+        return String.format("%02d",minute)+" : "+ String.format("%02d",second)+" : "+ String.format("%02d",miliSec);
+    }
+
     public void pauseGame(){
         dialogBuilder = new AlertDialog.Builder(this,R.style.dialog);
         final View popupView = getLayoutInflater().inflate(R.layout.popup_game_pause,null);
@@ -108,9 +152,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         dialog = dialogBuilder.create();
         dialog.show();
 
-        restartButton.setOnClickListener(new View.OnClickListener() {
+        timerTask.cancel();
+
+        resumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                starTimer();
                 dialog.dismiss();
             }
         });
@@ -136,6 +183,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         boolean checkAllMatched = true;
         for(int r = 0; r < numRows ; r++){
             for(int c = 0 ; c < numColumns ; c++){
+
                 if( button[r * numColumns + c].isMatched == false){
                     checkAllMatched = false;
                 }
@@ -149,29 +197,29 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void setButtonGraphic(){
         switch (mode){
             case -1: // easy mode
-                buttonGraphic[0] = R.drawable.bttn_1;
-                buttonGraphic[1] = R.drawable.bttn_2;
-                buttonGraphic[2] = R.drawable.bttn_3;
+                buttonGraphic[0] = R.drawable.custom_pair_brownies;
+                buttonGraphic[1] = R.drawable.custom_pair_cake;
+                buttonGraphic[2] = R.drawable.custom_pair_candy;
                 break;
-//            case 0: // normal mode
-//                buttonGraphic[0] = R.drawable.bttn_1;
-//                buttonGraphic[1] = R.drawable.bttn_2;
-//                buttonGraphic[2] = R.drawable.bttn_3;
-//                buttonGraphic[3] = R.drawable.bttn_4;
-//                buttonGraphic[4] = R.drawable.bttn_5;
-//                buttonGraphic[5] = R.drawable.bttn_6;
-//                break;
-//            case 1: // hard mode
-//                buttonGraphic[0] = R.drawable.bttn_1;
-//                buttonGraphic[1] = R.drawable.bttn_2;
-//                buttonGraphic[2] = R.drawable.bttn_3;
-//                buttonGraphic[3] = R.drawable.bttn_4;
-//                buttonGraphic[4] = R.drawable.bttn_5;
-//                buttonGraphic[5] = R.drawable.bttn_6;
-//                buttonGraphic[6] = R.drawable.bttn_7;
-//                buttonGraphic[7] = R.drawable.bttn_8;
-//                buttonGraphic[8] = R.drawable.bttn_9;
-//                break;
+            case 0: // normal mode
+                buttonGraphic[0] = R.drawable.custom_pair_brownies;
+                buttonGraphic[1] = R.drawable.custom_pair_cake;
+                buttonGraphic[2] = R.drawable.custom_pair_candy;
+                buttonGraphic[3] = R.drawable.custom_pair_chocolate;
+                buttonGraphic[4] = R.drawable.custom_pair_cookie;
+                buttonGraphic[5] = R.drawable.custom_pair_donut;
+                break;
+            case 1: // hard mode
+                buttonGraphic[0] = R.drawable.custom_pair_brownies;
+                buttonGraphic[1] = R.drawable.custom_pair_cake;
+                buttonGraphic[2] = R.drawable.custom_pair_candy;
+                buttonGraphic[3] = R.drawable.custom_pair_chocolate;
+                buttonGraphic[4] = R.drawable.custom_pair_cookie;
+                buttonGraphic[5] = R.drawable.custom_pair_donut;
+                buttonGraphic[6] = R.drawable.custom_pair_icecream;
+                buttonGraphic[7] = R.drawable.custom_pair_macaron;
+                buttonGraphic[8] = R.drawable.custom_pair_pancake;
+                break;
         }
     }
 
@@ -192,6 +240,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(selectedButton1.getId() == button.getId()){
             return; // กดอันเดิมซ้ำๆมันก็ไม่ทำอะไร จนกว่าจะไปกดอันที่สอง
         }
+
         // วนเช็คว่า
 
         if(selectedButton1.getFrontDrawableId() == button.getFrontDrawableId()){ // matched
@@ -200,10 +249,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             selectedButton1.setMatched(true); // บอกว่ามันถูกจับคู่แล้ว
             button.setMatched(true);
 
+//            Drawable visible = getDrawable(R.drawable.custom_pair_item); // *** ใส่พื้นหลังม่วง
+//            selectedButton1.setBackGroundButton(visible);
+//            button.setBackGroundButton(visible);
+
+
             selectedButton1.setEnabled(false); // ปิดปุ่มไม่ให้สามารถกดได้อีกต่อไป
             button.setEnabled(false);
 
             selectedButton1 = null; // ให้มันไปชี้ null เพื่อรอรับค่าใหม่
+
+
 
         }
         else { // not matched
@@ -225,9 +281,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 500);
         }
+
         // วนเช็คว่าทุก button == true แล้ว
         if(checkAllMatched() == true){
             Intent intent = new Intent(this, EndgameActivity.class);
+            intent.putExtra("TIME_SCORE",getTimerText());
+            intent.putExtra("MODE",mode);
             startActivity(intent);
         }
     }

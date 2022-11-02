@@ -61,5 +61,8 @@ public class MemoryButton extends AppCompatButton {
             isFilpped = true;
         }
     }
+    public void setBackGroundButton(Drawable background){
+        setBackground(background);
+    }
 
 }

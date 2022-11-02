@@ -57,18 +57,18 @@ public class SelectLevelActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openNormalGameActivity(){
-//        Intent intent = new Intent(this, GameActivityMedium.class);
-//        intent.putExtra("mode", 0);
-//        intent.putExtra("layout_id", R.layout.activity_game_normal);
-//        intent.putExtra("grid_id", ??);
-//        startActivity(intent);
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("mode", 0);
+        intent.putExtra("layout_id", R.layout.activity_game_normal);
+        intent.putExtra("grid_id",R.id.GridLayout_meduim);
+        startActivity(intent);
     }
     public void openHardGameActivity(){
-//        Intent intent = new Intent(this, GameActivityMedium.class);
-//        intent.putExtra("mode", -1);
-//        intent.putExtra("layout_id", R.layout.activity_game_hard);
-//        intent.putExtra("grid_id", ??);
-//        startActivity(intent);
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("mode", 1);
+        intent.putExtra("layout_id", R.layout.activity_game_hard);
+        intent.putExtra("grid_id",R.id.GridLayout_hard);
+        startActivity(intent);
     }
 
 }
