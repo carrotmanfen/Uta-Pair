@@ -196,29 +196,29 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void setButtonGraphic(){
         switch (mode){
             case -1: // easy mode
-                buttonGraphic[0] = R.drawable.bttn_1;
-                buttonGraphic[1] = R.drawable.bttn_2;
-                buttonGraphic[2] = R.drawable.bttn_3;
+                buttonGraphic[0] = R.drawable.custom_pair_brownies;
+                buttonGraphic[1] = R.drawable.custom_pair_cake;
+                buttonGraphic[2] = R.drawable.custom_pair_candy;
                 break;
-//            case 0: // normal mode
-//                buttonGraphic[0] = R.drawable.bttn_1;
-//                buttonGraphic[1] = R.drawable.bttn_2;
-//                buttonGraphic[2] = R.drawable.bttn_3;
-//                buttonGraphic[3] = R.drawable.bttn_4;
-//                buttonGraphic[4] = R.drawable.bttn_5;
-//                buttonGraphic[5] = R.drawable.bttn_6;
-//                break;
-//            case 1: // hard mode
-//                buttonGraphic[0] = R.drawable.bttn_1;
-//                buttonGraphic[1] = R.drawable.bttn_2;
-//                buttonGraphic[2] = R.drawable.bttn_3;
-//                buttonGraphic[3] = R.drawable.bttn_4;
-//                buttonGraphic[4] = R.drawable.bttn_5;
-//                buttonGraphic[5] = R.drawable.bttn_6;
-//                buttonGraphic[6] = R.drawable.bttn_7;
-//                buttonGraphic[7] = R.drawable.bttn_8;
-//                buttonGraphic[8] = R.drawable.bttn_9;
-//                break;
+            case 0: // normal mode
+                buttonGraphic[0] = R.drawable.custom_pair_brownies;
+                buttonGraphic[1] = R.drawable.custom_pair_cake;
+                buttonGraphic[2] = R.drawable.custom_pair_candy;
+                buttonGraphic[3] = R.drawable.custom_pair_chocolate;
+                buttonGraphic[4] = R.drawable.custom_pair_cookie;
+                buttonGraphic[5] = R.drawable.custom_pair_donut;
+                break;
+            case 1: // hard mode
+                buttonGraphic[0] = R.drawable.custom_pair_brownies;
+                buttonGraphic[1] = R.drawable.custom_pair_cake;
+                buttonGraphic[2] = R.drawable.custom_pair_candy;
+                buttonGraphic[3] = R.drawable.custom_pair_chocolate;
+                buttonGraphic[4] = R.drawable.custom_pair_cookie;
+                buttonGraphic[5] = R.drawable.custom_pair_donut;
+                buttonGraphic[6] = R.drawable.custom_pair_icecream;
+                buttonGraphic[7] = R.drawable.custom_pair_macaron;
+                buttonGraphic[8] = R.drawable.custom_pair_pancake;
+                break;
         }
     }
 
