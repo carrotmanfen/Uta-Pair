@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox btncheck;
     private Button btn;
     //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
-    private String URL = "https://19fd-180-183-125-154.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://589b-183-88-60-244.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
@@ -68,15 +68,15 @@ public class RegisterActivity extends AppCompatActivity {
             blind = "1";
         }
 //        If users send password not equal with confirm password.
-        if(!spassword.equals(srepassword)){
-            mismatch.setText("Password do not match.");
-//            Set ค่า background ให้เป็นสีแดง
-            password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-            repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-            //Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
-        }
         else if(!username.equals("") && !spassword.equals("")) {
-            if ((username.length() <= 16) && (password.length() <= 16)) {
+            if(!spassword.equals(srepassword)){
+                mismatch.setText("Password do not match.");
+//            Set ค่า background ให้เป็นสีแดง
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                //Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
+            }
+            else if ((username.length() <= 16) && (password.length() <= 16)) {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
 
@@ -95,6 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        //Toast.makeText(RegisterActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
                         Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -123,11 +124,50 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Invalid password input", Toast.LENGTH_SHORT).show();
             }
         }
-        else {
+        else if(username.equals("") && spassword.equals("") && srepassword.equals("")){
                 name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                usernameerror.setText("Fields can not be empty!");
+                passworderror.setText("Fields can not be empty!");
+                mismatch.setText("Fields can not be empty!");
                 Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
+        }
+        else if(username.equals("")){
+            name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+            usernameerror.setText("Fields can not be empty!");
+            if(spassword.equals("")){
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                passworderror.setText("Fields can not be empty!");
+            }
+            else if(srepassword.equals("")){
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                mismatch.setText("Fields can not be empty!");
+            }
+        }
+        else if(spassword.equals("")){
+            password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+            passworderror.setText("Fields can not be empty!");
+            if(username.equals("")){
+                name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                usernameerror.setText("Fields can not be empty!");
+            }
+            else if(srepassword.equals("")){
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                mismatch.setText("Fields can not be empty!");
+            }
+        }
+        else if(srepassword.equals("")){
+            repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+            mismatch.setText("Fields can not be empty!");
+            if(username.equals("")){
+                name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                usernameerror.setText("Fields can not be empty!");
+            }
+            else if(spassword.equals("")){
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                passworderror.setText("Fields can not be empty!");
+            }
         }
     }
 
