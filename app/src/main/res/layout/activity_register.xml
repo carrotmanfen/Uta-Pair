@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,18 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="sprint" />
+            android:hint="NAME (6 - 16 Character)" />
+
+        <TextView
+            android:id="@+id/username_errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50sp"
+            android:layout_marginBottom="0sp"
+            android:fontFamily="@font/impact"
+            android:text=""
+            android:textColor="#F88379"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,8 +100,19 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="@string/password"
+            android:hint="PASSWORD (6 - 16 Character)"
             />
+
+        <TextView
+            android:id="@+id/password_errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0sp"
+            android:layout_marginLeft="50sp"
+            android:text=""
+            android:textColor="#F88379"
+            android:fontFamily="@font/impact"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,8 +137,18 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="@string/password"
+            android:hint="PASSWORD (6 - 16 Character)"
             />
+        <TextView
+            android:id="@+id/password_mismatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0sp"
+            android:layout_marginLeft="50sp"
+            android:text=""
+            android:textColor="#F88379"
+            android:fontFamily="@font/impact"
+            android:textSize="15sp" />
 
         <CheckBox
             android:id="@+id/blind_mode_checkbox"

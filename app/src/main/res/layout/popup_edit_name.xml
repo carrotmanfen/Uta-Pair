@@ -60,7 +60,7 @@
 
         <Button
             android:id="@+id/cancel_popup_btn"
-            android:layout_width="180sp"
+            android:layout_width="170sp"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button3"
             android:fontFamily="@font/impact"
@@ -70,7 +70,7 @@
 
         <Button
             android:id="@+id/confirm_popup_btn"
-            android:layout_width="180sp"
+            android:layout_width="170sp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
             android:background="@drawable/custom_button"
@@ -78,7 +78,6 @@
             android:text="CONFIRM"
             android:textColor="@color/white"
             android:textSize="32sp" />
-
 
 
     </LinearLayout>

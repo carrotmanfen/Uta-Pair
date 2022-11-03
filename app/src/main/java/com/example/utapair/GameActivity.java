@@ -1,6 +1,7 @@
 package com.example.utapair;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -149,6 +150,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
         timerTask.cancel();
@@ -248,10 +250,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             selectedButton1.setMatched(true); // บอกว่ามันถูกจับคู่แล้ว
             button.setMatched(true);
 
+            Drawable visible = getDrawable(R.drawable.custom_pair_item_disable);
+            selectedButton1.setBackGroundButton(visible);
+            button.setBackGroundButton(visible);
+
+
             selectedButton1.setEnabled(false); // ปิดปุ่มไม่ให้สามารถกดได้อีกต่อไป
             button.setEnabled(false);
 
             selectedButton1 = null; // ให้มันไปชี้ null เพื่อรอรับค่าใหม่
+
+
 
         }
         else { // not matched
@@ -278,6 +287,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(checkAllMatched() == true){
             Intent intent = new Intent(this, EndgameActivity.class);
             intent.putExtra("TIME_SCORE",getTimerText());
+            intent.putExtra("MODE",mode);
+            finish();
             startActivity(intent);
         }
     }

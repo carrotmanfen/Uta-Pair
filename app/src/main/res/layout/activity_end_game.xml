@@ -58,6 +58,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/mode_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LEVEL - HARD"
@@ -108,7 +109,7 @@
             android:fontFamily="@font/impact"
             android:text="SHARE"
             android:textColor="@color/white"
-            android:textSize="32sp"
+            android:textSize="20sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
@@ -142,7 +143,7 @@
             android:fontFamily="@font/impact"
             android:text="PLAY AGAIN"
             android:textColor="@color/white"
-            android:textSize="32sp"
+            android:textSize="20sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
