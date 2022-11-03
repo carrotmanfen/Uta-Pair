@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox btncheck;
     private Button btn;
     //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
-    private String URL = "https://19fd-180-183-125-154.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://63eb-2001-fb1-b0-1fe4-b95d-5622-c48-e857.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
