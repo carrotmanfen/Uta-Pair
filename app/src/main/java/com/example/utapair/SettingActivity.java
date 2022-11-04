@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 
 public class SettingActivity extends AppCompatActivity {
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
+    private CheckBox blindModeCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,19 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openScoreboardActivity();
+            }
+        });
+
+        blindModeCheckBox = findViewById(R.id.blind_mode_checkbox);
+        blindModeCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(blindModeCheckBox.isChecked()){
+                    BlindMode.getInstance().setMode("BLIND");
+                }
+                else{
+                    BlindMode.getInstance().setMode("NOT_BLIND");
+                }
             }
         });
     }
