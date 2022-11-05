@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView usernameempty,passwordempty;
     private Button buttonLogin;
 
-    private String URL = "https://e504-2001-fb1-b2-61-2d98-e992-5f99-6673.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://3b4f-183-88-35-84.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordempty = findViewById(R.id.login_password_errorText);
     }
 
-
-
-    public void openProfileActivity(){
-        Intent intent=new Intent(this, ProfileActivity.class);
-        startActivity(intent);
-    }
     //    when users click sign up button.
     public void login(View view) {
         username = name.getText().toString().trim();
@@ -78,41 +72,43 @@ public class LoginActivity extends AppCompatActivity {
 
         }
         else {
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-
-                public void onResponse(String response) {
-                    if (response.equals("success")) {
-                        Toast.makeText(LoginActivity.this, "Success.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this,ProfileActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else if (response.equals("failure")) {
-//                        name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-//                        usernameempty.setText("Invalid Login Name/Password.");
-//                        password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-//                        passwordempty.setText("Invalid Login Name/Password.");
-                        Toast.makeText(LoginActivity.this, "Invalid Username and Password.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(LoginActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(LoginActivity.this, error.toString().trim(), Toast.LENGTH_SHORT).show();
-                }
-            }){
-                @Nullable
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String,String> data = new HashMap<>();
-                    data.put("username",username);
-                    data.put("password",spassword);
-                    return data;
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(stringRequest);
+            userLogin();
         }
+    }
+    public void userLogin(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+
+            public void onResponse(String response) {
+                if (response.equals("success")) {
+                    Toast.makeText(LoginActivity.this, "Success.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this,ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (response.equals("failure")) {
+                    Toast.makeText(LoginActivity.this, "Invalid Username and Password.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> data = new HashMap<>();
+                data.put("username",username);
+                data.put("password",spassword);
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
+    public void openProfileActivity(){
+        Intent intent=new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 }
