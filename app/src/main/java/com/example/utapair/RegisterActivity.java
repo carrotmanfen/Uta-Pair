@@ -30,9 +30,9 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView mismatch,usernameerror,passworderror;
     private CheckBox btncheck;
     private Button btn;
-    private ImageButton btnback;
+    private ImageButton buttonBack;
     //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
-    private String URL = "https://3b4f-183-88-35-84.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://d806-183-88-35-84.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
@@ -45,12 +45,19 @@ public class RegisterActivity extends AppCompatActivity {
         repassword = findViewById(R.id.confirm_password);
         btn = findViewById(R.id.sign_up_btn);
         btncheck =findViewById(R.id.blind_mode_checkbox);
-        btnback =findViewById(R.id.register_backward_btn);
+        buttonBack =findViewById(R.id.register_backward_btn);
         mismatch = findViewById(R.id.password_mismatch);
         usernameerror = findViewById(R.id.username_errorText);
         passworderror = findViewById(R.id.password_errorText);
         username = spassword = srepassword = "";
         blind = "0";
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 //    when users click sign up button.
     public void signup(View view) {
