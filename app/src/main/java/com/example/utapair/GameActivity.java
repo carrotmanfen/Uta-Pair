@@ -162,6 +162,29 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.dismiss();
             }
         });
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playAgain();
+            }
+        });
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMainActivity();
+            }
+        });
+    }
+
+    public void openMainActivity(){
+        Intent intent = new Intent(this,MainActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
+    public void playAgain(){
+        finish();
+        startActivity(getIntent());
     }
 
     public void shuffleButtonGraphics(){
