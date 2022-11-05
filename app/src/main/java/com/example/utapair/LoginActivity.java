@@ -31,8 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView usernameempty,passwordempty;
     private Button buttonLogin;
     private ImageButton buttonBack;
-
-    private String URL = "https://3b4f-183-88-35-84.ap.ngrok.io/RegisterLogin/checkLogin.php";
+//  Connect Server
+    private String URL = "https://d806-183-88-35-84.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Declare Variable
+//  Declare Variable
         username = spassword = "";
         name = findViewById(R.id.login_name_textbox);
         password = findViewById(R.id.login_password_textbox);
@@ -57,58 +57,73 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //    when users click sign up button.
+//    when users click Login button.
     public void login(View view) {
         username = name.getText().toString().trim();
         spassword = password.getText().toString().trim();
-        //Set ค่า background ให้เป็น ค่าเดิมทุกครั้งที่กด register แล้วค่อยเข้าเงื่อนไข
+//    Set background to custom_input (Drawable)
         name.setBackground(getResources().getDrawable(R.drawable.custom_input));
         password.setBackground(getResources().getDrawable(R.drawable.custom_input));
+//    Set Textview to default
         usernameempty.setText("");
         passwordempty.setText("");
+//        If editText username and password is empty
         if((username.equals(""))&&(spassword.equals(""))){
+            //Set background to custom_input_error (Drawable) and set text to error Message
             usernameempty.setText("Username cannot be empty");
-            //Set ค่า background ให้เป็นสีแดง
             name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             passwordempty.setText("Password cannot be empty");
             password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
         }
+//        If editText username is only empty field
         else if(username.equals("")){
+//       Set background to custom_input_error (Drawable) and set text to error Message
             usernameempty.setText("Username cannot be empty");
-            //Set ค่า background ให้เป็นสีแดง
             name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
         }
+//        If editText password is only empty field
         else if(spassword.equals("")){
+//       Set background to custom_input_error (Drawable) and set text to error Message
             passwordempty.setText("Password cannot be empty");
             password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
 
         }
         else {
+//          Call method userLogin to allow users to access the application.
             userLogin();
         }
     }
+
     public void userLogin(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
-
+//          when request have response to application
             public void onResponse(String response) {
+//              If response is success
                 if (response.equals("success")) {
+//                  This page alert "Success" and open ProfileActivity.clss
                     Toast.makeText(LoginActivity.this, "Success.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this,ProfileActivity.class);
                     startActivity(intent);
                     finish();
-                } else if (response.equals("failure")) {
-                    Toast.makeText(LoginActivity.this, "Invalid Username and Password.", Toast.LENGTH_SHORT).show();
+                }
+//                if respone is failure
+                else if (response.equals("failure")) {
+//                  This page alert "Invalid login Name/Password." and users can try again
+                    Toast.makeText(LoginActivity.this, "Invalid login Name/Password.", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
+//            When applition have problem not to connect to database
             public void onErrorResponse(VolleyError error) {
+//              this page alert "Server error. Please try again later"
                 Toast.makeText(LoginActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
             }
         }){
             @Nullable
             @Override
+//          This method is use for put data from editText to check with database
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> data = new HashMap<>();
                 data.put("username",username);
@@ -119,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
+//    Method for using open profile page
     public void openProfileActivity(){
         Intent intent=new Intent(this, ProfileActivity.class);
         startActivity(intent);
