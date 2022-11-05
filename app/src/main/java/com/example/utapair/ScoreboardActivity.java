@@ -21,6 +21,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private RecyclerView recyclerView;
     private ImageButton buttonProfile;
     private ImageButton buttonSetting;
+    private ImageButton buttonBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +55,25 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 openSettingActivity();
             }
         });
+
+        buttonBack = findViewById(R.id.backward_btn);
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     public void openAccountActivity(){
         Intent intent=new Intent(this, AccountActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void openSettingActivity(){
         Intent intent=new Intent(this, SettingActivity.class);
+        finish();
         startActivity(intent);
     }
     private void setAdapter() {

@@ -2,11 +2,13 @@ package com.example.utapair;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +30,11 @@ public class LoginActivity extends AppCompatActivity {
     private String username,spassword;
     private TextView usernameempty,passwordempty;
     private Button buttonLogin;
+    private ImageButton buttonBack;
 
     private String URL = "https://3b4f-183-88-35-84.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,6 +47,14 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.login_btn);
         usernameempty = findViewById(R.id.login_username_errorText);
         passwordempty = findViewById(R.id.login_password_errorText);
+
+        buttonBack = findViewById(R.id.backward_btn);
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     //    when users click sign up button.
