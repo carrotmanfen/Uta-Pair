@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +27,12 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText name,password,repassword;
-    private TextView status;
+    private TextView mismatch,usernameerror,passworderror;
     private CheckBox btncheck;
     private Button btn;
+    private ImageButton btnback;
     //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
-    private String URL = "https://7cb9-180-183-121-178.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://e504-2001-fb1-b2-61-2d98-e992-5f99-6673.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
     @Override
@@ -43,62 +45,135 @@ public class RegisterActivity extends AppCompatActivity {
         repassword = findViewById(R.id.confirm_password);
         btn = findViewById(R.id.sign_up_btn);
         btncheck =findViewById(R.id.blind_mode_checkbox);
+        btnback =findViewById(R.id.register_backward_btn);
+        mismatch = findViewById(R.id.password_mismatch);
+        usernameerror = findViewById(R.id.username_errorText);
+        passworderror = findViewById(R.id.password_errorText);
         username = spassword = srepassword = "";
         blind = "0";
     }
-
 //    when users click sign up button.
     public void signup(View view) {
         username = name.getText().toString().trim();
         spassword = password.getText().toString().trim();
         srepassword = repassword.getText().toString().trim();
-//        If users select blind in the checkbox blind has a value equal to 1.
-        if(btncheck.isChecked()){
-            blind = "1";
-        }
-//        If users send password not equal with confirm password.
-        if(!spassword.equals(srepassword)){
-            Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
-        }
-        else if(!username.equals("") && !spassword.equals("")){
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
+//        Set ค่า background ให้เป็น ค่าเดิมทุกครั้งที่กด register แล้วค่อยเข้าเงื่อนไข
+        name.setBackground(getResources().getDrawable(R.drawable.custom_input));
+        password.setBackground(getResources().getDrawable(R.drawable.custom_input));
+        repassword.setBackground(getResources().getDrawable(R.drawable.custom_input));
 
-                public void onResponse(String response) {
-                    if (response.equals("success")) {
-                        Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        btn.setClickable(false);
-                        openAccountActivity();
-                    } else if (response.equals("failure")) {
-                        Toast.makeText(RegisterActivity.this, "Something wrong!", Toast.LENGTH_SHORT).show();
+        usernameerror.setText("");
+        mismatch.setText("");
+        passworderror.setText("");
+
+//        If users send password not equal with confirm password.
+         if(!username.equals("") && !spassword.equals("")) {
+            if(!spassword.equals(srepassword)){
+                mismatch.setText("Password do not match.");
+//            Set ค่า background ให้เป็นสีแดง
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                //Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT).show();
+            }
+            else if ((username.length() <= 16) && (password.length() <= 16)) {
+                if(btncheck.isChecked()){
+                    blind = "1";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    @Override
+
+                    public void onResponse(String response) {
+
+                        if (response.equals("success")) {
+                            Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            openAccountActivity();
+                        } else if (response.equals("failure")) {
+                            Toast.makeText(RegisterActivity.this, "Something wrong!", Toast.LENGTH_SHORT).show();
+                        } else if (response.equals("exist")) {
+                            usernameerror.setText("This username is already used by someone else.");
+                            name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                            //Toast.makeText(RegisterActivity.this, "This username is already used by someone else.", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else if(response.equals("exist")){
-                        Toast.makeText(RegisterActivity.this, "This username is already used by someone else .Please try a different name ", Toast.LENGTH_SHORT).show();
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(RegisterActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
-                }
-            }){
-                @Nullable
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String,String> data = new HashMap<>();
-                    data.put("username",username);
-                    data.put("password",spassword);
-                    data.put("blind",blind);
-                    return data;
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(stringRequest);
+                }) {
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> data = new HashMap<>();
+                        data.put("username", username);
+                        data.put("password", spassword);
+                        data.put("blind", blind);
+                        return data;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(stringRequest);
+            }
+            else if(username.length()>16){
+                usernameerror.setText("Unable to use more than 16 characters username.");
+                name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                Toast.makeText(this, "Invalid username input", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                passworderror.setText("Unable to use more than 16 characters password.");
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                Toast.makeText(this, "Invalid password input", Toast.LENGTH_SHORT).show();
+            }
         }
-        else{
-            Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
+        else if(username.equals("") && spassword.equals("") && srepassword.equals("")){
+                name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                usernameerror.setText("Fields can not be empty!");
+                passworderror.setText("Fields can not be empty!");
+                mismatch.setText("Fields can not be empty!");
+                Toast.makeText(this, "All Fields can not be empty!", Toast.LENGTH_SHORT).show();
+        }
+        else if(username.equals("")){
+            name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+            usernameerror.setText("Fields can not be empty!");
+            if(spassword.equals("")){
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                passworderror.setText("Fields can not be empty!");
+            }
+            else if(srepassword.equals("")){
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                mismatch.setText("Fields can not be empty!");
+            }
+        }
+        else if(spassword.equals("")){
+            password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+            passworderror.setText("Fields can not be empty!");
+            if(username.equals("")){
+                name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                usernameerror.setText("Fields can not be empty!");
+            }
+            else if(srepassword.equals("")){
+                repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                mismatch.setText("Fields can not be empty!");
+            }
+        }
+        else if(srepassword.equals("")){
+            repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+            mismatch.setText("Fields can not be empty!");
+            if(username.equals("")){
+                name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                usernameerror.setText("Fields can not be empty!");
+            }
+            else if(spassword.equals("")){
+                password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                passworderror.setText("Fields can not be empty!");
+            }
         }
     }
+
 
     public void openAccountActivity(){
         Intent intent=new Intent(this, AccountActivity.class);

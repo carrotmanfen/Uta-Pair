@@ -9,7 +9,7 @@
     >
 
     <ImageButton
-        android:id="@+id/backward_btn"
+        android:id="@+id/login_backward_btn"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:background="@color/purple_100"
@@ -53,18 +53,28 @@
             android:textSize="32sp" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name"
+            android:id="@+id/login_name_textbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50sp"
             android:layout_marginRight="50sp"
-            android:layout_marginBottom="40sp"
+            android:layout_marginBottom="0sp"
             android:padding="10sp"
             android:fontFamily="@font/impact"
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="sprint" />
+            android:hint="NAME" />
+        <TextView
+            android:id="@+id/login_username_errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50sp"
+            android:layout_marginBottom="0sp"
+            android:fontFamily="@font/impact"
+            android:text=""
+            android:textColor="#F88379"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,19 +87,29 @@
             android:textSize="32sp" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
+            android:id="@+id/login_password_textbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50sp"
             android:layout_marginRight="50sp"
-            android:layout_marginBottom="40sp"
+            android:layout_marginBottom="0sp"
             android:background="@drawable/custom_input"
             android:fontFamily="@font/impact"
-            android:hint="@string/password"
+            android:hint="PASSWORD"
             android:inputType="textPassword"
             android:padding="10sp"
             android:textColor="@color/purple_100"
             android:textSize="24sp" />
+        <TextView
+            android:id="@+id/login_password_errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50sp"
+            android:layout_marginBottom="0sp"
+            android:fontFamily="@font/impact"
+            android:text=""
+            android:textColor="#F88379"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/login_btn"

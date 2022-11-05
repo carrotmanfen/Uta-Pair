@@ -1,5 +1,4 @@
 package com.example.utapair;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,19 +26,23 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
     private EditText name,password;
     private String username,spassword;
+    private TextView usernameempty,passwordempty;
     private Button buttonLogin;
 
-    private String URL = "https://7cb9-180-183-121-178.ap.ngrok.io/RegisterLogin/login.php";
+    private String URL = "https://e504-2001-fb1-b2-61-2d98-e992-5f99-6673.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Declare Variable
         username = spassword = "";
-        name = findViewById(R.id.name);
-        password = findViewById(R.id.password);
-        buttonLogin = (Button) findViewById(R.id.login_btn);
+        name = findViewById(R.id.login_name_textbox);
+        password = findViewById(R.id.login_password_textbox);
+        buttonLogin = findViewById(R.id.login_btn);
+        usernameempty = findViewById(R.id.login_username_errorText);
+        passwordempty = findViewById(R.id.login_password_errorText);
     }
 
 
@@ -45,11 +51,33 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent=new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
-
+    //    when users click sign up button.
     public void login(View view) {
         username = name.getText().toString().trim();
         spassword = password.getText().toString().trim();
-        if(!username.equals("") && !spassword.equals("")){
+        //Set ค่า background ให้เป็น ค่าเดิมทุกครั้งที่กด register แล้วค่อยเข้าเงื่อนไข
+        name.setBackground(getResources().getDrawable(R.drawable.custom_input));
+        password.setBackground(getResources().getDrawable(R.drawable.custom_input));
+        usernameempty.setText("");
+        passwordempty.setText("");
+        if((username.equals(""))&&(spassword.equals(""))){
+            usernameempty.setText("Username cannot be empty");
+            //Set ค่า background ให้เป็นสีแดง
+            name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+            passwordempty.setText("Password cannot be empty");
+            password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+        }
+        else if(username.equals("")){
+            usernameempty.setText("Username cannot be empty");
+            //Set ค่า background ให้เป็นสีแดง
+            name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+        }
+        else if(spassword.equals("")){
+            passwordempty.setText("Password cannot be empty");
+            password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+
+        }
+        else {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
 
@@ -60,13 +88,18 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else if (response.equals("failure")) {
-                        Toast.makeText(LoginActivity.this, "Invalid Login Name/Password.", Toast.LENGTH_SHORT).show();
+//                        name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+//                        usernameempty.setText("Invalid Login Name/Password.");
+//                        password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+//                        passwordempty.setText("Invalid Login Name/Password.");
+                        Toast.makeText(LoginActivity.this, "Invalid Username and Password.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(LoginActivity.this, error.toString().trim(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(LoginActivity.this, error.toString().trim(), Toast.LENGTH_SHORT).show();
                 }
             }){
                 @Nullable
@@ -80,9 +113,6 @@ public class LoginActivity extends AppCompatActivity {
             };
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             requestQueue.add(stringRequest);
-        }
-        else{
-            Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
         }
     }
 }

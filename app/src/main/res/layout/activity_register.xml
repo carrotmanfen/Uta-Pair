@@ -8,7 +8,7 @@
     android:background="@color/purple_100">
 
     <ImageButton
-        android:id="@+id/backward_btn"
+        android:id="@+id/register_backward_btn"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:background="@color/purple_100"
@@ -64,16 +64,17 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="sprint" />
+            android:hint="NAME (1 - 16 Characters)" />
 
         <TextView
+            android:id="@+id/username_errorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50sp"
             android:layout_marginBottom="0sp"
             android:fontFamily="@font/impact"
-            android:text="Please enter at least 6 characters."
-            android:textColor="#F7F8F6"
+            android:text=""
+            android:textColor="#F88379"
             android:textSize="15sp" />
 
         <TextView
@@ -99,16 +100,17 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="@string/password"
+            android:hint="PASSWORD (1 - 16 Characters)"
             />
 
         <TextView
+            android:id="@+id/password_errorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0sp"
             android:layout_marginLeft="50sp"
-            android:text="Please enter at least 6 characters."
-            android:textColor="#F7F8F6"
+            android:text=""
+            android:textColor="#F88379"
             android:fontFamily="@font/impact"
             android:textSize="15sp" />
 
@@ -135,14 +137,15 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="@string/password"
+            android:hint="Type the same as password"
             />
         <TextView
+            android:id="@+id/password_mismatch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0sp"
             android:layout_marginLeft="50sp"
-            android:text="Passwords do not match."
+            android:text=""
             android:textColor="#F88379"
             android:fontFamily="@font/impact"
             android:textSize="15sp" />
@@ -157,7 +160,7 @@
             android:layout_marginBottom="20sp"
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
-            android:text="  ARE YOU BLIND"
+            android:text="  ARE YOU A BLIND PERSON "
             android:textSize="24sp"
             />
 
