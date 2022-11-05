@@ -13,12 +13,22 @@ public class AccountActivity extends AppCompatActivity {
     Button regisbtn,loginbtn;
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
+    private ImageButton buttonBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         regisbtn = findViewById(R.id.register_btn);
         loginbtn = findViewById(R.id.login_btn);
+
+        buttonBack = findViewById(R.id.backward_btn);
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         regisbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,11 +71,13 @@ public class AccountActivity extends AppCompatActivity {
 
     public void openScoreboardActivity(){
         Intent intent=new Intent(this, ScoreboardActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void openSettingActivity(){
         Intent intent=new Intent(this, SettingActivity.class);
+        finish();
         startActivity(intent);
     }
 }

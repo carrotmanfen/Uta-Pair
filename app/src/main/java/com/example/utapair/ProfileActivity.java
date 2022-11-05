@@ -29,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private Button popupCancelButton , popupConfirmButton;
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
+    private ImageButton buttonBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +71,25 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 openSettingActivity();
             }
         });
+
+        buttonBack = findViewById(R.id.backward_btn);
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     public void openScoreboardActivity(){
         Intent intent=new Intent(this, ScoreboardActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void openSettingActivity(){
         Intent intent=new Intent(this, SettingActivity.class);
+        finish();
         startActivity(intent);
     }
 
