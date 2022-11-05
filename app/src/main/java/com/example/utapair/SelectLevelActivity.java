@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class SelectLevelActivity extends AppCompatActivity {
 
     private Button easyButton; // dimension =  2 rows , 3 cols
     private Button normalButton; // dimension = 4 rows, 3 cols
     private Button hardButton; // dimension = 6 rows, 3 cols
+    private ImageButton buttonBack;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -22,6 +24,7 @@ public class SelectLevelActivity extends AppCompatActivity {
         easyButton = (Button) findViewById(R.id.easy_btn);
         normalButton = (Button) findViewById(R.id.normal_btn);
         hardButton = (Button) findViewById(R.id.hard_btn);
+        buttonBack = findViewById(R.id.backward_btn);
 
 
         // if you wanna try new method just learn it
@@ -44,6 +47,14 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openHardGameActivity();
+            }
+        });
+
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 

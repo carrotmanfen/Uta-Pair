@@ -28,8 +28,12 @@ public class MemoryButton extends AppCompatButton {
         frontDrawableId = frontImageId; // declare id picture for known when they matching
 
         front = context.getDrawable(frontImageId);
-        back = context.getDrawable(R.drawable.custom_pair_item); // ตรงนี้ต้องใส่ไปเลยให้ findviewbyId ของรูป background
-
+        if(BlindMode.getInstance().getMode()=="BLIND") {
+            back = context.getDrawable(R.drawable.custom_pair_item_disable);
+        }
+        else {
+            back = context.getDrawable(R.drawable.custom_pair_item); // ตรงนี้ต้องใส่ไปเลยให้ findviewbyId ของรูป background
+        }
         setBackground(back);
 
         GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(r),GridLayout.spec(c)); // it tell position of grid

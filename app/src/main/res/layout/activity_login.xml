@@ -9,7 +9,7 @@
     >
 
     <ImageButton
-        android:id="@+id/login_backward_btn"
+        android:id="@+id/backward_btn"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:background="@color/purple_100"
