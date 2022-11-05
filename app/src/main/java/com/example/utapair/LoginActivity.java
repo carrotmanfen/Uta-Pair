@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else if (response.equals("failure")) {
-                    Toast.makeText(LoginActivity.this, "Invalid Username and Password.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid login Name/Password.", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {

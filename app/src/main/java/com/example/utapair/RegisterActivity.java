@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox btncheck;
     private Button btn;
     private ImageButton btnback;
-    //ต้องเปิด Xampp กับ ngrok ใหม่ตลอด
+    //Connect database
     private String URL = "https://3b4f-183-88-35-84.ap.ngrok.io/RegisterLogin/register.php";
     private String username,spassword,srepassword,blind;
 
@@ -52,39 +52,44 @@ public class RegisterActivity extends AppCompatActivity {
         username = spassword = srepassword = "";
         blind = "0";
     }
-//    when users click sign up button.
+//    When users click sign up button.
     public void signup(View view) {
         username = name.getText().toString().trim();
         spassword = password.getText().toString().trim();
         srepassword = repassword.getText().toString().trim();
-//        Set ค่า background ให้เป็น ค่าเดิมทุกครั้งที่กด register แล้วค่อยเข้าเงื่อนไข
+//    Set background to custom_input (Drawable)
         name.setBackground(getResources().getDrawable(R.drawable.custom_input));
         password.setBackground(getResources().getDrawable(R.drawable.custom_input));
         repassword.setBackground(getResources().getDrawable(R.drawable.custom_input));
-
+//    Set Text to default
         usernameerror.setText("");
         mismatch.setText("");
         passworderror.setText("");
 
-//        If users send password not equal with confirm password.
+//    If users send password not equal with confirm password.
          if(!username.equals("") && !spassword.equals("")) {
             if(!spassword.equals(srepassword)){
                 mismatch.setText("Password do not match.");
-//            Set ค่า background ให้เป็นสีแดง
+//    Set background to custom_input (Drawable)
                 password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 repassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             }
+//    If size of username and password less or equal than 16
             else if ((username.length() <= 16) && (password.length() <= 16)) {
                 if(btncheck.isChecked()){
                     blind = "1";
                 }
+//    Function add data to database
                 addData();
             }
+//    If size of username more than 16
             else if(username.length()>16){
+//              Set text usernameerror to error and set background to custom_input_error (Drawable) and alert
                 usernameerror.setText("Unable to use more than 16 characters username.");
                 name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 Toast.makeText(this, "Invalid username input", Toast.LENGTH_SHORT).show();
             }
+//   If size of password more than 16
             else {
                 passworderror.setText("Unable to use more than 16 characters password.");
                 password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
