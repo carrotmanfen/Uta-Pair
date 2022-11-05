@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -11,7 +12,7 @@ import android.widget.ImageButton;
 public class SettingActivity extends AppCompatActivity {
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
-    private CheckBox blindModeCheckBox;
+    //private CheckBox blindModeCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +35,41 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        blindModeCheckBox = findViewById(R.id.blind_mode_checkbox);
+        CheckBox blindModeCheckBox = (CheckBox) findViewById(R.id.blind_mode_checkbox); ;
+        //blindModeCheckBox = findViewById(R.id.blind_mode_checkbox);
+        boolean checked = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("BLIND_CHECKBOX", false);
+        if(checked){
+            BlindMode.getInstance().setMode("BLIND");
+        }
+        else{
+            BlindMode.getInstance().setMode("NOT_BLIND");
+        }
+        blindModeCheckBox.setChecked(checked);
         blindModeCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(blindModeCheckBox.isChecked()){
+//                if(blindModeCheckBox.isChecked()){
+//                    BlindMode.getInstance().setMode("BLIND");
+//                }
+//                else{
+//                    BlindMode.getInstance().setMode("NOT_BLIND");
+//                }
+
+                boolean checked = ((CheckBox) view).isChecked();
+
+                if(checked){
                     BlindMode.getInstance().setMode("BLIND");
                 }
                 else{
                     BlindMode.getInstance().setMode("NOT_BLIND");
+                }
+
+                switch(view.getId()) {
+                    case R.id.blind_mode_checkbox:
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("BLIND_CHECKBOX", checked).commit();
+                        break;
                 }
             }
         });
