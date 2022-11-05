@@ -8,7 +8,7 @@
     android:background="@color/purple_100">
 
     <ImageButton
-        android:id="@+id/backward_btn"
+        android:id="@+id/register_backward_btn"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:background="@color/purple_100"
@@ -64,7 +64,7 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="NAME (6 - 16 Character)" />
+            android:hint="NAME (1 - 16 Characters)" />
 
         <TextView
             android:id="@+id/username_errorText"
@@ -100,7 +100,7 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="PASSWORD (6 - 16 Character)"
+            android:hint="PASSWORD (1 - 16 Characters)"
             />
 
         <TextView
@@ -137,7 +137,7 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
-            android:hint="PASSWORD (6 - 16 Character)"
+            android:hint="Type the same as password"
             />
         <TextView
             android:id="@+id/password_mismatch"
@@ -160,7 +160,7 @@
             android:layout_marginBottom="20sp"
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
-            android:text="  ARE YOU BLIND"
+            android:text="  ARE YOU A BLIND PERSON "
             android:textSize="24sp"
             />
 

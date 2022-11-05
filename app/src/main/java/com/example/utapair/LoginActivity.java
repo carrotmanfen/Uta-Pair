@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView usernameempty,passwordempty;
     private Button buttonLogin;
 
-    private String URL = "https://b-183-88-60-244.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://e504-2001-fb1-b2-61-2d98-e992-5f99-6673.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Declare Variable
         username = spassword = "";
-        name = findViewById(R.id.name);
-        password = findViewById(R.id.password);
+        name = findViewById(R.id.login_name_textbox);
+        password = findViewById(R.id.login_password_textbox);
         buttonLogin = findViewById(R.id.login_btn);
         usernameempty = findViewById(R.id.login_username_errorText);
         passwordempty = findViewById(R.id.login_password_errorText);
@@ -88,11 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else if (response.equals("failure")) {
-                        name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-                        usernameempty.setText("Invalid Login Name/Password.");
-                        password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-                        passwordempty.setText("Invalid Login Name/Password.");
-                        //Toast.makeText(LoginActivity.this, "Invalid Login Name/Password.", Toast.LENGTH_SHORT).show();
+//                        name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+//                        usernameempty.setText("Invalid Login Name/Password.");
+//                        password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+//                        passwordempty.setText("Invalid Login Name/Password.");
+                        Toast.makeText(LoginActivity.this, "Invalid Username and Password.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }, new Response.ErrorListener() {
