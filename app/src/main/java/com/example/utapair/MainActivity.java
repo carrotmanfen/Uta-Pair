@@ -1,12 +1,14 @@
 package com.example.utapair;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.preference.PreferenceManager;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -31,10 +33,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        boolean checkedSoundClick = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("SOUND_CHECKBOX",false);
+        boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("BLIND_CHECKBOX", false);
+        if(checkedSoundClick){
+            SoundClickMode.getInstance().setMode("SOUND");
+        }
+        else{
+            SoundClickMode.getInstance().setMode("NOT_SOUND");
+        }
+        if(checkedBlindMode){
+            BlindMode.getInstance().setMode("BLIND");
+        }
+        else{
+            BlindMode.getInstance().setMode("NOT_BLIND");
+        }
+
+
+        final MediaPlayer buttonSoundClick = MediaPlayer.create(this,R.raw.correct);
+
         buttonPlay = (Button) findViewById(R.id.play_btn);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(SoundClickMode.getInstance().getMode()=="SOUND") {
+                    buttonSoundClick.start();
+                }
                 openSelectLevelActivity();
             }
         });
