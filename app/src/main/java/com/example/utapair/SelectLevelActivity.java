@@ -10,9 +10,9 @@ import android.widget.ImageButton;
 
 public class SelectLevelActivity extends AppCompatActivity {
 
-    private Button easyButton; // dimension =  2 rows , 3 cols
+    private Button easyButton;   // dimension =  2 rows , 3 cols
     private Button normalButton; // dimension = 4 rows, 3 cols
-    private Button hardButton; // dimension = 6 rows, 3 cols
+    private Button hardButton;   // dimension = 6 rows, 3 cols
     private ImageButton buttonBack;
 
     @Override

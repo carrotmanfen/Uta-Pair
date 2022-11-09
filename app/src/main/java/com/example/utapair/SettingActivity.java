@@ -44,30 +44,54 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        CheckBox soundClickCheckBox = findViewById(R.id.sound_click_checkbox);
         CheckBox blindModeCheckBox = (CheckBox) findViewById(R.id.blind_mode_checkbox);
-        //blindModeCheckBox = findViewById(R.id.blind_mode_checkbox);
-        boolean checked = PreferenceManager.getDefaultSharedPreferences(this)
+
+        boolean checkedSoundClick = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("SOUND_CHECKBOX",false);
+        boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("BLIND_CHECKBOX", false);
-        if(checked){
+
+        if(checkedSoundClick){
+            SoundClickMode.getInstance().setMode("SOUND");
+        }
+        else{
+            SoundClickMode.getInstance().setMode("NOT_SOUND");
+        }
+        if(checkedBlindMode){
             BlindMode.getInstance().setMode("BLIND");
         }
         else{
             BlindMode.getInstance().setMode("NOT_BLIND");
         }
-        blindModeCheckBox.setChecked(checked);
+        soundClickCheckBox.setChecked(checkedSoundClick);
+        soundClickCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checkedSoundClick = ((CheckBox) view).isChecked();
+
+                if(checkedSoundClick){
+                    SoundClickMode.getInstance().setMode("SOUND");
+                }
+                else {
+                    SoundClickMode.getInstance().setMode("NOT_SOUND");
+                }
+                switch(view.getId()) {
+                    case R.id.sound_click_checkbox:
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("SOUND_CHECKBOX", checkedSoundClick).commit();
+                        break;
+                }
+            }
+        });
+        blindModeCheckBox.setChecked(checkedBlindMode);
         blindModeCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(blindModeCheckBox.isChecked()){
-//                    BlindMode.getInstance().setMode("BLIND");
-//                }
-//                else{
-//                    BlindMode.getInstance().setMode("NOT_BLIND");
-//                }
 
-                boolean checked = ((CheckBox) view).isChecked();
+                boolean checkedBlindMode = ((CheckBox) view).isChecked();
 
-                if(checked){
+                if(checkedBlindMode){
                     BlindMode.getInstance().setMode("BLIND");
                 }
                 else{
@@ -77,7 +101,7 @@ public class SettingActivity extends AppCompatActivity {
                 switch(view.getId()) {
                     case R.id.blind_mode_checkbox:
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                .putBoolean("BLIND_CHECKBOX", checked).commit();
+                                .putBoolean("BLIND_CHECKBOX", checkedBlindMode).commit();
                         break;
                 }
             }
