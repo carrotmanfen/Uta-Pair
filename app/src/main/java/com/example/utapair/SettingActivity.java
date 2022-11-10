@@ -44,19 +44,19 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        CheckBox soundClickCheckBox = findViewById(R.id.sound_click_checkbox);
+        CheckBox accessibilityCheckBox = findViewById(R.id.accessibility_checkbox);
         CheckBox blindModeCheckBox = (CheckBox) findViewById(R.id.blind_mode_checkbox);
 
-        boolean checkedSoundClick = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("SOUND_CHECKBOX",false);
+        boolean checkedAccessibilityMode = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("ACCESSIBILITY_CHECKBOX",false);
         boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("BLIND_CHECKBOX", false);
 
-        if(checkedSoundClick){
-            SoundClickMode.getInstance().setMode("SOUND");
+        if(checkedAccessibilityMode){
+            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
         }
         else{
-            SoundClickMode.getInstance().setMode("NOT_SOUND");
+            AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
         }
         if(checkedBlindMode){
             BlindMode.getInstance().setMode("BLIND");
@@ -64,22 +64,22 @@ public class SettingActivity extends AppCompatActivity {
         else{
             BlindMode.getInstance().setMode("NOT_BLIND");
         }
-        soundClickCheckBox.setChecked(checkedSoundClick);
-        soundClickCheckBox.setOnClickListener(new View.OnClickListener() {
+        accessibilityCheckBox.setChecked(checkedAccessibilityMode);
+        accessibilityCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean checkedSoundClick = ((CheckBox) view).isChecked();
 
                 if(checkedSoundClick){
-                    SoundClickMode.getInstance().setMode("SOUND");
+                    AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
                 }
                 else {
-                    SoundClickMode.getInstance().setMode("NOT_SOUND");
+                    AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
                 }
                 switch(view.getId()) {
-                    case R.id.sound_click_checkbox:
+                    case R.id.accessibility_checkbox:
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                .putBoolean("SOUND_CHECKBOX", checkedSoundClick).commit();
+                                .putBoolean("ACCESSIBILITY_CHECKBOX", checkedSoundClick).commit();
                         break;
                 }
             }

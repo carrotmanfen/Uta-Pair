@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
@@ -32,38 +33,20 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
-    private TextToSpeech t1;
-    int i = 0;
+    private TextToSpeech textToSpeak;
+    private int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        boolean checkedSoundClick = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("SOUND_CHECKBOX",false);
-        boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("BLIND_CHECKBOX", false);
-        if(checkedSoundClick){
-            SoundClickMode.getInstance().setMode("SOUND");
-        }
-        else{
-            SoundClickMode.getInstance().setMode("NOT_SOUND");
-        }
-        if(checkedBlindMode){
-            BlindMode.getInstance().setMode("BLIND");
-        }
-        else{
-            BlindMode.getInstance().setMode("NOT_BLIND");
-        }
+        settingAll();
 
-
-        final MediaPlayer buttonSoundClick = MediaPlayer.create(this,R.raw.correct);
-
-        t1 = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+        textToSpeak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
                 if (i != TextToSpeech.ERROR)
-                    t1.setLanguage(Locale.US);
+                    textToSpeak.setLanguage(Locale.US);
             }
         });
 
@@ -71,30 +54,12 @@ public class MainActivity extends AppCompatActivity {
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(SoundClickMode.getInstance().getMode()=="SOUND") {
-                    i++;
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (i==1){
-                                String text = "Play";
-                                t1.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                            }
-                            else if(i==2){
-//                                String text = "Select level";
-//                                t1.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                                openSelectLevelActivity();
-                            }
-                            i=0;
-                        }
-                    },500);
-
-                    //buttonSoundClick.start();
-                   // String text = "Play";
-                    //t1.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    openSelectLevelActivityAccessibility();
                 }
-                //openSelectLevelActivity();
+                else{
+                    openSelectLevelActivity();
+                }
             }
         });
 
@@ -102,7 +67,12 @@ public class MainActivity extends AppCompatActivity {
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAccountActivity();
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    openAccountActivityAccessibility();
+                }
+                else{
+                    openAccountActivity();
+                }
             }
         });
 
@@ -110,7 +80,12 @@ public class MainActivity extends AppCompatActivity {
         buttonScoreboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openScoreboardActivity();
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    openScoreboardActivityAccessibility();
+                }
+                else {
+                    openScoreboardActivity();
+                }
             }
         });
 
@@ -118,9 +93,45 @@ public class MainActivity extends AppCompatActivity {
         buttonSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openSettingActivity();
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                    openSettingActivityAccessibility();
+                }
+                else {
+                    openSettingActivity();
+                }
             }
         });
+    }
+
+    protected void onStart() {
+        super.onStart();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text = "Home";
+                textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+            }
+        },500);
+    }
+
+    public void settingAll(){
+        boolean checkedAccessibilityMode = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("ACCESSIBILITY_CHECKBOX",false);
+        boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("BLIND_CHECKBOX", false);
+        if(checkedAccessibilityMode){
+            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
+        }
+        else{
+            AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
+        }
+        if(checkedBlindMode){
+            BlindMode.getInstance().setMode("BLIND");
+        }
+        else{
+            BlindMode.getInstance().setMode("NOT_BLIND");
+        }
     }
 
     public void openSelectLevelActivity(){
@@ -128,9 +139,45 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openSelectLevelActivityAccessibility(){
+        i++;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (i==1){
+                    String text = "double tap to play";
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                else if(i==2){
+                    openSelectLevelActivity();
+                }
+                i=0;
+            }
+        },500);
+    }
+
     public void openAccountActivity(){
         Intent intent=new Intent(this, AccountActivity.class);
         startActivity(intent);
+    }
+
+    public void openAccountActivityAccessibility(){
+        i++;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (i==1){
+                    String text = "double tap to go to profile";
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                else if(i==2){
+                    openAccountActivity();
+                }
+                i=0;
+            }
+        },500);
     }
 
     public void openScoreboardActivity(){
@@ -138,9 +185,45 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openScoreboardActivityAccessibility(){
+        i++;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (i==1){
+                    String text = "double tap to go to scoreboard";
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                else if(i==2){
+                    openScoreboardActivity();
+                }
+                i=0;
+            }
+        },500);
+    }
+
     public void openSettingActivity(){
         Intent intent=new Intent(this, SettingActivity.class);
         startActivity(intent);
+    }
+
+    public void openSettingActivityAccessibility(){
+        i++;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (i==1){
+                    String text = "double tap to go to setting";
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                else if(i==2){
+                    openSettingActivity();
+                }
+                i=0;
+            }
+        },500);
     }
 
 }
