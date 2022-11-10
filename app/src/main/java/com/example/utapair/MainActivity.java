@@ -39,15 +39,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        boolean checkedSoundClick = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("SOUND_CHECKBOX",false);
+        boolean checkedAccessibilityMode = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("ACCESSIBILITY_CHECKBOX",false);
         boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("BLIND_CHECKBOX", false);
-        if(checkedSoundClick){
-            SoundClickMode.getInstance().setMode("SOUND");
+        if(checkedAccessibilityMode){
+            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
         }
         else{
-            SoundClickMode.getInstance().setMode("NOT_SOUND");
+            AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
         }
         if(checkedBlindMode){
             BlindMode.getInstance().setMode("BLIND");
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(SoundClickMode.getInstance().getMode()=="SOUND") {
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     i++;
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
                     //buttonSoundClick.start();
                    // String text = "Play";
                     //t1.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                else{
+                    openSelectLevelActivity();
                 }
                 //openSelectLevelActivity();
             }
