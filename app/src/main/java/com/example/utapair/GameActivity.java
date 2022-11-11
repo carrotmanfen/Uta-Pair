@@ -361,6 +361,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             selectedButton1 = null; // ให้มันไปชี้ null เพื่อรอรับค่าใหม่
 
+            // วนเช็คว่าทุก button == true แล้ว
+            if(checkAllMatched() == true ){
+                textToSpeech.shutdown();
+                Intent intent = new Intent(this, EndgameActivity.class);
+                intent.putExtra("TIME_SCORE",getTimerText());
+                intent.putExtra("MODE",mode);
+                finish();
+                startActivity(intent);
+            }
 
 
         }
@@ -398,13 +407,5 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // วนเช็คว่าทุก button == true แล้ว
-        if(checkAllMatched() == true){
-            Intent intent = new Intent(this, EndgameActivity.class);
-            intent.putExtra("TIME_SCORE",getTimerText());
-            intent.putExtra("MODE",mode);
-            finish();
-            startActivity(intent);
-        }
     }
 }

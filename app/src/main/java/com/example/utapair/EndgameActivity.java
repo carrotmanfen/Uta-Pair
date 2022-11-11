@@ -18,6 +18,7 @@ public class EndgameActivity extends Activity {
     private Button playAgainButton2;
     private ImageButton homeButton, playAgainButton;
     private TextToSpeech textToSpeech;
+    private String[] timeSplit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +29,26 @@ public class EndgameActivity extends Activity {
         scoreTimeText = findViewById(R.id.score_time_text);
         Intent receiverIntent = getIntent();
         String receiveValue = receiverIntent.getStringExtra("TIME_SCORE");
+        System.out.println(receiveValue);
         scoreTimeText.setText(receiveValue);
 
-        // if Accessibility Open
-        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
-            textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-                @Override
-                public void onInit(int status) {
-                    if(status != textToSpeech.ERROR){
-                        textToSpeech.setLanguage(Locale.US);
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                /* if init success set language in US */
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.US);
+                    // if Accessibility Open
+                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+                        timeSplit = new String[3];
+                        timeSplit = receiveValue.trim().replaceAll("\\s","").split(":");
+                        String text = "congratulation all item is matched and your time score is " + timeSplit[0] + " minutes " + timeSplit[1]+ " seconds "+ timeSplit[2] + " milliseconds";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                 }
-            });
-            textToSpeech.speak("your time score is " + receiveValue, TextToSpeech.QUEUE_FLUSH, null);
-        }
+
+            }
+        });
 
         String modeText = setTextMode();
         modeTextId = findViewById(R.id.mode_text);
@@ -76,6 +83,7 @@ public class EndgameActivity extends Activity {
                 startActivity(Intent.createChooser(intent,"Share using"));
             }
         });
+
 
         // end share button
 
