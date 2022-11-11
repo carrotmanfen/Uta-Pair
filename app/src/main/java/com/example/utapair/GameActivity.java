@@ -36,7 +36,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int numColumns;
 
     private Boolean isBusy = false;
-    private Boolean isSpeakBusy = false;
 
     // variable for constructor
     private int mode;
@@ -289,18 +288,28 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+    public String matchedWord(){
+        String[] matchedWord = { "awesome", "amazing", "excellent", "great", "matched", "incredible", "outstanding"};
+
+        Random rand = new Random();
+        int randIndex = rand.nextInt(matchedWord.length);
+
+        return matchedWord[randIndex];
+    }
+
+
     public void speak(String text){
         Handler handler = new Handler();
-        if(isSpeakBusy){
+        if(textToSpeech.isSpeaking()){
             return;
         }
         else {
-            isSpeakBusy = true;
+            isBusy = true;
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-                    isSpeakBusy = false;
+                    isBusy = false;
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
                 }
             }, 500);
         }
@@ -308,7 +317,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(isBusy || isSpeakBusy){ // มีการทำงานอยู่ไหม
+        if(isBusy || textToSpeech.isSpeaking()){ // มีการทำงานอยู่ไหม
             return;
         }
         MemoryButton button = (MemoryButton) v;
@@ -335,7 +344,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             // speak if in Accessibility mode
             if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
                 speak(button.getSymbol() + " " + button.getPosition());
+                speak(matchedWord());
             }
+
 
             selectedButton1.setMatched(true); // บอกว่ามันถูกจับคู่แล้ว
             button.setMatched(true);
@@ -355,7 +366,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {  // not matched
 
-            if(isSpeakBusy) {
+            if(textToSpeech.isSpeaking()) {
                 return;
             }
 
@@ -366,7 +377,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 // speak
                 if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
                     speak(selectedButton2.getSymbol() + " " + selectedButton2.getPosition());
-
+                    // speak not matched
+                    speak("not matched");
                 }
 
                 isBusy = true;

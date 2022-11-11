@@ -3,10 +3,13 @@ package com.example.utapair;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 
 public class EndgameActivity extends Activity {
@@ -14,16 +17,31 @@ public class EndgameActivity extends Activity {
     private TextView modeTextId;
     private Button playAgainButton2;
     private ImageButton homeButton, playAgainButton;
+    private TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
 
+
         scoreTimeText = findViewById(R.id.score_time_text);
         Intent receiverIntent = getIntent();
         String receiveValue = receiverIntent.getStringExtra("TIME_SCORE");
         scoreTimeText.setText(receiveValue);
+
+        // if Accessibility Open
+        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+            textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if(status != textToSpeech.ERROR){
+                        textToSpeech.setLanguage(Locale.US);
+                    }
+                }
+            });
+            textToSpeech.speak("your time score is " + receiveValue, TextToSpeech.QUEUE_FLUSH, null);
+        }
 
         String modeText = setTextMode();
         modeTextId = findViewById(R.id.mode_text);
