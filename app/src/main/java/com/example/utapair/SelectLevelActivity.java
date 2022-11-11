@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import java.util.Locale;
-
+/* This file is about SelectLevelActivity
+ * it keep all method that use
+ * in Select level of game page */
 public class SelectLevelActivity extends AppCompatActivity {
 
     private Button buttonPlayEasy;   /* dimension =  2 rows , 3 cols */
