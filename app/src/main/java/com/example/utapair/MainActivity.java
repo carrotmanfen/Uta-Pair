@@ -143,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
     public void settingAll(){
         boolean checkedMusicMode = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("MUSIC_CHECKBOX",false);    /* get MusicMode from SharedPreferences */
-        boolean checkedVibrationMode = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("VIBRATION_CHECKBOX",false);    /* get VibrationMode from SharedPreferences */
         boolean checkedAccessibilityMode = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("ACCESSIBILITY_CHECKBOX",false);    /* get AccessibilityMode from SharedPreferences */
         boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
@@ -155,13 +153,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             MusicMode.getInstance().setMode("NOT_MUSIC");
-        }
-        /* set VibrationMode */
-        if(checkedVibrationMode){
-            VibrationMode.getInstance().setMode("VIBRATION");
-        }
-        else{
-            VibrationMode.getInstance().setMode("NOT_VIBRATION");
         }
         /* set AccessibilityMode */
         if(checkedAccessibilityMode){

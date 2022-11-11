@@ -22,7 +22,6 @@ public class SettingActivity extends AppCompatActivity {
     private ImageButton buttonBack;
     private TextToSpeech textToSpeak;
     private CheckBox checkBoxMusicMode;
-    private CheckBox checkBoxVibrationMode;
     private CheckBox checkBoxAccessibilityMode;
     private CheckBox checkBoxBlindMode;
     private int tapCount = 0;
@@ -86,7 +85,7 @@ public class SettingActivity extends AppCompatActivity {
 
         /* set checkBoxMusicMode */
         checkBoxMusicMode = findViewById(R.id.music_checkbox);
-        checkBoxMusicMode.setChecked(VibrationMode.getInstance().getMode()=="VIBRATION");       /* set state checkbox */
+        checkBoxMusicMode.setChecked(MusicMode.getInstance().getMode()=="VIBRATION");       /* set state checkbox */
         checkBoxMusicMode.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click CheckBox set MusicMode */
@@ -97,23 +96,6 @@ public class SettingActivity extends AppCompatActivity {
                 }
                 else {
                     setMusicMode();
-                }
-            }
-        });
-
-        /* set checkBoxVibrationMode */
-        checkBoxVibrationMode = findViewById(R.id.vibration_checkbox);
-        checkBoxVibrationMode.setChecked(VibrationMode.getInstance().getMode()=="VIBRATION");       /* set state checkbox */
-        checkBoxVibrationMode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            /* set when click CheckBox set VibrationMode */
-            public void onClick(View view) {
-                /* use setVibrationMode method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    setVibrationModeAccessibility();
-                }
-                else {
-                    setVibrationMode();
                 }
             }
         });
@@ -221,65 +203,6 @@ public class SettingActivity extends AppCompatActivity {
                     }
                     textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     setMusicMode();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
-
-    }
-
-    /* method set VibrationMode and share preference */
-    public void setVibrationMode(){
-        /* set VibrationMode follow Checkbox */
-        if(checkBoxVibrationMode.isChecked()){
-            BlindMode.getInstance().setMode("VIBRATION");
-        }
-        else{
-            BlindMode.getInstance().setMode("NOT_VIBRATION");
-        }
-        /* set VibrationMode to shared preference */
-        switch(checkBoxVibrationMode.getId()) {
-            case R.id.vibration_checkbox:
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean("VIBRATION_CHECKBOX", checkBoxVibrationMode.isChecked()).commit();
-                break;
-        }
-    }
-    /* method set VibrationMode and share preference with AccessibilityMode */
-    public void setVibrationModeAccessibility(){
-        /* keep previous state of checkbox */
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String text;
-                /* if a tap play sound */
-                if (tapCount==1){
-                    /* keep state of checkbox */
-                    if(checkBoxVibrationMode.isChecked()) {
-                        checkBoxVibrationMode.setChecked(false);     /* set checkbox to uncheck */
-                        text = "double tap to set vibration mode on";
-                    }
-                    else{
-                        checkBoxVibrationMode.setChecked(true);     /* set checkbox to check */
-                        text = "double tap to set vibration mode off";
-                    }
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time set VibrationMode */
-                else if(tapCount==2){
-                    /* change state of checkbox */
-                    if(checkBoxVibrationMode.isChecked()) {
-                        checkBoxVibrationMode.setChecked(false);     /* set checkbox to uncheck */
-                        text = "vibration mode off";
-                    }
-                    else{
-                        checkBoxVibrationMode.setChecked(true);     /* set checkbox to check */
-                        text = "vibration mode on";
-                    }
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                    setVibrationMode();
                 }
                 tapCount = 0;   /* reset tapCount */
             }
