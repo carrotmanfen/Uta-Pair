@@ -129,6 +129,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /* this part will run when this Activity start */
+    protected void onStart() {
+        super.onStart();
+        /* if AccessibilityMode on when this activity start play sound */
+        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String text = "Start";
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }, 500);
+        }
+    }
+
     private void starTimer() {
         timerTask = new TimerTask() {
             @Override

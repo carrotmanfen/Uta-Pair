@@ -20,7 +20,7 @@ public class SettingActivity extends AppCompatActivity {
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
     private ImageButton buttonBack;
-    private TextToSpeech textToSpeak;
+    private TextToSpeech textToSpeech;
     private CheckBox checkBoxMusicMode;
     private CheckBox checkBoxAccessibilityMode;
     private CheckBox checkBoxBlindMode;
@@ -32,12 +32,12 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);      /* set layout file */
 
         /* create object textToSpeak and set the language */
-        textToSpeak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
                 /* if init success set language in US */
                 if (i != TextToSpeech.ERROR)
-                    textToSpeak.setLanguage(Locale.US);
+                    textToSpeech.setLanguage(Locale.US);
             }
         });
 
@@ -145,7 +145,7 @@ public class SettingActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     String text = "setting";
-                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, 500);
         }
@@ -188,7 +188,7 @@ public class SettingActivity extends AppCompatActivity {
                         checkBoxMusicMode.setChecked(true);     /* set checkbox to check */
                         text = "double tap to set music mode off";
                     }
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time set MusicMode */
                 else if(tapCount==2){
@@ -201,7 +201,7 @@ public class SettingActivity extends AppCompatActivity {
                         checkBoxMusicMode.setChecked(true);     /* set checkbox to check */
                         text = "music mode on";
                     }
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     setMusicMode();
                 }
                 tapCount = 0;   /* reset tapCount */
@@ -248,7 +248,7 @@ public class SettingActivity extends AppCompatActivity {
                         checkBoxBlindMode.setChecked(true);     /* set checkbox to check */
                         text = "double tap to set blind mode off";
                     }
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time set BlindMode */
                 else if(tapCount==2){
@@ -261,7 +261,7 @@ public class SettingActivity extends AppCompatActivity {
                         checkBoxBlindMode.setChecked(true);     /* set checkbox to check */
                         text = "blind mode on";
                     }
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     setBlindMode();
                 }
                 tapCount = 0;   /* reset tapCount */
@@ -300,7 +300,7 @@ public class SettingActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to set accessibility mode off";
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time set AccessibilityMode */
                 else if(tapCount==2){
@@ -331,7 +331,7 @@ public class SettingActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to go to profile";
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start AccountActivity */
                 else if(tapCount==2){
@@ -361,7 +361,7 @@ public class SettingActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to go to scoreboard";
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start ScoreboardActivity */
                 else if(tapCount==2){

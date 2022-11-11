@@ -20,7 +20,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     private Button buttonPlayNormal; /* dimension = 4 rows, 3 cols */
     private Button buttonPlayHard;   /* dimension = 6 rows, 3 cols */
     private ImageButton buttonBack;
-    private TextToSpeech textToSpeak;
+    private TextToSpeech textToSpeech;
     private int tapCount = 0;
 
     @Override
@@ -30,12 +30,12 @@ public class SelectLevelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_level); /* menu page file layout */
 
         /* create object textToSpeak and set the language */
-        textToSpeak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
                 /* if init success set language in US */
                 if (i != TextToSpeech.ERROR)
-                    textToSpeak.setLanguage(Locale.US);
+                    textToSpeech.setLanguage(Locale.US);
             }
         });
 
@@ -115,7 +115,7 @@ public class SelectLevelActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     String text = "Select level";
-                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, 500);
         }
@@ -141,7 +141,7 @@ public class SelectLevelActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to play level easy";
-                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start GameActivity */
                 else if(tapCount==2){
@@ -172,7 +172,7 @@ public class SelectLevelActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to play level normal";
-                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start GameActivity */
                 else if(tapCount==2){
@@ -203,7 +203,7 @@ public class SelectLevelActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to play level Hard";
-                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start GameActivity */
                 else if(tapCount==2){
@@ -224,7 +224,7 @@ public class SelectLevelActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to go back";
-                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start GameActivity */
                 else if(tapCount==2){

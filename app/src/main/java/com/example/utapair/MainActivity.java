@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
-    private TextToSpeech textToSpeak;
+    private TextToSpeech textToSpeech;
     private int tapCount = 0;
     SharedPreferences sh;
     @Override
@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         settingAll();
 
         /* create object textToSpeak and set the language */
-        textToSpeak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
                 /* if init success set language in US */
                 if (i != TextToSpeech.ERROR)
-                    textToSpeak.setLanguage(Locale.US);
+                    textToSpeech.setLanguage(Locale.US);
             }
         });
         /* set SharedPreference */
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     String text = "Home";
-                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, 500);
         }
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to play";
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start SelectLevelActivity */
                 else if(tapCount==2){
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to go to profile";
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start AccountActivity */
                 else if(tapCount==2){
@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to go to scoreboard";
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start ScoreboardActivity */
                 else if(tapCount==2){
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                 /* if a tap play sound */
                 if (tapCount==1){
                     String text = "double tap to go to setting";
-                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start SettingActivity */
                 else if(tapCount==2){
