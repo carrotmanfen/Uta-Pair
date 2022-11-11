@@ -1,5 +1,6 @@
 package com.example.utapair;
 
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class ProfileUser {
