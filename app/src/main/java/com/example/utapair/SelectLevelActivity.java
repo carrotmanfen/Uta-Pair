@@ -24,9 +24,10 @@ public class SelectLevelActivity extends AppCompatActivity {
     private int tapCount = 0;
 
     @Override
+    /* this part will run when create this Activity */
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.activity_select_level); // menu page file layout
+        setContentView(R.layout.activity_select_level); /* menu page file layout */
 
         /* create object textToSpeak and set the language */
         textToSpeak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
