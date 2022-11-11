@@ -1,6 +1,8 @@
 package com.example.utapair;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton buttonSetting;
     private TextToSpeech textToSpeak;
     private int tapCount = 0;
+    SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
                     textToSpeak.setLanguage(Locale.US);
             }
         });
-
+        /* set SharedPreference */
+        sh = getSharedPreferences("mySharedPref", Context.MODE_PRIVATE);
         /* set buttonPlay */
         buttonPlay = (Button) findViewById(R.id.play_btn);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
@@ -200,9 +204,16 @@ public class MainActivity extends AppCompatActivity {
 
     /* method to start AccountActivity */
     public void openAccountActivity(){
-        /* create new intent AccountActivity Class and Start Activity */
-        Intent intent = new Intent(this, AccountActivity.class);
-        startActivity(intent);
+        /* if user has logged in then go to Profile page */
+        if(sh.contains("saved_Name")){
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+        }
+        /* if user hasn't logged in then go to account page */
+        else {
+            Intent intent = new Intent(this, AccountActivity.class);
+            startActivity(intent);
+        }
     }
 
     /* method to start AccountActivity with AccessibilityMode */
