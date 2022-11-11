@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
+import android.telephony.PreciseDataConnectionState;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -28,32 +29,42 @@ import android.widget.ImageButton;
 
 import java.util.Locale;
 
+/* This file is about MainActivity
+* it keep all method that use
+* in Home page */
 public class MainActivity extends AppCompatActivity {
     private Button buttonPlay;
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
     private TextToSpeech textToSpeak;
-    private int i = 0;
+    private int tapCount = 0;
     @Override
+    /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);     /* set layout file */
 
+        /* set all setting in first page */
         settingAll();
 
+        /* create object textToSpeak and set the language */
         textToSpeak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
+                /* if init success set language in US */
                 if (i != TextToSpeech.ERROR)
                     textToSpeak.setLanguage(Locale.US);
             }
         });
 
+        /* set buttonPlay */
         buttonPlay = (Button) findViewById(R.id.play_btn);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
+            /* set when click buttonPlay start SelectLevelActivity */
             public void onClick(View view) {
+                /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openSelectLevelActivityAccessibility();
                 }
@@ -63,10 +74,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /* set buttonProfile */
         buttonProfile = (ImageButton) findViewById(R.id.profile_btn);
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
+            /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
+                /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openAccountActivityAccessibility();
                 }
@@ -76,10 +90,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /* set buttonScoreboard */
         buttonScoreboard = (ImageButton) findViewById(R.id.scoreboard_btn);
         buttonScoreboard.setOnClickListener(new View.OnClickListener() {
             @Override
+            /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
+                /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
                 }
@@ -89,10 +106,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /* set buttonSetting */
         buttonSetting = (ImageButton) findViewById(R.id.setting_btn);
         buttonSetting.setOnClickListener(new View.OnClickListener() {
             @Override
+            /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
+                /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();
                 }
@@ -103,29 +123,54 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /* this part will run when this Activity start */
     protected void onStart() {
         super.onStart();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String text = "Home";
-                textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-            }
-        },500);
+        /* if AccessibilityMode on when this activity start play sound */
+        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String text = "Home";
+                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }, 500);
+        }
     }
 
+    /* method to set all setting */
     public void settingAll(){
+        boolean checkedMusicMode = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("MUSIC_CHECKBOX",false);    /* get MusicMode from SharedPreferences */
+        boolean checkedVibrationMode = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("VIBRATION_CHECKBOX",false);    /* get VibrationMode from SharedPreferences */
         boolean checkedAccessibilityMode = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("ACCESSIBILITY_CHECKBOX",false);
+                .getBoolean("ACCESSIBILITY_CHECKBOX",false);    /* get AccessibilityMode from SharedPreferences */
         boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("BLIND_CHECKBOX", false);
+                .getBoolean("BLIND_CHECKBOX", false);   /* get BlindMode from SharedPreference */
+        /* set MusicMode */
+        if(checkedMusicMode){
+            MusicMode.getInstance().setMode("MUSIC");
+        }
+        else{
+            MusicMode.getInstance().setMode("NOT_MUSIC");
+        }
+        /* set VibrationMode */
+        if(checkedVibrationMode){
+            VibrationMode.getInstance().setMode("VIBRATION");
+        }
+        else{
+            VibrationMode.getInstance().setMode("NOT_VIBRATION");
+        }
+        /* set AccessibilityMode */
         if(checkedAccessibilityMode){
             AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
         }
         else{
             AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
         }
+        /* set BlindMode */
         if(checkedBlindMode){
             BlindMode.getInstance().setMode("BLIND");
         }
@@ -134,96 +179,117 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* method to start SelectLevelActivity */
     public void openSelectLevelActivity(){
-        Intent intent=new Intent(this, SelectLevelActivity.class);
+        /* create new intent SelectLevelActivity Class and Start Activity */
+        Intent intent = new Intent(this, SelectLevelActivity.class);
         startActivity(intent);
     }
 
+    /* method to start SelectLevelActivity with AccessibilityMode */
     public void openSelectLevelActivityAccessibility(){
-        i++;
+        tapCount++;     /* when tap button count in tapCount */
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (i==1){
+                /* if a tap play sound */
+                if (tapCount==1){
                     String text = "double tap to play";
                     textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
-                else if(i==2){
+                /* if double tap in time start SelectLevelActivity */
+                else if(tapCount==2){
                     openSelectLevelActivity();
                 }
-                i=0;
+                tapCount = 0;   /* reset tapCount */
             }
-        },500);
+        },500);     /* in 500 millisecond */
     }
 
+    /* method to start AccountActivity */
     public void openAccountActivity(){
-        Intent intent=new Intent(this, AccountActivity.class);
+        /* create new intent AccountActivity Class and Start Activity */
+        Intent intent = new Intent(this, AccountActivity.class);
         startActivity(intent);
     }
 
+    /* method to start AccountActivity with AccessibilityMode */
     public void openAccountActivityAccessibility(){
-        i++;
+        tapCount++;     /* when tap button count in tapCount */
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (i==1){
+                /* if a tap play sound */
+                if (tapCount==1){
                     String text = "double tap to go to profile";
                     textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
-                else if(i==2){
+                /* if double tap in time start AccountActivity */
+                else if(tapCount==2){
                     openAccountActivity();
                 }
-                i=0;
+                tapCount = 0;   /* reset tapCount */
             }
-        },500);
+        },500);     /* in 500 millisecond */
+
     }
 
+    /* method to start ScoreboardActivity */
     public void openScoreboardActivity(){
-        Intent intent=new Intent(this, ScoreboardActivity.class);
+        /* create new intent ScoreboardActivity Class and Start Activity */
+        Intent intent = new Intent(this, ScoreboardActivity.class);
         startActivity(intent);
     }
 
+    /* method to start ScoreboardActivity with AccessibilityMode */
     public void openScoreboardActivityAccessibility(){
-        i++;
+        tapCount++;     /* when tap button count in tapCount */
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (i==1){
+                /* if a tap play sound */
+                if (tapCount==1){
                     String text = "double tap to go to scoreboard";
                     textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
-                else if(i==2){
+                /* if double tap in time start ScoreboardActivity */
+                else if(tapCount==2){
                     openScoreboardActivity();
                 }
-                i=0;
+                tapCount = 0;   /* reset tapCount */
             }
-        },500);
+        },500);     /* in 500 millisecond */
     }
 
+    /* method to start SettingActivity */
     public void openSettingActivity(){
-        Intent intent=new Intent(this, SettingActivity.class);
+        /* create new intent SettingActivity Class and Start Activity */
+        Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
     }
 
+    /* method to start SettingActivity with AccessibilityMode */
     public void openSettingActivityAccessibility(){
-        i++;
+        tapCount++; /* when tap button count in tapCount */
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (i==1){
+                /* if a tap play sound */
+                if (tapCount==1){
                     String text = "double tap to go to setting";
                     textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
-                else if(i==2){
+                /* if double tap in time start SettingActivity */
+                else if(tapCount==2){
                     openSettingActivity();
                 }
-                i=0;
+                tapCount = 0;   /* reset tapCount */
             }
-        },500);
+        },500);     /* in 500 millisecond */
     }
 
 }
