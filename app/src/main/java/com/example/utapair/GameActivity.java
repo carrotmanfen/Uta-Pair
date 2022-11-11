@@ -138,8 +138,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    String text = "Start";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    if(mode==-1){
+                        String text = "Start level easy";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    else if(mode==0){
+                        String text = "Start level normal";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    else{
+                        String text = "Start level hard";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
                 }
             }, 500);
         }
