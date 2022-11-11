@@ -4,122 +4,449 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 
+import java.util.Locale;
+
+/* This file is about SettingActivity
+ * it keep all method that use
+ * in Setting page */
 public class SettingActivity extends AppCompatActivity {
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
-    private ImageButton backButton;
-    //private CheckBox blindModeCheckBox;
-
+    private ImageButton buttonBack;
+    private TextToSpeech textToSpeak;
+    private CheckBox checkBoxMusicMode;
+    private CheckBox checkBoxVibrationMode;
+    private CheckBox checkBoxAccessibilityMode;
+    private CheckBox checkBoxBlindMode;
+    private int tapCount = 0;
     @Override
+    /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_setting);      /* set layout file */
 
-        backButton = findViewById(R.id.backward_btn);
-        backButton.setOnClickListener(new View.OnClickListener() {
+        /* create object textToSpeak and set the language */
+        textToSpeak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
-            public void onClick(View view) {
-                onBackPressed();
+            public void onInit(int i) {
+                /* if init success set language in US */
+                if (i != TextToSpeech.ERROR)
+                    textToSpeak.setLanguage(Locale.US);
             }
         });
 
+        /* set buttonBack */
+        buttonBack = findViewById(R.id.backward_btn);
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            /* set when click buttonBack go back to previous Activity */
+            public void onClick(View view) {
+                onBackPressed();        /* go back to previous Activity */
+            }
+        });
+
+        /* set buttonProfile */
         buttonProfile = (ImageButton) findViewById(R.id.profile_btn);
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
+            /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
-                openAccountActivity();
+                /* use method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    openAccountActivityAccessibility();
+                }
+                else{
+                    openAccountActivity();
+                }
             }
         });
 
+        /* set buttonScoreboard */
         buttonScoreboard = (ImageButton) findViewById(R.id.scoreboard_btn);
         buttonScoreboard.setOnClickListener(new View.OnClickListener() {
             @Override
+            /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
-                openScoreboardActivity();
+                /* use method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    openScoreboardActivityAccessibility();
+                }
+                else {
+                    openScoreboardActivity();
+                }
             }
         });
 
-        CheckBox accessibilityCheckBox = findViewById(R.id.accessibility_checkbox);
-        CheckBox blindModeCheckBox = (CheckBox) findViewById(R.id.blind_mode_checkbox);
+        /* set checkBoxMusicMode */
+        checkBoxMusicMode = findViewById(R.id.music_checkbox);
+        checkBoxMusicMode.setChecked(VibrationMode.getInstance().getMode()=="VIBRATION");       /* set state checkbox */
+        checkBoxMusicMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            /* set when click CheckBox set MusicMode */
+            public void onClick(View view) {
+                /* use setMusicMode method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    setMusicModeAccessibility();
+                }
+                else {
+                    setMusicMode();
+                }
+            }
+        });
 
-        boolean checkedAccessibilityMode = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("ACCESSIBILITY_CHECKBOX",false);
-        boolean checkedBlindMode = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("BLIND_CHECKBOX", false);
+        /* set checkBoxVibrationMode */
+        checkBoxVibrationMode = findViewById(R.id.vibration_checkbox);
+        checkBoxVibrationMode.setChecked(VibrationMode.getInstance().getMode()=="VIBRATION");       /* set state checkbox */
+        checkBoxVibrationMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            /* set when click CheckBox set VibrationMode */
+            public void onClick(View view) {
+                /* use setVibrationMode method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    setVibrationModeAccessibility();
+                }
+                else {
+                    setVibrationMode();
+                }
+            }
+        });
 
-        if(checkedAccessibilityMode){
-            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
+        /* set checkBoxAccessibilityMode */
+        checkBoxAccessibilityMode = findViewById(R.id.accessibility_checkbox);
+        checkBoxAccessibilityMode.setChecked(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY");       /* set state checkbox */
+        checkBoxAccessibilityMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            /* set when click Checkbox set AccessibilityMode */
+            public void onClick(View view) {
+                /* use setAccessibilityMode method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                   setAccessibilityModeAccessibility();
+                }
+                else {
+                    setAccessibilityMode();
+                }
+            }
+        });
+
+        /* set checkBoxBlindMode */
+        checkBoxBlindMode = (CheckBox) findViewById(R.id.blind_mode_checkbox);
+        checkBoxBlindMode.setChecked(BlindMode.getInstance().getMode()=="BLIND");       /* set state checkbox */
+        checkBoxBlindMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            /* set when click Checkbox set AccessibilityMode */
+            public void onClick(View view) {
+                /* use setBlindMode method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    setBlindModeAccessibility();
+                }
+                else {
+                    setBlindMode();
+                }
+            }
+        });
+    }
+
+    /* this part will run when this Activity start */
+    protected void onStart() {
+        super.onStart();
+        /* if AccessibilityMode on when this activity start play sound */
+        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String text = "setting";
+                    textToSpeak.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }, 500);
+        }
+    }
+
+    /* method set MusicMode and share preference */
+    public void setMusicMode(){
+        /* set MusicMode follow Checkbox */
+        if(checkBoxMusicMode.isChecked()){
+            BlindMode.getInstance().setMode("MUSIC");
         }
         else{
-            AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
+            BlindMode.getInstance().setMode("NOT_MUSIC");
         }
-        if(checkedBlindMode){
+        /* set MusicMode to shared preference */
+        switch(checkBoxMusicMode.getId()) {
+            case R.id.music_checkbox:
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                        .putBoolean("MUSIC_CHECKBOX", checkBoxMusicMode.isChecked()).commit();
+                break;
+        }
+    }
+    /* method set MusicMode and share preference with AccessibilityMode */
+    public void setMusicModeAccessibility(){
+        /* keep previous state of checkbox */
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text;
+                /* if a tap play sound */
+                if (tapCount==1){
+                    /* keep state of checkbox */
+                    if(checkBoxMusicMode.isChecked()) {
+                        checkBoxMusicMode.setChecked(false);     /* set checkbox to uncheck */
+                        text = "double tap to set music mode on";
+                    }
+                    else{
+                        checkBoxMusicMode.setChecked(true);     /* set checkbox to check */
+                        text = "double tap to set music mode off";
+                    }
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time set MusicMode */
+                else if(tapCount==2){
+                    /* change state of checkbox */
+                    if(checkBoxMusicMode.isChecked()) {
+                        checkBoxMusicMode.setChecked(false);     /* set checkbox to uncheck */
+                        text = "music mode off";
+                    }
+                    else{
+                        checkBoxMusicMode.setChecked(true);     /* set checkbox to check */
+                        text = "music mode on";
+                    }
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    setMusicMode();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
+
+    }
+
+    /* method set VibrationMode and share preference */
+    public void setVibrationMode(){
+        /* set VibrationMode follow Checkbox */
+        if(checkBoxVibrationMode.isChecked()){
+            BlindMode.getInstance().setMode("VIBRATION");
+        }
+        else{
+            BlindMode.getInstance().setMode("NOT_VIBRATION");
+        }
+        /* set VibrationMode to shared preference */
+        switch(checkBoxVibrationMode.getId()) {
+            case R.id.vibration_checkbox:
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                        .putBoolean("VIBRATION_CHECKBOX", checkBoxVibrationMode.isChecked()).commit();
+                break;
+        }
+    }
+    /* method set VibrationMode and share preference with AccessibilityMode */
+    public void setVibrationModeAccessibility(){
+        /* keep previous state of checkbox */
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text;
+                /* if a tap play sound */
+                if (tapCount==1){
+                    /* keep state of checkbox */
+                    if(checkBoxVibrationMode.isChecked()) {
+                        checkBoxVibrationMode.setChecked(false);     /* set checkbox to uncheck */
+                        text = "double tap to set vibration mode on";
+                    }
+                    else{
+                        checkBoxVibrationMode.setChecked(true);     /* set checkbox to check */
+                        text = "double tap to set vibration mode off";
+                    }
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time set VibrationMode */
+                else if(tapCount==2){
+                    /* change state of checkbox */
+                    if(checkBoxVibrationMode.isChecked()) {
+                        checkBoxVibrationMode.setChecked(false);     /* set checkbox to uncheck */
+                        text = "vibration mode off";
+                    }
+                    else{
+                        checkBoxVibrationMode.setChecked(true);     /* set checkbox to check */
+                        text = "vibration mode on";
+                    }
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    setVibrationMode();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
+
+    }
+
+    /* method set BlindMode and share preference */
+    public void setBlindMode(){
+        /* set BlindMode follow blindModeCheckbox */
+        if(checkBoxBlindMode.isChecked()){
             BlindMode.getInstance().setMode("BLIND");
         }
         else{
             BlindMode.getInstance().setMode("NOT_BLIND");
         }
-        accessibilityCheckBox.setChecked(checkedAccessibilityMode);
-        accessibilityCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean checkedSoundClick = ((CheckBox) view).isChecked();
-
-                if(checkedSoundClick){
-                    AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
-                }
-                else {
-                    AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
-                }
-                switch(view.getId()) {
-                    case R.id.accessibility_checkbox:
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                .putBoolean("ACCESSIBILITY_CHECKBOX", checkedSoundClick).commit();
-                        break;
-                }
-            }
-        });
-        blindModeCheckBox.setChecked(checkedBlindMode);
-        blindModeCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                boolean checkedBlindMode = ((CheckBox) view).isChecked();
-
-                if(checkedBlindMode){
-                    BlindMode.getInstance().setMode("BLIND");
-                }
-                else{
-                    BlindMode.getInstance().setMode("NOT_BLIND");
-                }
-
-                switch(view.getId()) {
-                    case R.id.blind_mode_checkbox:
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                .putBoolean("BLIND_CHECKBOX", checkedBlindMode).commit();
-                        break;
-                }
-            }
-        });
+        /* set BlindMode to shared preference */
+        switch(checkBoxBlindMode.getId()) {
+            case R.id.blind_mode_checkbox:
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                        .putBoolean("BLIND_CHECKBOX", checkBoxBlindMode.isChecked()).commit();
+                break;
+        }
     }
 
+    /* method set BlindMode and share preference with AccessibilityMode */
+    public void setBlindModeAccessibility(){
+        /* keep previous state of checkbox */
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text;
+                /* if a tap play sound */
+                if (tapCount==1){
+                    /* keep state of checkbox */
+                    if(checkBoxBlindMode.isChecked()) {
+                        checkBoxBlindMode.setChecked(false);     /* set checkbox to uncheck */
+                        text = "double tap to set blind mode on";
+                    }
+                    else{
+                        checkBoxBlindMode.setChecked(true);     /* set checkbox to check */
+                        text = "double tap to set blind mode off";
+                    }
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time set BlindMode */
+                else if(tapCount==2){
+                    /* change state of checkbox */
+                    if(checkBoxBlindMode.isChecked()) {
+                        checkBoxBlindMode.setChecked(false);     /* set checkbox to uncheck */
+                        text = "blind mode off";
+                    }
+                    else{
+                        checkBoxBlindMode.setChecked(true);     /* set checkbox to check */
+                        text = "blind mode on";
+                    }
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    setBlindMode();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
+
+    }
+
+    /* method set AccessibilityMode and share preference */
+    public  void setAccessibilityMode(){
+        boolean checkedSoundClick = checkBoxAccessibilityMode.isChecked();
+        /* set AccessibilityMode follow Checkbox */
+        if(checkedSoundClick){
+            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
+        }
+        else {
+            AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
+        }
+        /* set AccessibilityMode to shared preference */
+        switch(checkBoxAccessibilityMode.getId()) {
+            case R.id.accessibility_checkbox:
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                        .putBoolean("ACCESSIBILITY_CHECKBOX", checkedSoundClick).commit();
+                break;
+        }
+    }
+
+    /* method to set AccessibilityMode and share preference with AccessibilityMode */
+    public void setAccessibilityModeAccessibility(){
+        checkBoxAccessibilityMode.setChecked(true);     /* set checkbox to check */
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /* if a tap play sound */
+                if (tapCount==1){
+                    String text = "double tap to set accessibility mode off";
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time set AccessibilityMode */
+                else if(tapCount==2){
+                    checkBoxAccessibilityMode.setChecked(false);        /* set checkbox to uncheck */
+                    setAccessibilityMode();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
+
+    }
+
+    /* method to start AccountActivity */
     public void openAccountActivity(){
+        /* create new intent AccountActivity Class and Start Activity */
         Intent intent=new Intent(this, AccountActivity.class);
-        finish();
+        finish();       /* finish this Activity */
         startActivity(intent);
     }
 
+    /* method to start AccountActivity with AccessibilityMode */
+    public void openAccountActivityAccessibility(){
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /* if a tap play sound */
+                if (tapCount==1){
+                    String text = "double tap to go to profile";
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time start AccountActivity */
+                else if(tapCount==2){
+                    openAccountActivity();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
+
+    }
+
+    /* method to start ScoreboardActivity */
     public void openScoreboardActivity(){
+        /* create new intent ScoreboardActivity Class and Start Activity */
         Intent intent=new Intent(this, ScoreboardActivity.class);
-        finish();
+        finish();       /* finish this Activity */
         startActivity(intent);
     }
 
-    public void onCheckboxClicked(View view) {
+    /* method to start ScoreboardActivity with AccessibilityMode */
+    public void openScoreboardActivityAccessibility(){
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /* if a tap play sound */
+                if (tapCount==1){
+                    String text = "double tap to go to scoreboard";
+                    textToSpeak.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time start ScoreboardActivity */
+                else if(tapCount==2){
+                    openScoreboardActivity();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
     }
+
 }
