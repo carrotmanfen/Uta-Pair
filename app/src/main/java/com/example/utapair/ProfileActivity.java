@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,15 +29,44 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private EditText popupEditText;
-    private Button popupCancelButton , popupConfirmButton;
+    private Button popupCancelButton , popupConfirmButton ;
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
+    private String saveName,sample;
+    private TextView profileName;
+    Button buttonLogout;
+    SharedPreferences sh;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        sh = getSharedPreferences("mySharedPref", Context.MODE_PRIVATE);
+        editor = sh.edit();
+        saveName = sh.getString("saved_Name","");
+        profileName = findViewById(R.id.changename);
+        profileName.setText(saveName);
+        buttonLogout = findViewById(R.id.logout_btn);
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editor.clear();
+                editor.commit();
+                sample = sh.getString("saved_Name","");
+                if(sh.contains("saved_Name")){
+                    Toast.makeText(ProfileActivity.this, "Logout unsuccessfully", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(ProfileActivity.this, "Logout Successfully ", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        });
 
         Spinner spinner = findViewById(R.id.level_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.level,R.layout.spinner_text_select);
@@ -151,5 +183,18 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
 
     public void onCheckboxClicked(View view) {
+    }
+    @Override
+    public void onBackPressed(){
+        if(sh.contains("saved_Name")){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();}
+        else{
+            Intent intent = new Intent(this, AccountActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 }

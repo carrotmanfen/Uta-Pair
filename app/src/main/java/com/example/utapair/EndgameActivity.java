@@ -3,10 +3,13 @@ package com.example.utapair;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 
 public class EndgameActivity extends Activity {
@@ -14,16 +17,38 @@ public class EndgameActivity extends Activity {
     private TextView modeTextId;
     private Button playAgainButton2;
     private ImageButton homeButton, playAgainButton;
+    private TextToSpeech textToSpeech;
+    private String[] timeSplit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
 
+
         scoreTimeText = findViewById(R.id.score_time_text);
         Intent receiverIntent = getIntent();
         String receiveValue = receiverIntent.getStringExtra("TIME_SCORE");
+        System.out.println(receiveValue);
         scoreTimeText.setText(receiveValue);
+
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                /* if init success set language in US */
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.US);
+                    // if Accessibility Open
+                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+                        timeSplit = new String[3];
+                        timeSplit = receiveValue.trim().replaceAll("\\s","").split(":");
+                        String text = "congratulation all item is matched and your time score is " + timeSplit[0] + " minutes " + timeSplit[1]+ " seconds "+ timeSplit[2] + " milliseconds";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                }
+
+            }
+        });
 
         String modeText = setTextMode();
         modeTextId = findViewById(R.id.mode_text);
@@ -58,6 +83,7 @@ public class EndgameActivity extends Activity {
                 startActivity(Intent.createChooser(intent,"Share using"));
             }
         });
+
 
         // end share button
 

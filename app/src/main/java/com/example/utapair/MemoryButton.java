@@ -19,6 +19,10 @@ public class MemoryButton extends AppCompatButton {
     protected Drawable front;
     protected Drawable back;
 
+    // for accessibility
+    protected String symbol;
+    protected String position;
+
     // constructor
     public MemoryButton(Context context, int r, int c, int frontImageId){ // give position(r,c) and id of image in drawable source of gridlayout first
         super(context);
@@ -65,6 +69,10 @@ public class MemoryButton extends AppCompatButton {
             isFilpped = true;
         }
     }
+    public void setSymbol(String symbol) { this.symbol = symbol; }
+    public String getSymbol(){ return this.symbol; }
+    public void setPosition(int row, int col) { this.position = "row " + String.valueOf(row) + " column " + String.valueOf(col); }
+    public String getPosition(){ return this.position; }
     public void setBackGroundButton(Drawable background){
         setBackground(background);
     }

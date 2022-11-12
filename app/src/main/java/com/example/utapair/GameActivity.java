@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,6 +27,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private int[] buttonGraphicLocation; // ตำแหน่ง Graphic ของ Button แต่ละตัวที่จะนำไป drawable
     private int[] buttonGraphic; // เก็บภาพจาก drawable มาใส่ array ไว้
+    private String[] buttonGraphictexts;
 
     private MemoryButton selectedButton1;
     private MemoryButton selectedButton2;
@@ -49,6 +52,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TimerTask timerTask;
     private int time = 0;
 
+    private TextToSpeech textToSpeech;
+
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
@@ -71,6 +76,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         button = new MemoryButton[numberOfElements];
 
         buttonGraphic = new int[numberOfElements/2];
+        buttonGraphictexts = new String[numberOfElements/2];
+
+        // set language for Accessibility
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.US);
+                }
+            }
+        });
 
         // generate รูปที่ต้องใช้ตามขนาดจะทำแบบไหน ? แบบนี้ fix ไว้ (2 x 3)/2 = 3 unique picture
         setButtonGraphic();
@@ -89,6 +105,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             for(int c = 0; c < numColumns; c++){
                 MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ]);
+                tempButton.setSymbol(buttonGraphictexts[ buttonGraphicLocation[r * numColumns+c] ]);
+                tempButton.setPosition(r+1,c+1);
                 tempButton.setId(View.generateViewId()); // สร้าง id ไว้ตอน match
                 tempButton.setOnClickListener(this);
                 button[r * numColumns+c] = tempButton;
@@ -109,6 +127,32 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         timer = new Timer();
         starTimer();
 
+    }
+
+    /* this part will run when this Activity start */
+    protected void onStart() {
+        super.onStart();
+        /* if AccessibilityMode on when this activity start play sound */
+        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(mode==-1){
+                        String text = "Start level easy";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    else if(mode==0){
+                        String text = "Start level normal";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    else{
+                        String text = "Start level hard";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                }
+            }, 500);
+        }
     }
 
     private void starTimer() {
@@ -224,6 +268,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 buttonGraphic[0] = R.drawable.custom_pair_brownies;
                 buttonGraphic[1] = R.drawable.custom_pair_cake;
                 buttonGraphic[2] = R.drawable.custom_pair_candy;
+                if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+                    buttonGraphictexts[0] = "brownies";
+                    buttonGraphictexts[1] = "cakes";
+                    buttonGraphictexts[2] = "candy";
+                }
                 break;
             case 0: // normal mode
                 buttonGraphic[0] = R.drawable.custom_pair_brownies;
@@ -232,6 +281,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 buttonGraphic[3] = R.drawable.custom_pair_chocolate;
                 buttonGraphic[4] = R.drawable.custom_pair_cookie;
                 buttonGraphic[5] = R.drawable.custom_pair_donut;
+                if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+                    buttonGraphictexts[0] = "brownies";
+                    buttonGraphictexts[1] = "cakes";
+                    buttonGraphictexts[2] = "candy";
+                    buttonGraphictexts[3] = "chocolate";
+                    buttonGraphictexts[4] = "cookies";
+                    buttonGraphictexts[5] = "donut";
+                }
                 break;
             case 1: // hard mode
                 buttonGraphic[0] = R.drawable.custom_pair_brownies;
@@ -243,22 +300,62 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 buttonGraphic[6] = R.drawable.custom_pair_icecream;
                 buttonGraphic[7] = R.drawable.custom_pair_macaron;
                 buttonGraphic[8] = R.drawable.custom_pair_pancake;
+                if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+                    buttonGraphictexts[0] = "brownies";
+                    buttonGraphictexts[1] = "cakes";
+                    buttonGraphictexts[2] = "candy";
+                    buttonGraphictexts[3] = "chocolate";
+                    buttonGraphictexts[4] = "cookies";
+                    buttonGraphictexts[5] = "donut";
+                    buttonGraphictexts[6] = "ice cream";
+                    buttonGraphictexts[7] = "macaroon";
+                    buttonGraphictexts[8] = "pancake";
+                }
                 break;
+        }
+    }
+    public String matchedWord(){
+        String[] matchedWord = { "awesome", "amazing", "excellent", "great", "matched", "incredible", "outstanding"};
+
+        Random rand = new Random();
+        int randIndex = rand.nextInt(matchedWord.length);
+
+        return matchedWord[randIndex];
+    }
+
+
+    public void speak(String text){
+        Handler handler = new Handler();
+        if(textToSpeech.isSpeaking()){
+            return;
+        }
+        else {
+            isBusy = true;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isBusy = false;
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+                }
+            }, 500);
         }
     }
 
     @Override
     public void onClick(View v) {
-        if(isBusy){ // มีการทำงานอยู่ไหม
+        if(isBusy || textToSpeech.isSpeaking()){ // มีการทำงานอยู่ไหม
             return;
         }
         MemoryButton button = (MemoryButton) v;
         if(button.isMatched) {
             return;
         }
-        if(selectedButton1 == null){ // ถ้ามันถูกกดแล้วไม่ busy และ ยังไม่ Mactch ให้มาเช็คว่ามีค่าใน bttn 1 หรือยัง
+        if(selectedButton1 == null ){ // ถ้ามันถูกกดแล้วไม่ busy และ ยังไม่ Mactch ให้มาเช็คว่ามีค่าใน bttn 1 หรือยัง
             selectedButton1 = button;
             selectedButton1.filpped();
+            if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+                speak(selectedButton1.getSymbol() + " " +selectedButton1.getPosition());
+            }
             return;
         }
         if(selectedButton1.getId() == button.getId()){
@@ -267,8 +364,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         // วนเช็คว่า
 
-        if(selectedButton1.getFrontDrawableId() == button.getFrontDrawableId()){ // matched
+        if(selectedButton1.getFrontDrawableId() == button.getFrontDrawableId() ){ // matched
+            // flipped the second one to user
             button.filpped();
+            // speak if in Accessibility mode
+            if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+                speak(button.getSymbol() + " " + button.getPosition());
+                speak(matchedWord());
+            }
+
 
             selectedButton1.setMatched(true); // บอกว่ามันถูกจับคู่แล้ว
             button.setMatched(true);
@@ -283,36 +387,51 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             selectedButton1 = null; // ให้มันไปชี้ null เพื่อรอรับค่าใหม่
 
+            // วนเช็คว่าทุก button == true แล้ว
+            if(checkAllMatched() == true ){
+                textToSpeech.shutdown();
+                Intent intent = new Intent(this, EndgameActivity.class);
+                intent.putExtra("TIME_SCORE",getTimerText());
+                intent.putExtra("MODE",mode);
+                finish();
+                startActivity(intent);
+            }
 
 
         }
-        else { // not matched
-            selectedButton2 = button;
+        else {  // not matched
 
-            selectedButton2.filpped();
-            isBusy = true;
+            if(textToSpeech.isSpeaking()) {
+                return;
+            }
 
-            final Handler handler = new Handler();
+            else {
+                selectedButton2 = button;
 
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    selectedButton1.filpped();
-                    selectedButton2.filpped();
-                    selectedButton1 = null;
-                    selectedButton2 = null;
-                    isBusy = false;  // delay จบแล้ว
+                selectedButton2.filpped();
+                // speak
+                if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+                    speak(selectedButton2.getSymbol() + " " + selectedButton2.getPosition());
+                    // speak not matched
+                    speak("not matched");
                 }
-            }, 500);
+
+                isBusy = true;
+
+                final Handler handler = new Handler();
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        selectedButton1.filpped();
+                        selectedButton2.filpped();
+                        selectedButton1 = null;
+                        selectedButton2 = null;
+                        isBusy = false;  // delay จบแล้ว
+                    }
+                }, 500);
+            }
         }
 
-        // วนเช็คว่าทุก button == true แล้ว
-        if(checkAllMatched() == true){
-            Intent intent = new Intent(this, EndgameActivity.class);
-            intent.putExtra("TIME_SCORE",getTimerText());
-            intent.putExtra("MODE",mode);
-            finish();
-            startActivity(intent);
-        }
     }
 }

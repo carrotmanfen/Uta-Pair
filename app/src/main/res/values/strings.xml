@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Uta Pair</string>
     <string name="login_btn">Login</string>
+    <string name="accessibility_service_label">Uta Service</string>
 
     <string-array name="level">
         <item> EASY </item>

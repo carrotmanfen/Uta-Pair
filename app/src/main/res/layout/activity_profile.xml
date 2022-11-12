@@ -57,9 +57,21 @@
             android:layout_gravity="center"
             android:layout_marginBottom="0sp"
             android:fontFamily="@font/impact"
-            android:text="NAME: SPRINT"
+            android:text="NAME :"
             android:textColor="@color/white"
             android:textSize="32sp" />
+        <TextView
+            android:id="@+id/changename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10sp"
+            android:layout_marginBottom="0sp"
+            android:fontFamily="@font/impact"
+            android:text="yname"
+            android:textSize="32sp"
+            android:textColor="@color/white" />
+
 
         <ImageButton
             android:id="@+id/editname_btn"

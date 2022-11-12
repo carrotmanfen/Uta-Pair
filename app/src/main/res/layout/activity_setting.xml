@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
+            android:layout_marginBottom="40sp"
             android:text="SETTING"
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
@@ -52,10 +52,9 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  MUSIC"
-            android:textSize="32sp"
-            android:onClick="onCheckboxClicked"/>
+            android:textSize="32sp" />
 
-        <CheckBox android:id="@+id/vibration_checkbox"
+        <CheckBox android:id="@+id/accessibility_checkbox"
             android:buttonTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,22 +63,8 @@
             android:layout_marginBottom="20sp"
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
-            android:text="  VIBRATION"
-            android:textSize="32sp"
-            android:onClick="onCheckboxClicked"/>
-
-        <CheckBox android:id="@+id/sound_click_checkbox"
-            android:buttonTint="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70sp"
-            android:layout_marginRight="70sp"
-            android:layout_marginBottom="20sp"
-            android:fontFamily="@font/impact"
-            android:textColor="@color/white"
-            android:text="  SOUND CLICK"
-            android:textSize="32sp"
-            android:onClick="onCheckboxClicked"/>
+            android:text="  ACCESSIBILITY"
+            android:textSize="32sp" />
 
         <CheckBox android:id="@+id/blind_mode_checkbox"
             android:buttonTint="@color/white"
@@ -91,8 +76,7 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  BLIND MODE"
-            android:textSize="32sp"
-            android:onClick="onCheckboxClicked"/>
+            android:textSize="32sp" />
 
         <TextView
             android:layout_width="wrap_content"
