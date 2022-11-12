@@ -2,6 +2,7 @@ package com.example.utapair;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -50,6 +51,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle saveInstanceState){
@@ -69,6 +72,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         gridLayout.setUseDefaultMargins(true);    /* use grid default if want to special must implement*/
         numberOfElements = numRows * numColumns;   /* set number of all element pair_item */
+
+        setMusic();
 
         button = new MemoryButton[numberOfElements];    /* create MemoryButton objects same number of element */
 
@@ -185,6 +190,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     /* method to pause game */
     public void pauseGame(){
+
+        /* stop music */
+        mediaPlayer.stop();
+
         /* set id of dialog */
         dialogBuilder = new AlertDialog.Builder(this,R.style.dialog);
         final View popupView = getLayoutInflater().inflate(R.layout.popup_game_pause,null);     /* set layout of dialog */
@@ -221,6 +230,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                             else if(tapCount==2){
                                 startTimer();       /* continuous timer */
                                 dialog.dismiss();       /* close dialog */
+                                mediaPlayer.start();   /* continue music */
 
                             }
                             tapCount = 0;   /* reset tapCount */
@@ -230,6 +240,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 else {
                     startTimer();       /* continuous timer */
                     dialog.dismiss();       /* close dialog */
+                    mediaPlayer.start(); /* continue music */
                 }
             }
         });
@@ -266,9 +277,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+    /* set music when user play a game */
+    public void setMusic(){
+        mediaPlayer = MediaPlayer.create(this, R.raw.in_game); //*** put the music here !!!
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
 
     /* method go to MainActivity */
     public void openMainActivity(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this,MainActivity.class);
         finish();
         startActivity(intent);
@@ -297,6 +316,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     /* method to restart game */
     public void playAgain(){
+        mediaPlayer.stop();
         finish();
         startActivity(getIntent());
     }
@@ -513,6 +533,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             if(checkAllMatched() == true ){
                 /* end game and go to EndgameActivity */
                 textToSpeech.shutdown();
+                mediaPlayer.stop();
                 Intent intent = new Intent(this, EndgameActivity.class);
                 intent.putExtra("TIME_SCORE",getTimerText());
                 intent.putExtra("MODE",mode);

@@ -1,5 +1,7 @@
 package com.example.utapair;
 
+import android.media.MediaPlayer;
+
 public class MusicMode {
     private static MusicMode instance;
 
