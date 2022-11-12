@@ -44,7 +44,7 @@
         android:textSize="24sp"
         android:textColor="@color/purple_100"
         android:textAlignment="center"
-        android:text="NAME"
+        android:text=""
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <LinearLayout
