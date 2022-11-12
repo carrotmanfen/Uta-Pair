@@ -108,7 +108,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         recyclerView.setAdapter(scoreboardRecyclerAdapter);
     }
 
-    public void setUserInfo(){
+    public void setUserInfo(String buttonLevel){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
 
@@ -177,7 +177,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 }
             }
         scoreboardUserList.clear();
-        setUserInfo();
+        setUserInfo(buttonLevel);
         setAdapter();
     }
 
