@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -132,14 +134,28 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         popupCancelButton = popupView.findViewById(R.id.cancel_popup_btn);
         popupConfirmButton = popupView.findViewById(R.id.confirm_popup_btn);
 
+        sh = getSharedPreferences("mySharedPref", Context.MODE_PRIVATE);
+        editor = sh.edit();
+        saveName = sh.getString("saved_Name","");
+        popupEditText.setText(saveName);
+
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();
         dialog.show();
 
+        StrictMode.enableDefaults(); /* this is enable thread policy to call internet service with one or more application as same */
         popupConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    String newusername  = popupEditText.getText().toString();
 
+                    Toast.makeText(getApplicationContext(),"Update Name",Toast.LENGTH_SHORT).show();
+                    Log.e("pass 1", "connection success ");
+                }catch (Exception e){ /* error then here */
+                    Log.e("Fail 1", e.toString());
+                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
