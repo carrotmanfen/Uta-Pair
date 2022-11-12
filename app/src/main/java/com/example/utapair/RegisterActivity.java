@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ImageButton buttonBack;
     private String Username, Password, rePassword, blindMode;
     /* Connect server */
-    private String URL = "https://dd07-183-88-63-158.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://a11f-2001-fb1-b3-7432-2dee-b5c2-f14d-cdb0.ap.ngrok.io/RegisterLogin/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -133,14 +133,14 @@ public class RegisterActivity extends AppCompatActivity {
 
             public void onResponse(String response) {
 
-                if (response.equals("success")) {
+                if (response.equals("SUCCESS")) {
                     /* Pop up Success */
                     Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     openAccountActivity();
-                } else if (response.equals("failure")) {
-                    /* If response is failure show pop up "Something wrong!. Please try again later" */
+                } else if (response.equals("FAILURE")) {
+                    /* If response is FAILURE show pop up "Something wrong!. Please try again later" */
                     Toast.makeText(RegisterActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
-                } else if (response.equals("exist")) {
+                } else if (response.equals("EXIST")) {
                     /* make the text below username text box be
                      * This username is already used by someone
                      * else and set the border of username text box be red */
@@ -160,9 +160,9 @@ public class RegisterActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 /* Put data to check with php */
                 Map<String, String> data = new HashMap<>();
-                data.put("username", Username);
-                data.put("password", Password);
-                data.put("blind", blindMode);
+                data.put("USERNAME", Username);
+                data.put("PASSWORD", Password);
+                data.put("BLIND", blindMode);
                 return data;
             }
         };

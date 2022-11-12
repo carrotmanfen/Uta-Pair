@@ -11,8 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    /* Declare variables */
     private ArrayList<ProfileUser> profileUserList;
     private RecyclerView recyclerView;
     private ImageButton editProfileButton;
@@ -46,12 +45,13 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
-    private String saveName,sample,newUsername;
-    private TextView profileName;
+    private String saveName,newUsername;
+    private TextView textViewProfileName;
     Button buttonLogout;
     SharedPreferences sh;
     SharedPreferences.Editor editor;
-    private String URL = "https://6acd-2001-fb1-b3-7432-2dee-b5c2-f14d-cdb0.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    /* Connect Server */
+    private String URL = "https://a11f-2001-fb1-b3-7432-2dee-b5c2-f14d-cdb0.ap.ngrok.io/RegisterLogin/checkNewName.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,21 +59,25 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_profile);
         sh = getSharedPreferences("mySharedPref", Context.MODE_PRIVATE);
         editor = sh.edit();
-        saveName = sh.getString("saved_Name","");
-        profileName = findViewById(R.id.changename);
-        profileName.setText(saveName);
+        saveName = sh.getString("SAVED_NAME","");
+        textViewProfileName = findViewById(R.id.changename);
+        textViewProfileName.setText(saveName);
         buttonLogout = findViewById(R.id.logout_btn);
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editor.clear();
-                editor.commit();
- /* sample = sh.getString("saved_Name",""); */
-                if(sh.contains("saved_Name")){
+                editor.clear(); /* Clear data in sh SharedPreference */
+                editor.commit(); /* Commit change to sh SharedPreference */
+                /* sh SharedPreference doesn't clear the data */
+                if(sh.contains("SAVED_NAME")){
+                    /* Pop up logout unsuccessfully */
                     Toast.makeText(ProfileActivity.this, "Logout unsuccessfully", Toast.LENGTH_SHORT).show();
                 }
+                /* sh SharedPreference data is cleared */
                 else {
+                    /* Pop up logout successfully */
                     Toast.makeText(ProfileActivity.this, "Logout Successfully ", Toast.LENGTH_SHORT).show();
+                    /* Navigate to MainActivity page */
                     Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -98,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* Use function Editname() */
                 EditName();
             }
         });
@@ -106,6 +111,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         buttonScoreboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* If click scoreboard button will openScoreboardActivity */
                 openScoreboardActivity();
             }
         });
@@ -114,6 +120,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         buttonSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* If click setting button will openSettingActivity */
                 openSettingActivity();
             }
         });
@@ -122,55 +129,56 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* If click back button will navigate to previous page */
                 onBackPressed();
             }
         });
     }
-
+    /* This function use to navigate to ScoreboardActivity page*/
     public void openScoreboardActivity(){
         Intent intent=new Intent(this, ScoreboardActivity.class);
         finish();
         startActivity(intent);
     }
-
+    /* This function use to navigate to SettingActivity page*/
     public void openSettingActivity(){
         Intent intent=new Intent(this, SettingActivity.class);
         finish();
         startActivity(intent);
     }
-
+    /* This function use to pop up interface for user to editname */
     public void EditName(){
+        /* Declare variables */
         dialogBuilder = new AlertDialog.Builder(this,R.style.dialog);
         final View popupView = getLayoutInflater().inflate(R.layout.popup_edit_name,null);
         popupEditText = popupView.findViewById(R.id.new_name_edittext);
         popupCancelButton = popupView.findViewById(R.id.cancel_popup_btn);
         popupConfirmButton = popupView.findViewById(R.id.confirm_popup_btn);
-
         sh = getSharedPreferences("mySharedPref", Context.MODE_PRIVATE);
         editor = sh.edit();
-        saveName = sh.getString("saved_Name","");
+        saveName = sh.getString("SAVED_NAME","");
         popupEditText.setText(saveName);
-
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();
         dialog.show();
         popupConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newUsername = popupEditText.getText().toString();
-            /*  editor.putString("saved_Name",newUsername);
-                editor.commit();*/
-               if(newUsername == saveName ){
-                   Toast.makeText(ProfileActivity.this,"Nothing change",Toast.LENGTH_SHORT).show();
+                newUsername = popupEditText.getText().toString();
+                /* if the new input is match with the username that user use to logged in */
+               if(newUsername.equals(saveName)){
+                   Toast.makeText(ProfileActivity.this, " nothing change ",Toast.LENGTH_SHORT).show();
                }
+               /* if the new input is more than available size in database */
                else if (newUsername.length()>16){
                    Toast.makeText(ProfileActivity.this," cannot have username more than 16 character  ",Toast.LENGTH_SHORT).show();
                }
+               /* if the new input is empty */
                else if (newUsername.length()==0){
                    Toast.makeText(ProfileActivity.this," username cannot be empty ",Toast.LENGTH_SHORT).show();
                }
+               /* the new input is possible to change the username */
                else {
-                   /* Toast.makeText(ProfileActivity.this," Change successful ",Toast.LENGTH_SHORT).show(); */
                    changeUsername();
                }
             dialog.dismiss();
@@ -220,7 +228,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     }
     @Override
     public void onBackPressed(){
-        if(sh.contains("saved_Name")){
+        /* If still have logged in data */
+        if(sh.contains("SAVED_NAME")){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();}
@@ -236,33 +245,39 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
 
             public void onResponse(String response) {
-
-                if (response.equals("ablesuccess")) {
-                    /* Pop up Success */
-                    popupEditText.setText(newUsername);
-                    Toast.makeText(ProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                /* If the php response is ABLESUCCESS */
+                if (response.equals("ABLESUCCESS")) {
+                    editor.putString("SAVED_NAME",newUsername); /* Put the new input into SharedPreferences sh */
+                    editor.commit(); /* Commit SharedPreferences sh change */
+                    textViewProfileName.setText(newUsername); /* put the new username into interface in profile page */
+                    popupEditText.setText(newUsername); /* put the new username into text box on edit name pop up */
+                    Toast.makeText(ProfileActivity.this, "Success", Toast.LENGTH_SHORT).show(); /* Pop up Success */
                 }
-                else if (response.equals("ablefailure")) {
+                /* If the php response is ABLEFAILURE */
+                else if (response.equals("ABLEFAILURE")) {
                     /* Pop up Something wrong!. Please try again later */
                     Toast.makeText(ProfileActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
-                } else if (response.equals("exist")) {
-                    // make the text below username text box be This username is already used by someone else and set the border of username text box be red
+                }
+                /* If the php response is EXIST */
+                else if (response.equals("EXIST")) {
+                    /* Pop up This username used by someone else */
                     Toast.makeText(ProfileActivity.this," This username used by someone else  ",Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // When the error on response "Server pop up error. Please try again later"
-                Toast.makeText(ProfileActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                /* When the error on response "Server pop up error. Please try again later" */
+                Toast.makeText(ProfileActivity.this, "Server pop up error. Please try again later", Toast.LENGTH_LONG).show();
+
             }
-        }) {
+        }) { /* Pass data to php file */
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> data = new HashMap<>();
-                data.put("newUsername", newUsername);
-                data.put("oldUsername", saveName);
+                data.put("NEW_USERNAME", newUsername);
+                data.put("OLD_USERNAME", saveName);
                 return data;
             }
         };
