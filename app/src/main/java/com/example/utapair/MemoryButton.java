@@ -32,12 +32,13 @@ public class MemoryButton extends AppCompatButton {
         col = c;
         frontDrawableId = frontImageId;     /* declare id picture for known when they matching */
 
-        front = context.getDrawable(frontImageId);      /* set drawable in front */
         if(BlindMode.getInstance().getMode()=="BLIND") {       /* if BlindMode in back is pair item disable */
             back = context.getDrawable(R.drawable.custom_pair_item_disable);
+            front = context.getDrawable(R.drawable.custom_pair_item_disable);      /* set drawable in front */
         }
         else {      /* if BlindMod off in back is pair item */
             back = context.getDrawable(R.drawable.custom_pair_item); // ตรงนี้ต้องใส่ไปเลยให้ findviewbyId ของรูป background
+            front = context.getDrawable(frontImageId);      /* set drawable in front */
         }
         setBackground(back);    /* set background in to back*/
 
