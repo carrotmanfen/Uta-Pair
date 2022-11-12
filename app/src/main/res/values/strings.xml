@@ -4,7 +4,7 @@
     <string name="accessibility_service_label">Uta Service</string>
 
     <string-array name="level">
-        <item> EASY </item>
+        <item>EASY</item>
         <item>NORMAL</item>
         <item>HARD</item>
     </string-array>

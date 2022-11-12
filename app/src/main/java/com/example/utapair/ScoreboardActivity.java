@@ -43,7 +43,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonBack;
     private CheckBox buttonCheckbox;
     private String buttonLevel,checkboxBlind;
-
+    private RequestQueue mQueue;
     private String URL = "https://dd07-183-88-63-158.ap.ngrok.io/RegisterLogin/scoreboard.php";
 
     @Override
@@ -57,17 +57,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
         buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
-        buttonLevel="MAL04";
+        buttonLevel="";
         checkboxBlind="0";
-
+        mQueue = Volley.newRequestQueue(this);
         recyclerView = findViewById(R.id.scoreboard_recycler_view);
 
         scoreboardUserList = new ArrayList<>();
-        setUserInfo(buttonLevel);
-        setAdapter();
-
-
-
 
         buttonProfile = (ImageButton) findViewById(R.id.profile_btn);
         buttonProfile.setOnClickListener(new View.OnClickListener() {
@@ -105,44 +100,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         finish();
         startActivity(intent);
     }
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String level = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(),level,Toast.LENGTH_SHORT).show();
-        if(buttonCheckbox.isChecked()){
-            checkboxBlind = "true";
-        }else{
-            checkboxBlind = "false";
-        }
-        buttonLevel="";
-        if(checkboxBlind.equals("true")){
-            if(level.equals("EASY")){
-                buttonLevel="MAL01";
-            }
-            else if(level.equals("NORMAL")){
-                buttonLevel="MAL02";
-            }
-            else if(level.equals("HARD")){
-                buttonLevel="MAL03";
-            }
-        }
-        else if(checkboxBlind.equals("false")){
-            if(level.equals("EASY")){
-                buttonLevel="MAL04";
-            }
-            else if(level.equals("NORMAL")){
-                buttonLevel="MAL05";
-            }
-            else if(level.equals("HARD")){
-                buttonLevel="MAL06";
-            }
-        }
-
-        //setUserInfo(buttonLevel);
-        //setAdapter();
-        //scoreboardUserList.clear();
-    }
-
     private void setAdapter() {
         ScoreboardRecyclerAdapter scoreboardRecyclerAdapter = new ScoreboardRecyclerAdapter(scoreboardUserList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -157,18 +114,20 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
 
             public void onResponse(String response) {
                 try {
+                    scoreboardUserList.clear();
                     JSONArray products = new JSONArray(response);
-                    Toast.makeText(ScoreboardActivity.this, response, Toast.LENGTH_SHORT).show();
                     for(int i=0;i<products.length();i++){
                         JSONObject productobject = products.getJSONObject(i);
                         String username = productobject.getString("username");
                         String endTime = productobject.getString("endTime");
                         scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));
+                        setAdapter();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -187,11 +146,47 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String level = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(),level,Toast.LENGTH_SHORT).show();
+            if(buttonCheckbox.isChecked()){
+                checkboxBlind = "true";
+            }else{
+                checkboxBlind = "false";
+            }
+            buttonLevel="";
+            if(checkboxBlind.equals("true")){
+                if(level.equals("EASY")){
+                    buttonLevel="MAL01";
+                }
+                else if(level.equals("NORMAL")){
+                    buttonLevel="MAL02";
+                }
+                else if(level.equals("HARD")){
+                    buttonLevel="MAL03";
+                }
+            }
+            else if(checkboxBlind.equals("false")){
+                if(level.equals("EASY")){
+                    buttonLevel="MAL04";
+                }
+                else if(level.equals("NORMAL")){
+                    buttonLevel="MAL05";
+                }
+                else if(level.equals("HARD")){
+                    buttonLevel="MAL06";
+                }
+            }
+        setUserInfo(buttonLevel);
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+
 
 
 }
