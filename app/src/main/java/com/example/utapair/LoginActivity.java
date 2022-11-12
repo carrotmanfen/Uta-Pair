@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private ImageButton buttonBack;
 //  Connect Server
-    private String URL = "https://d806-183-88-35-84.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://9f47-202-28-7-98.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override

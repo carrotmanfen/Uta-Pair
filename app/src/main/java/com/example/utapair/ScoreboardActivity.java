@@ -1,5 +1,8 @@
 package com.example.utapair;
 
+import static java.lang.String.valueOf;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,11 +13,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScoreboardActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private ArrayList<ScoreboardUser> scoreboardUserList;
@@ -22,6 +41,10 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonProfile;
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
+    private CheckBox buttonCheckbox;
+    private String buttonLevel,checkboxBlind;
+    private RequestQueue mQueue;
+    private String URL = "https://6e33-202-28-7-117.ap.ngrok.io/RegisterLogin/scoreboard.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +56,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         adapter.setDropDownViewResource(R.layout.spinner_text_dropdown);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
+        buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
+        buttonLevel="";
+        checkboxBlind="0";
+        mQueue = Volley.newRequestQueue(this);
         recyclerView = findViewById(R.id.scoreboard_recycler_view);
 
         scoreboardUserList = new ArrayList<>();
-        setUserInfo();
-        setAdapter();
+
 
         buttonProfile = (ImageButton) findViewById(R.id.profile_btn);
         buttonProfile.setOnClickListener(new View.OnClickListener() {
@@ -84,28 +109,111 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         recyclerView.setAdapter(scoreboardRecyclerAdapter);
     }
 
-    private void setUserInfo() {
-        scoreboardUserList.add(new ScoreboardUser(1,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(2,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(3,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(4,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(5,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(6,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(7,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(8,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(9,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(10,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(1,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(1,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(1,"FEN","3:00"));
-        scoreboardUserList.add(new ScoreboardUser(1,"FEN","3:00"));
+//    private void setUserInfo_1() {
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        if (response.equals("failure")) {
+//                            Toast.makeText(ScoreboardActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else{
+//                            try {
+//                                JSONArray products = new JSONArray(response);
+//                                for(int i=0;i<products.length();i++){
+//                                    JSONObject productobject = products.getJSONObject(i);
+//                                    String username = productobject.getString("username");
+//                                    String endTime = productobject.getString("endTime");
+//                                    scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));
+//                                }
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(ScoreboardActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//        });
+//        Volley.newRequestQueue(this).add(stringRequest);
+//    }
 
+    public void setUserInfo(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+
+            public void onResponse(String response) {
+                try {
+                    JSONArray products = new JSONArray(response);
+                    for(int i=0;i<products.length();i++){
+                        JSONObject productobject = products.getJSONObject(i);
+                        String username = productobject.getString("username");
+                        String endTime = productobject.getString("endTime");
+                        scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ScoreboardActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> data = new HashMap<>();
+                data.put("Level", buttonLevel);
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String level = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),level,Toast.LENGTH_SHORT).show();
+        if(buttonCheckbox.isChecked()){
+            checkboxBlind = "true";
+        }else{
+            checkboxBlind = "false";
+        }
+        buttonLevel="";
+        if(checkboxBlind.equals("false")){
+            if(level.equals("EASY")){
+                buttonLevel="MAL04";
+            }
+            else if(level.equals("NORMAL")){
+                buttonLevel="MAL05";
+            }
+            else if(level.equals("HARD")){
+                buttonLevel="MAL06";
+            }
+        }
+        else if(checkboxBlind.equals("true")){
+            if(level.equals("EASY")){
+                buttonLevel="MAL01";
+            }
+            else if(level.equals("NORMAL")){
+                buttonLevel="MAL02";
+            }
+            else if(level.equals("HARD")){
+                buttonLevel="MAL03";
+            }
+        }
+        //addData();
+        setUserInfo();
+        setAdapter();
+
     }
 
     @Override
@@ -114,6 +222,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     }
 
 
-    public void onCheckboxClicked(View view) {
-    }
+
+
 }

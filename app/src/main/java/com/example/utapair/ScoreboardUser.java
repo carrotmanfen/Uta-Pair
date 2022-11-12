@@ -1,6 +1,6 @@
 package com.example.utapair;
 
-public class ScoreboardUser {
+public class   ScoreboardUser {
     private int number;
     private String username;
     private String time;
