@@ -44,7 +44,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private CheckBox buttonCheckbox;
     private String buttonLevel,checkboxBlind;
     private RequestQueue mQueue;
-    private String URL = "https://6e33-202-28-7-117.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String URL = "https://dd07-183-88-63-158.ap.ngrok.io/RegisterLogin/scoreboard.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         recyclerView = findViewById(R.id.scoreboard_recycler_view);
 
         scoreboardUserList = new ArrayList<>();
-
 
         buttonProfile = (ImageButton) findViewById(R.id.profile_btn);
         buttonProfile.setOnClickListener(new View.OnClickListener() {
@@ -109,39 +108,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         recyclerView.setAdapter(scoreboardRecyclerAdapter);
     }
 
-//    private void setUserInfo_1() {
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        if (response.equals("failure")) {
-//                            Toast.makeText(ScoreboardActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
-//                        }
-//                        else{
-//                            try {
-//                                JSONArray products = new JSONArray(response);
-//                                for(int i=0;i<products.length();i++){
-//                                    JSONObject productobject = products.getJSONObject(i);
-//                                    String username = productobject.getString("username");
-//                                    String endTime = productobject.getString("endTime");
-//                                    scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));
-//                                }
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(ScoreboardActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//        });
-//        Volley.newRequestQueue(this).add(stringRequest);
-//    }
-
     public void setUserInfo(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
@@ -182,38 +148,37 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String level = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),level,Toast.LENGTH_SHORT).show();
-        if(buttonCheckbox.isChecked()){
-            checkboxBlind = "true";
-        }else{
-            checkboxBlind = "false";
-        }
-        buttonLevel="";
-        if(checkboxBlind.equals("false")){
-            if(level.equals("EASY")){
-                buttonLevel="MAL04";
+            if(buttonCheckbox.isChecked()){
+                checkboxBlind = "true";
+            }else{
+                checkboxBlind = "false";
             }
-            else if(level.equals("NORMAL")){
-                buttonLevel="MAL05";
+            buttonLevel="";
+            if(checkboxBlind.equals("true")){
+                if(level.equals("EASY")){
+                    buttonLevel="MAL01";
+                }
+                else if(level.equals("NORMAL")){
+                    buttonLevel="MAL02";
+                }
+                else if(level.equals("HARD")){
+                    buttonLevel="MAL03";
+                }
             }
-            else if(level.equals("HARD")){
-                buttonLevel="MAL06";
+            else if(checkboxBlind.equals("false")){
+                if(level.equals("EASY")){
+                    buttonLevel="MAL04";
+                }
+                else if(level.equals("NORMAL")){
+                    buttonLevel="MAL05";
+                }
+                else if(level.equals("HARD")){
+                    buttonLevel="MAL06";
+                }
             }
-        }
-        else if(checkboxBlind.equals("true")){
-            if(level.equals("EASY")){
-                buttonLevel="MAL01";
-            }
-            else if(level.equals("NORMAL")){
-                buttonLevel="MAL02";
-            }
-            else if(level.equals("HARD")){
-                buttonLevel="MAL03";
-            }
-        }
-        //addData();
+        scoreboardUserList.clear();
         setUserInfo();
         setAdapter();
-
     }
 
     @Override
