@@ -177,7 +177,6 @@
             android:textSize="32sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp"
-            android:onClick="signup"
             />
 
     </LinearLayout>
