@@ -176,9 +176,9 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                     buttonLevel="MAL06";
                 }
             }
-        scoreboardUserList.clear();
-        setUserInfo();
-        setAdapter();
+            setUserInfo();
+            setAdapter();
+            //scoreboardUserList.clear();
     }
 
     @Override
