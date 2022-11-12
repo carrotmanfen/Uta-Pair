@@ -246,6 +246,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /* method to speak failed register */
     public void sayFailed(){
         if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
             String text = "register failed";
