@@ -6,73 +6,103 @@ import android.widget.GridLayout;
 
 import androidx.appcompat.widget.AppCompatButton;
 
-
+/* this class is about button pair in game
+* it will have 2 face and it  can flip */
 public class MemoryButton extends AppCompatButton {
-    // attributes
+    /* attributes */
     protected int row;
     protected int col;
     protected int frontDrawableId;
 
-    protected boolean isFilpped = false;
+    protected boolean isFlipped = false;
     protected boolean isMatched = false;
 
     protected Drawable front;
     protected Drawable back;
 
-    // for accessibility
+    /* for accessibility */
     protected String symbol;
     protected String position;
 
-    // constructor
-    public MemoryButton(Context context, int r, int c, int frontImageId){ // give position(r,c) and id of image in drawable source of gridlayout first
+    /* constructor */
+    public MemoryButton(Context context, int r, int c, int frontImageId){    /* give position(r,c) and id of image in drawable source of gridlayout first */
         super(context);
 
         row = r;
         col = c;
-        frontDrawableId = frontImageId; // declare id picture for known when they matching
+        frontDrawableId = frontImageId;     /* declare id picture for known when they matching */
 
-        front = context.getDrawable(frontImageId);
-        if(BlindMode.getInstance().getMode()=="BLIND") {
+        front = context.getDrawable(frontImageId);      /* set drawable in front */
+        if(BlindMode.getInstance().getMode()=="BLIND") {       /* if BlindMode in back is pair item disable */
             back = context.getDrawable(R.drawable.custom_pair_item_disable);
         }
-        else {
+        else {      /* if BlindMod off in back is pair item */
             back = context.getDrawable(R.drawable.custom_pair_item); // ตรงนี้ต้องใส่ไปเลยให้ findviewbyId ของรูป background
         }
-        setBackground(back);
+        setBackground(back);    /* set background in to back*/
 
-        GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(r),GridLayout.spec(c)); // it tell position of grid
+        GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(r),GridLayout.spec(c)); /* it tell position of grid */
 
+        /* set dimension and density*/
         tempParams.width = (int) getResources().getDisplayMetrics().density * 120;
         tempParams.height = (int) getResources().getDisplayMetrics().density * 120;
-
         setLayoutParams(tempParams);
+
     }
+
+    /* method to check Matched */
     public boolean isMatched(){
         return  isMatched;
     }
+
+    /* method to setMatched */
     public void setMatched(boolean isMatched){
         this.isMatched = isMatched;
     }
+
+    /* method to get drawable from attribute */
     public int getFrontDrawableId(){
         return frontDrawableId;
     }
-    public void filpped(){
+
+    /* method to flip face of pair item */
+    public void flipped(){
+        /* if Matched return */
         if(isMatched){
             return;
         }
-        if(isFilpped){ // true -> filpped
-            setBackground(back);
-            isFilpped = false;
+        /* isFlipped was true flipped */
+        if(isFlipped){
+            setBackground(back);     /* set background to back */
+            isFlipped = false;    /* set flip to false */
         }
-        else { // false -> flipped
-            setBackground(front);
-            isFilpped = true;
+        else { /* false then flipped */
+            setBackground(front);     /* set background to font */
+            isFlipped = true;    /* set flip to true */
         }
     }
-    public void setSymbol(String symbol) { this.symbol = symbol; }
-    public String getSymbol(){ return this.symbol; }
-    public void setPosition(int row, int col) { this.position = "row " + String.valueOf(row) + " column " + String.valueOf(col); }
-    public String getPosition(){ return this.position; }
+
+    /* method to set symbol */
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    /* method to get data from attribute symbol */
+    public String getSymbol(){
+        return this.symbol;
+    }
+
+    /* method to set position row and position column */
+    public void setPosition(int row, int col) {
+        this.position = "row " + String.valueOf(row) + " column " + String.valueOf(col);
+    }
+
+    /* method to get data from attribute position */
+    public String getPosition(){
+        return this.position;
+    }
+
+    /* method to set background */
     public void setBackGroundButton(Drawable background){
         setBackground(background);
     }
