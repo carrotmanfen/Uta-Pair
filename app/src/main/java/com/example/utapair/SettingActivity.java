@@ -45,9 +45,15 @@ public class SettingActivity extends AppCompatActivity {
         buttonBack = findViewById(R.id.backward_btn);
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            /* set when click buttonBack go back to previous Activity */
+            /* set when click button go to previous activity */
             public void onClick(View view) {
-                onBackPressed();        /* go back to previous Activity */
+                /* use method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    onBackPressedAccessibility();
+                }
+                else {
+                    onBackPressed();        /* go to previous activity */
+                }
             }
         });
 
@@ -366,6 +372,27 @@ public class SettingActivity extends AppCompatActivity {
                 /* if double tap in time start ScoreboardActivity */
                 else if(tapCount==2){
                     openScoreboardActivity();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
+    }
+
+    /* method to go to previous activity with AccessibilityMode */
+    public void onBackPressedAccessibility(){
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /* if a tap play sound */
+                if (tapCount==1){
+                    String text = "double tap to go back";
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time start GameActivity */
+                else if(tapCount==2){
+                    onBackPressed();
                 }
                 tapCount = 0;   /* reset tapCount */
             }

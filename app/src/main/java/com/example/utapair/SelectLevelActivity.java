@@ -125,9 +125,9 @@ public class SelectLevelActivity extends AppCompatActivity {
     public void openEasyGameActivity(){
         /* set data mode layout_id and grid_id to GameActivity with putExtra */
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("mode", -1);
-        intent.putExtra("layout_id", R.layout.activity_game_easy2);
-        intent.putExtra("grid_id", R.id.GridLayout_easy);
+        intent.putExtra("MODE", -1);
+        intent.putExtra("LAYOUT_ID", R.layout.activity_game_easy2);
+        intent.putExtra("GRID_ID", R.id.GridLayout_easy);
         startActivity(intent);
     }
 
@@ -156,9 +156,9 @@ public class SelectLevelActivity extends AppCompatActivity {
     public void openNormalGameActivity(){
         /* set data mode layout_id and grid_id to GameActivity with putExtra */
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("mode", 0);
-        intent.putExtra("layout_id", R.layout.activity_game_normal);
-        intent.putExtra("grid_id",R.id.GridLayout_meduim);
+        intent.putExtra("MODE", 0);
+        intent.putExtra("LAYOUT_ID", R.layout.activity_game_normal);
+        intent.putExtra("GRID_ID",R.id.GridLayout_meduim);
         startActivity(intent);
     }
 
@@ -187,9 +187,9 @@ public class SelectLevelActivity extends AppCompatActivity {
     public void openHardGameActivity(){
         /* set data mode layout_id and grid_id to GameActivity with putExtra */
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("mode", 1);
-        intent.putExtra("layout_id", R.layout.activity_game_hard);
-        intent.putExtra("grid_id",R.id.GridLayout_hard);
+        intent.putExtra("MODE", 1);
+        intent.putExtra("LAYOUT_ID", R.layout.activity_game_hard);
+        intent.putExtra("GRID_ID",R.id.GridLayout_hard);
         startActivity(intent);
     }
 
