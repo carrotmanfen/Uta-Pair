@@ -114,12 +114,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
 
             public void onResponse(String response) {
                 try {
+                    scoreboardUserList.clear();
                     JSONArray products = new JSONArray(response);
                     for(int i=0;i<products.length();i++){
                         JSONObject productobject = products.getJSONObject(i);
                         String username = productobject.getString("username");
                         String endTime = productobject.getString("endTime");
                         scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));
+                        setAdapter();
                     }
 
                 } catch (JSONException e) {
@@ -176,9 +178,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                     buttonLevel="MAL06";
                 }
             }
-        scoreboardUserList.clear();
         setUserInfo(buttonLevel);
-        setAdapter();
     }
 
     @Override
