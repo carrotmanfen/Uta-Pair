@@ -1,9 +1,10 @@
 package com.example.utapair;
-
 /* this class is about MusicMode
  * this class will collect mode
  * and in can have only one object
  * (singleton pattern) */
+
+
 public class MusicMode {
     private static MusicMode instance;
     /* if do not have MusicMode object new MusicModeMode object
