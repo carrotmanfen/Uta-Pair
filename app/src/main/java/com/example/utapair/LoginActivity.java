@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     /* Connect Server */
-    private String URL = "https://9085-124-120-5-1.ap.ngrok.io/UTA/checkLogin.php";
+    private String URL = "https://6acd-2001-fb1-b3-7432-2dee-b5c2-f14d-cdb0.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override
