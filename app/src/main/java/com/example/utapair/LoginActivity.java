@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor myEdit;
 
     /* Connect Server */
-    private String URL = "https://da32-2001-fb1-b3-7432-f577-2fe9-f79-d3ad.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://f373-14-207-1-150.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -28,6 +29,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,14 +50,15 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
-    private String saveName,newUsername;
+    private String saveName,newUsername,buttonLevel;
     private TextView textViewProfileName;
+    private CheckBox buttonCheckbox;
     Button buttonLogout;
     SharedPreferences sh;
     SharedPreferences.Editor editor;
     /* Connect Server */
-    private String URL = "https://da32-2001-fb1-b3-7432-f577-2fe9-f79-d3ad.ap.ngrok.io/RegisterLogin/checkNewName.php";
-
+    private String URL = "https://f373-14-207-1-150.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://f373-14-207-1-150.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         textViewProfileName = findViewById(R.id.changename);
         textViewProfileName.setText(saveName);
         buttonLogout = findViewById(R.id.logout_btn);
+        /* set checkbox for BlindMode */
+        buttonCheckbox = findViewById(R.id.modeblind_checkbox);
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,8 +103,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         recyclerView = findViewById(R.id.profile_recycler_view);
 
         profileUserList = new ArrayList<>();
-        setUserInfo();
-        setAdapter();
 
         editProfileButton = findViewById(R.id.editname_btn);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -202,14 +208,50 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         recyclerView.setAdapter(profileRecyclerAdapter);
     }
 
-    private void setUserInfo() {
-        profileUserList.add(new ProfileUser(1,10,"3:00"));
-        profileUserList.add(new ProfileUser(2,12,"3:00"));
-        profileUserList.add(new ProfileUser(3,18,"3:00"));
-        profileUserList.add(new ProfileUser(4,21,"3:00"));
-        profileUserList.add(new ProfileUser(5,23,"3:00"));
-        profileUserList.add(new ProfileUser(6,28,"3:00"));
-        profileUserList.add(new ProfileUser(7,30,"3:00"));
+    private void setUserInfo(String buttonLevel) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, scoreboardURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(response.equals("FAILURE")){
+                    profileUserList.clear();
+                    setAdapter();
+                    Toast.makeText(ProfileActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    try {
+                        profileUserList.clear();     /* clear data */
+                        JSONArray products = new JSONArray(response);
+                        for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
+                            JSONObject productobject = products.getJSONObject(i);
+                            Integer row_index = productobject.getInt("row_index");
+                            String endTime = productobject.getString("endTime");
+                            profileUserList.add(new ProfileUser(i+1,row_index,endTime));       /* add data from database */
+                            setAdapter();       /* show in recyclerView */
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {    /* if error */
+                Toast.makeText(ProfileActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Nullable
+            @Override
+            /* get data that use in database */
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> data = new HashMap<>();
+                data.put("Level", buttonLevel);     /* put level to database */
+                data.put("username",saveName);
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
 
     }
 
@@ -217,6 +259,32 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String level = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),level,Toast.LENGTH_SHORT).show();
+        /* set button level follow mode and level to put this data in to database */
+        if(buttonCheckbox.isChecked()){
+            if(level.equals("EASY")){
+                buttonLevel="MAL01";
+            }
+            else if(level.equals("NORMAL")){
+                buttonLevel="MAL02";
+            }
+            else if(level.equals("HARD")){
+                buttonLevel="MAL03";
+            }
+        }
+        else{
+            if(level.equals("EASY")){
+                buttonLevel="MAL04";
+            }
+            else if(level.equals("NORMAL")){
+                buttonLevel="MAL05";
+            }
+            else if(level.equals("HARD")){
+                buttonLevel="MAL06";
+            }
+        }
+        /* collect data from database */
+        setUserInfo(buttonLevel);
+
     }
 
     @Override

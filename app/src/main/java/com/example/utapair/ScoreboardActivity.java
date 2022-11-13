@@ -50,7 +50,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private String buttonLevel;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
-    private String URL = "https://fc55-202-28-7-117.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String URL = "https://f373-14-207-1-150.ap.ngrok.io/RegisterLogin/scoreboard.php";
 
     @Override
     /* this part will run when create this Activity */
@@ -244,21 +244,26 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
-                    scoreboardUserList.clear();     /* clear data */
-                    JSONArray products = new JSONArray(response);
-                    for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
-                        JSONObject productobject = products.getJSONObject(i);
-                        String username = productobject.getString("username");
-                        String endTime = productobject.getString("endTime");
-                        scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));       /* add data from database */
-                        setAdapter();       /* show in recyclerView */
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(response.equals("FAILURE")){
+                    scoreboardUserList.clear();
+                    setAdapter();
+                    Toast.makeText(ScoreboardActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
                 }
-
+                else {
+                    try {
+                        scoreboardUserList.clear();     /* clear data */
+                        JSONArray products = new JSONArray(response);
+                            for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
+                                JSONObject productobject = products.getJSONObject(i);
+                                String username = productobject.getString("username");
+                                String endTime = productobject.getString("endTime");
+                                scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));       /* add data from database */
+                                setAdapter();       /* show in recyclerView */
+                            }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }, new Response.ErrorListener() {
             @Override
