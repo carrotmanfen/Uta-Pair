@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
     /* method to start AccountActivity */
     public void openAccountActivity(){
         /* if user has logged in then go to Profile page */
-        if(sh.contains("saved_Name")){
+        if(sh.contains("SAVED_NAME")){
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
         }

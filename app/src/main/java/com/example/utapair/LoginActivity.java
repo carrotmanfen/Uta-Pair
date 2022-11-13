@@ -111,9 +111,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 /* If response is success */
                 if (response.equals("SUCCESS")) {
-                    String save_name = name.getText().toString();
+                    String saveName = name.getText().toString();
                     String save_password = password.getText().toString();
-                    myEdit.putString("SAVED_NAME", save_name);
+                    myEdit.putString("SAVED_NAME", saveName);
                     myEdit.putString("SAVED_PASSWORD", save_password);
                     myEdit.commit();
 
