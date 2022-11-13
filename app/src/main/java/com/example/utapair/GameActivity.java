@@ -73,7 +73,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         gridLayout.setUseDefaultMargins(true);    /* use grid default if want to special must implement*/
         numberOfElements = numRows * numColumns;   /* set number of all element pair_item */
 
-        setMusic();
+
+        /* set music when playing game */
+        if(MusicMode.getInstance().getMode() == "MUSIC") {
+            setMusic();
+        }
+
 
         button = new MemoryButton[numberOfElements];    /* create MemoryButton objects same number of element */
 
@@ -192,7 +197,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void pauseGame(){
 
         /* stop music */
-        mediaPlayer.stop();
+        mediaPlayer.pause();
 
         /* set id of dialog */
         dialogBuilder = new AlertDialog.Builder(this,R.style.dialog);
@@ -230,7 +235,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                             else if(tapCount==2){
                                 startTimer();       /* continuous timer */
                                 dialog.dismiss();       /* close dialog */
-                                mediaPlayer.start();   /* continue music */
+                                mediaPlayer.start(); /* continue music */
 
                             }
                             tapCount = 0;   /* reset tapCount */
@@ -481,6 +486,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 500);
         }
+    }
+    @Override
+    public void onBackPressed(){
+        if(MusicMode.getInstance().getMode() == "MUSIC") {
+            mediaPlayer.stop(); /*stop the music*/
+        }
+        super.onBackPressed(); /* Back to the previous activity*/
     }
 
     @Override
