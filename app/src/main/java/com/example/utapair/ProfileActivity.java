@@ -51,13 +51,13 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     SharedPreferences sh;
     SharedPreferences.Editor editor;
     /* Connect Server */
-    private String URL = "https://a11f-2001-fb1-b3-7432-2dee-b5c2-f14d-cdb0.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String URL = "https://da32-2001-fb1-b3-7432-f577-2fe9-f79-d3ad.ap.ngrok.io/RegisterLogin/checkNewName.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        sh = getSharedPreferences("mySharedPref", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
         editor = sh.edit();
         saveName = sh.getString("SAVED_NAME","");
         textViewProfileName = findViewById(R.id.changename);
@@ -154,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         popupEditText = popupView.findViewById(R.id.new_name_edittext);
         popupCancelButton = popupView.findViewById(R.id.cancel_popup_btn);
         popupConfirmButton = popupView.findViewById(R.id.confirm_popup_btn);
-        sh = getSharedPreferences("mySharedPref", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
         editor = sh.edit();
         saveName = sh.getString("SAVED_NAME","");
         popupEditText.setText(saveName);
@@ -164,6 +164,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         popupConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* get new username input from text box */
                 newUsername = popupEditText.getText().toString();
                 /* if the new input is match with the username that user use to logged in */
                if(newUsername.equals(saveName)){

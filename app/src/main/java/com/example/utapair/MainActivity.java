@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         /* set SharedPreference */
-        sh = getSharedPreferences("mySharedPref", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
         /* set buttonPlay */
         buttonPlay = (Button) findViewById(R.id.play_btn);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
