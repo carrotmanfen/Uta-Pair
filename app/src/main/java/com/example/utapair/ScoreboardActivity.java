@@ -48,10 +48,9 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonBack;
     private CheckBox buttonCheckbox;
     private String buttonLevel;
-    private RequestQueue mQueue;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
-    private String URL = "https://dd07-183-88-63-158.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String URL = "https://fc55-202-28-7-117.ap.ngrok.io/RegisterLogin/scoreboard.php";
 
     @Override
     /* this part will run when create this Activity */
@@ -68,9 +67,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
 
         /* set checkbox for BlindMode */
         buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
-
-        /* for pull data from database */
-        mQueue = Volley.newRequestQueue(this);
 
         /* for keep data and show in recyclerView */
         recyclerView = findViewById(R.id.scoreboard_recycler_view);
@@ -249,7 +245,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onResponse(String response) {
                 try {
-                    scoreboardUserList.clear();     /* clear date */
+                    scoreboardUserList.clear();     /* clear data */
                     JSONArray products = new JSONArray(response);
                     for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
                         JSONObject productobject = products.getJSONObject(i);

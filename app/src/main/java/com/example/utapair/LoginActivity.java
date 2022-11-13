@@ -36,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myEdit;
 
-
     /* Connect Server */
     private String URL = "https://a11f-2001-fb1-b3-7432-2dee-b5c2-f14d-cdb0.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
