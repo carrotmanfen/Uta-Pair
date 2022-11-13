@@ -91,7 +91,7 @@ public class SettingActivity extends AppCompatActivity {
 
         /* set checkBoxMusicMode */
         checkBoxMusicMode = findViewById(R.id.music_checkbox);
-        checkBoxMusicMode.setChecked(MusicMode.getInstance().getMode()=="VIBRATION");       /* set state checkbox */
+        checkBoxMusicMode.setChecked(MusicMode.getInstance().getMode()=="MUSIC");       /* set state checkbox */
         checkBoxMusicMode.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click CheckBox set MusicMode */
@@ -161,10 +161,10 @@ public class SettingActivity extends AppCompatActivity {
     public void setMusicMode(){
         /* set MusicMode follow Checkbox */
         if(checkBoxMusicMode.isChecked()){
-            BlindMode.getInstance().setMode("MUSIC");
+            MusicMode.getInstance().setMode("MUSIC");
         }
         else{
-            BlindMode.getInstance().setMode("NOT_MUSIC");
+            MusicMode.getInstance().setMode("NOT_MUSIC");
         }
         /* set MusicMode to shared preference */
         switch(checkBoxMusicMode.getId()) {
