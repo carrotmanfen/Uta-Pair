@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     /* Connect Server */
-    private String URL = "https://9085-124-120-5-1.ap.ngrok.io/UTA/checkLogin.php";
+    private String URL = "https://da32-2001-fb1-b3-7432-f577-2fe9-f79-d3ad.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         /*  Declare Variable */
-        sharedPreferences = getSharedPreferences("mySharedPref", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("MYSHAREDPREF", MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
         username = sPassword = "";
         name = findViewById(R.id.login_name_textbox);
@@ -110,22 +110,22 @@ public class LoginActivity extends AppCompatActivity {
             /* when request have response to application */
             public void onResponse(String response) {
                 /* If response is success */
-                if (response.equals("success")) {
-                    String save_name = name.getText().toString();
+                if (response.equals("SUCCESS")) {
+                    String saveName = name.getText().toString();
                     String save_password = password.getText().toString();
-                    myEdit.putString("saved_Name", save_name);
-                    myEdit.putString("saved_password", save_password);
+                    myEdit.putString("SAVED_NAME", saveName);
+                    myEdit.putString("SAVED_PASSWORD", save_password);
                     myEdit.commit();
 
                     /* This page alert "Success" and open ProfileActivity.class */
                     Toast.makeText(LoginActivity.this, "Success.", Toast.LENGTH_SHORT).show();
-                    if (sharedPreferences.contains("saved_Name")) {
+                    if (sharedPreferences.contains("SAVED_NAME")) {
                         openProfileActivity();
 
                     }
                 }
                 /* if response is failure */
-                else if (response.equals("failure")) {
+                else if (response.equals("FAILURE")) {
                     /* This page alert "Invalid login Name/Password." and users can try again */
                     Toast.makeText(LoginActivity.this, "Invalid login Name/Password.", Toast.LENGTH_SHORT).show();
                 }
@@ -143,8 +143,8 @@ public class LoginActivity extends AppCompatActivity {
             /* This method is use for put data from editText to check with database */
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> data = new HashMap<>();
-                data.put("username", username);
-                data.put("password", sPassword);
+                data.put("USERNAME", username);
+                data.put("PASSWORD", sPassword);
                 return data;
             }
         };
