@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     Button buttonLogout;
     SharedPreferences sh;
     SharedPreferences.Editor editor;
-    private String URL = "https://6acd-2001-fb1-b3-7432-2dee-b5c2-f14d-cdb0.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String URL = "https://dd07-183-88-63-158.ap.ngrok.io/RegisterLogin/editname.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,10 +154,12 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();
         dialog.show();
+
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
         popupConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newUsername = popupEditText.getText().toString();
+                newUsername = popupEditText.getText().toString();
             /*  editor.putString("saved_Name",newUsername);
                 editor.commit();*/
                if(newUsername == saveName ){
@@ -170,7 +172,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                    Toast.makeText(ProfileActivity.this," username cannot be empty ",Toast.LENGTH_SHORT).show();
                }
                else {
-                   /* Toast.makeText(ProfileActivity.this," Change successful ",Toast.LENGTH_SHORT).show(); */
+                   Toast.makeText(ProfileActivity.this,saveName,Toast.LENGTH_SHORT).show();
                    changeUsername();
                }
             dialog.dismiss();
@@ -237,12 +239,12 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
             public void onResponse(String response) {
 
-                if (response.equals("ablesuccess")) {
+                if (response.equals("success")) {
                     /* Pop up Success */
                     popupEditText.setText(newUsername);
                     Toast.makeText(ProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
                 }
-                else if (response.equals("ablefailure")) {
+                else if (response.equals("failure")) {
                     /* Pop up Something wrong!. Please try again later */
                     Toast.makeText(ProfileActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
                 } else if (response.equals("exist")) {
