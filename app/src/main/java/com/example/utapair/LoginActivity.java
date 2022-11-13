@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor myEdit;
 
     /* Connect Server */
-    private String URL = "https://a11f-2001-fb1-b3-7432-2dee-b5c2-f14d-cdb0.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://da32-2001-fb1-b3-7432-f577-2fe9-f79-d3ad.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         /*  Declare Variable */
-        sharedPreferences = getSharedPreferences("mySharedPref", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("MYSHAREDPREF", MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
         username = sPassword = "";
         name = findViewById(R.id.login_name_textbox);
@@ -110,9 +110,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 /* If response is success */
                 if (response.equals("SUCCESS")) {
-                    String save_name = name.getText().toString();
+                    String saveName = name.getText().toString();
                     String save_password = password.getText().toString();
-                    myEdit.putString("SAVED_NAME", save_name);
+                    myEdit.putString("SAVED_NAME", saveName);
                     myEdit.putString("SAVED_PASSWORD", save_password);
                     myEdit.commit();
 
