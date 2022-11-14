@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--Custom button for play button, select level button and score text-->
+<!--Custom button for button and score text-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <layer-list>
