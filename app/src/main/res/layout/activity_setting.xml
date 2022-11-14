@@ -57,6 +57,7 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  MUSIC"
+            android:checked="true"
             android:textSize="32sp" />
 
         <!--checkbox to turn on accessibility mode-->
@@ -70,6 +71,7 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  ACCESSIBILITY"
+            android:checked="true"
             android:textSize="32sp" />
 
         <!--checkbox to turn on blind mode-->

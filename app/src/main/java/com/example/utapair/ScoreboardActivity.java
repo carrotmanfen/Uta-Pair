@@ -49,11 +49,11 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
     private CheckBox buttonCheckbox;
-    private String buttonLevel;
+    private String buttonLevel,textLevel;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String URL = "https://21b7-183-88-38-182.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String URL = "https://ffc8-2001-fb1-b3-7432-95f5-7962-a3fc-37b5.ap.ngrok.io/RegisterLogin/scoreboard.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -77,10 +77,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                     if (buttonCheckbox.isChecked()) {
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                        showScore();
                     }
                     else {
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                        showScore();
                     }
                 }
             }
@@ -271,6 +273,34 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         recyclerView.setAdapter(scoreboardRecyclerAdapter);
     }
 
+    public void showScore (){
+        /* set button level follow mode and level to put this data in to database */
+        if(buttonCheckbox.isChecked()){
+            if(textLevel.equals("EASY")){
+                buttonLevel="MAL01";
+            }
+            else if(textLevel.equals("NORMAL")){
+                buttonLevel="MAL02";
+            }
+            else if(textLevel.equals("HARD")){
+                buttonLevel="MAL03";
+            }
+        }
+        else{
+            if(textLevel.equals("EASY")){
+                buttonLevel="MAL04";
+            }
+            else if(textLevel.equals("NORMAL")){
+                buttonLevel="MAL05";
+            }
+            else if(textLevel.equals("HARD")){
+                buttonLevel="MAL06";
+            }
+        }
+        /* collect data from database */
+        setUserInfo(buttonLevel);
+    }
+
     /* method to add data from database */
     public void setUserInfo(String buttonLevel){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -320,42 +350,19 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     /* when select level */
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         /* change level and show with toast */
-        String level = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(),level,Toast.LENGTH_SHORT).show();
+        textLevel = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(),textLevel,Toast.LENGTH_SHORT).show();
         /* count for do not speak when this activity is start */
         sdCount++;
         if (sdCount>1) {
             /* speak when AccessibilityMode on */
             if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
-                String text = "Select level " + level;
+                String text = "Select level " + textLevel;
                 textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
             }
         }
-        /* set button level follow mode and level to put this data in to database */
-        if(buttonCheckbox.isChecked()){
-            if(level.equals("EASY")){
-                buttonLevel="MAL01";
-            }
-            else if(level.equals("NORMAL")){
-                buttonLevel="MAL02";
-            }
-            else if(level.equals("HARD")){
-                buttonLevel="MAL03";
-            }
-        }
-        else{
-            if(level.equals("EASY")){
-                buttonLevel="MAL04";
-            }
-            else if(level.equals("NORMAL")){
-                buttonLevel="MAL05";
-            }
-            else if(level.equals("HARD")){
-                buttonLevel="MAL06";
-            }
-        }
-        /* collect data from database */
-        setUserInfo(buttonLevel);
+        showScore();
+
     }
 
     @Override

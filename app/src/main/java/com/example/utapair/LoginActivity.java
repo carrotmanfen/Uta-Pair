@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private int tapCount = 0;
 
     /* Connect Server */
-    private String URL = "https://21b7-183-88-38-182.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://ffc8-2001-fb1-b3-7432-95f5-7962-a3fc-37b5.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
     /* method to speak failed register */
     public void sayFailed(){
         if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-            String text = "register failed";
+            String text = "login failed";
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
