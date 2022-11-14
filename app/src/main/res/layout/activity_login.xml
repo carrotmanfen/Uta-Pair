@@ -70,6 +70,10 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
+            android:inputType="text"
+            android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
             android:hint="NAME" />
 
         <!--warning text-->
@@ -109,6 +113,9 @@
             android:inputType="textPassword"
             android:padding="10sp"
             android:textColor="@color/purple_100"
+            android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
             android:textSize="24sp" />
 
         <!--warning text-->

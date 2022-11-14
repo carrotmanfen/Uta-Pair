@@ -50,6 +50,10 @@
         android:textAlignment="center"
         android:textColor="@color/purple_100"
         android:textSize="24sp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:layout_editor_absoluteX="60dp" />
 

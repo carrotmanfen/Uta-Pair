@@ -45,6 +45,7 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.UtaPair.NoActionBar" />
         <activity
             android:name=".SettingActivity"

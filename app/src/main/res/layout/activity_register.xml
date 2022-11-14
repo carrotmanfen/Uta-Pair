@@ -65,11 +65,15 @@
             android:layout_marginLeft="50sp"
             android:layout_marginRight="50sp"
             android:layout_marginBottom="10sp"
+            android:inputType="text"
             android:padding="10sp"
             android:fontFamily="@font/impact"
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
+            android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
             android:hint="NAME (1 - 16 Characters)" />
 
         <!--warning text-->
@@ -110,6 +114,9 @@
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
             android:hint="PASSWORD (1 - 16 Characters)"
+            android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
             />
 
         <!--warning text-->
@@ -149,6 +156,9 @@
             android:textSize="24sp"
             android:textColor="@color/purple_100"
             android:background="@drawable/custom_input"
+            android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
             android:hint="Type the same as password"
             />
 
