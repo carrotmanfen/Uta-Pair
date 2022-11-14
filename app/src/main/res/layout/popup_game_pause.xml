@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Pop up pause when user pressed pause button from game activity-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,6 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/purple_100">
 
+    <!--PAUSE text-->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -19,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
+    <!--resume button-->
     <Button
         android:id="@+id/resume_popup_btn"
         android:layout_width="match_parent"
@@ -36,6 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:ignore="MissingConstraints" />
 
+    <!--restart button-->
     <Button
         android:id="@+id/restart_popup_btn"
         android:layout_width="match_parent"
@@ -53,6 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/resume_popup_btn"
         tools:ignore="MissingConstraints" />
 
+    <!--home button-->
     <Button
         android:id="@+id/home_popup_btn"
         android:layout_width="match_parent"

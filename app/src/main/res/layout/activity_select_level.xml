@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Select level page for selecting the game level you want to play-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +9,7 @@
     tools:context=".SelectLevelActivity"
     android:background="@color/purple_100">
 
+    <!--back button-->
     <ImageButton
         android:id="@+id/backward_btn"
         android:layout_width="50sp"
@@ -30,6 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!--SELECT LEVEL text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,6 +45,7 @@
             android:layout_gravity="center"
             />
 
+        <!--easy level button-->
         <Button
             android:id="@+id/easy_btn"
             android:layout_width="250sp"
@@ -55,6 +60,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
+        <!--normal level button-->
         <Button
             android:id="@+id/normal_btn"
             android:layout_width="250sp"
@@ -69,6 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/easy_btn"
             tools:layout_editor_absoluteX="16dp" />
 
+        <!--hard level button-->
         <Button
             android:id="@+id/hard_btn"
             android:layout_width="250sp"

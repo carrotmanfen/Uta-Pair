@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Register page for users who do not have an account yet-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +9,7 @@
     tools:context=".RegisterActivity"
     android:background="@color/purple_100">
 
+    <!--back button-->
     <ImageButton
         android:id="@+id/register_backward_btn"
         android:layout_width="50sp"
@@ -31,6 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!--REGISTER text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +46,7 @@
             android:layout_gravity="center"
             />
 
+        <!--NAME text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,6 +57,7 @@
             android:fontFamily="@font/impact"
             android:textSize="32sp" />
 
+        <!--input username-->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -66,6 +72,7 @@
             android:background="@drawable/custom_input"
             android:hint="NAME (1 - 16 Characters)" />
 
+        <!--warning text-->
         <TextView
             android:id="@+id/username_errorText"
             android:layout_width="wrap_content"
@@ -77,6 +84,7 @@
             android:textColor="#F88379"
             android:textSize="15sp" />
 
+        <!--PASSWORD text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,6 +95,7 @@
             android:fontFamily="@font/impact"
             android:textSize="32sp" />
 
+        <!--input password-->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:inputType="textPassword"
@@ -103,6 +112,7 @@
             android:hint="PASSWORD (1 - 16 Characters)"
             />
 
+        <!--warning text-->
         <TextView
             android:id="@+id/password_errorText"
             android:layout_width="wrap_content"
@@ -114,6 +124,7 @@
             android:fontFamily="@font/impact"
             android:textSize="15sp" />
 
+        <!--CONFIRM_PASSWORD text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,6 +135,7 @@
             android:fontFamily="@font/impact"
             android:textSize="32sp" />
 
+        <!--input confirm-password-->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/confirm_password"
             android:inputType="textPassword"
@@ -139,6 +151,8 @@
             android:background="@drawable/custom_input"
             android:hint="Type the same as password"
             />
+
+        <!--warning text-->
         <TextView
             android:id="@+id/password_mismatch"
             android:layout_width="wrap_content"
@@ -150,6 +164,7 @@
             android:fontFamily="@font/impact"
             android:textSize="15sp" />
 
+        <!--checkbox ask the user if they are visually impaired-->
         <CheckBox
             android:id="@+id/blind_mode_checkbox"
             android:buttonTint="@color/white"
@@ -164,6 +179,7 @@
             android:textSize="24sp"
             />
 
+        <!--SIGN UP button-->
         <Button
             android:id="@+id/sign_up_btn"
             android:layout_width="250sp"
@@ -178,7 +194,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp"
             />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
