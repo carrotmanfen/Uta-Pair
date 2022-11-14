@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         openProfileActivity();
                 }
                 else {
-                    if (AccessibilityMode.getInstance().getMode() == "ACCESIBILITY")
+                    if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
                         openAccountActivityAccessibility();
                     else
                         openAccountActivity();

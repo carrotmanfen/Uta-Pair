@@ -75,7 +75,7 @@ public class SettingActivity extends AppCompatActivity {
                     openProfileActivity();
                 }
                 else {
-                    if (AccessibilityMode.getInstance().getMode() == "ACCESIBILITY")
+                    if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
                         openAccountActivityAccessibility();
                     else
                         openAccountActivity();
@@ -378,7 +378,7 @@ public class SettingActivity extends AppCompatActivity {
                     String text = "double tap to go to profile";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
-                /* if double tap in time start AccountActivity */
+                /* if double tap in time start ProfileActivity */
                 else if(tapCount==2){
                     openProfileActivity();
                 }
