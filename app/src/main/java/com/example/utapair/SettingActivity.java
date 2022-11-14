@@ -154,6 +154,7 @@ public class SettingActivity extends AppCompatActivity {
     /* this part will run when this Activity start */
     protected void onStart() {
         super.onStart();
+        checkBoxAccessibilityMode = findViewById(R.id.accessibility_checkbox);
         /* if AccessibilityMode on when this activity start play sound */
         if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
             Handler handler = new Handler();

@@ -16,7 +16,7 @@ public class MusicMode {
     }
 
     /* status of mode */
-    private String mode = "NOT_MUSIC";
+    private String mode = "MUSIC";
 
     /* method to get mode attribute */
     public String getMode() {
