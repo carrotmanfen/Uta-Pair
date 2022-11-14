@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50sp"
-            android:layout_marginBottom="0sp"
+            android:layout_marginBottom="20sp"
             android:fontFamily="@font/impact"
             android:text=""
             android:textColor="#F88379"
@@ -142,9 +142,7 @@
             android:text="LOGIN"
             android:textColor="@color/white"
             android:textSize="32sp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="login"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 

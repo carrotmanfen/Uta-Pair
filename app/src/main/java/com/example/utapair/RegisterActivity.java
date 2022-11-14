@@ -292,12 +292,14 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (response.equals("FAILURE")) {
                     /* If response is FAILURE show pop up "Something wrong!. Please try again later" */
                     Toast.makeText(RegisterActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
+                    sayFailed();
                 } else if (response.equals("EXIST")) {
                     /* make the text below username text box be
                      * This username is already used by someone
                      * else and set the border of username text box be red */
                     textViewUsernameError.setText("This username is already used by someone else.");
                     editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                    sayFailed();
                 }
             }
         }, new Response.ErrorListener() {
