@@ -14,7 +14,7 @@ public class AccessibilityMode {
         return instance;
     }
     /* status of mode */
-    private String mode = "NOT_ACCESSIBILITY";
+    private String mode = "ACCESSIBILITY";
 
     /* method to get mode attribute */
     public String getMode() {
