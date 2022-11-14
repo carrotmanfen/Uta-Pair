@@ -333,6 +333,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void openAccountActivity(){
         Intent intent=new Intent(this, AccountActivity.class);
         startActivity(intent);
+        finish();
     }
     /* function use to set the UI when all fields are empty */
     public void checkAllEmpty(){
