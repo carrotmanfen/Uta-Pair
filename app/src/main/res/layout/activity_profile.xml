@@ -43,14 +43,14 @@
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
             android:textSize="40sp"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="50sp">
+            android:layout_marginLeft="50sp"
+            android:layout_marginRight="50sp">
 
             <!--NAME text-->
         <TextView
@@ -66,35 +66,37 @@
             android:textSize="32sp" />
 
             <!--username text-->
-        <TextView
-            android:id="@+id/changename"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="10sp"
-            android:layout_marginBottom="0sp"
-            android:fontFamily="@font/impact"
-            android:text="yname"
-            android:textSize="32sp"
-            android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/changename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10sp"
+                android:layout_marginBottom="0sp"
+                android:layout_toEndOf="@+id/username_textview"
+                android:fontFamily="@font/impact"
+                android:text="name56789112346"
+                android:textColor="@color/white"
+                android:textSize="32sp" />
 
             <!--edit profile button-->
-        <ImageButton
-            android:id="@+id/editname_btn"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_marginLeft="0sp"
-            android:layout_marginTop="0sp"
-            android:paddingTop="5sp"
-            android:adjustViewBounds="true"
-            android:background="@color/purple_100"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_editname_foreground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"></ImageButton>
+            <ImageButton
+                android:id="@+id/editname_btn"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="0sp"
+                android:layout_marginTop="0sp"
+                android:adjustViewBounds="true"
+                android:background="@color/purple_100"
+                android:paddingTop="5sp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_editname_foreground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints"></ImageButton>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <!--YOUR BEST % GAME text-->
         <TextView
@@ -105,8 +107,7 @@
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
             android:textSize="32sp"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
         <!--checkbox for mode blind-->
         <CheckBox android:id="@+id/modeblind_checkbox"
