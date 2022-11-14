@@ -74,7 +74,7 @@ public class SettingActivity extends AppCompatActivity {
                         openProfileActivity();
                 }
                 else {
-                    if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
+                    if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY")
                         openAccountActivityAccessibility();
                     else
                         openAccountActivity();
