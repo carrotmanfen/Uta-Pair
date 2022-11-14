@@ -31,13 +31,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText name,password;
     private String username,sPassword;
     private TextView TextViewUsernameError,TextViewPasswordError;
-    private Button buttonLogin;
     private ImageButton buttonBack;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myEdit;
 
     /* Connect Server */
-    private String URL = "https://f373-14-207-1-150.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://11ab-183-88-38-182.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -50,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         username = sPassword = "";
         name = findViewById(R.id.login_name_textbox);
         password = findViewById(R.id.login_password_textbox);
-        buttonLogin = findViewById(R.id.login_btn);
         TextViewUsernameError = findViewById(R.id.login_username_errorText);
         TextViewPasswordError = findViewById(R.id.login_password_errorText);
         buttonBack = findViewById(R.id.backward_btn);
