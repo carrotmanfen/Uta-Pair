@@ -212,9 +212,10 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         StringRequest stringRequest = new StringRequest(Request.Method.POST, scoreboardURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                /* If response from database is FAILURE */
                 if(response.equals("FAILURE")){
-                    profileUserList.clear();
-                    setAdapter();
+                    profileUserList.clear();    /* clear data */
+                    setAdapter();   /* show in recyclerView */
                     Toast.makeText(ProfileActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -230,7 +231,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                         }
 
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.printStackTrace();    /* if JSON error */
                     }
                 }
             }
@@ -246,7 +247,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> data = new HashMap<>();
                 data.put("Level", buttonLevel);     /* put level to database */
-                data.put("username",saveName);
+                data.put("username",saveName);      /* put username to database */
                 return data;
             }
         };
@@ -284,7 +285,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         }
         /* collect data from database */
         setUserInfo(buttonLevel);
-
     }
 
     @Override

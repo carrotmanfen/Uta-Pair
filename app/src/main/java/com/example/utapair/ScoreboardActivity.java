@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -57,7 +59,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard); /* set layout */
-
         /* set spinner for select level */
         Spinner spinner = findViewById(R.id.level_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.level,R.layout.spinner_text_select);
@@ -244,9 +245,10 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                /* If response from database is FAILURE */
                 if(response.equals("FAILURE")){
-                    scoreboardUserList.clear();
-                    setAdapter();
+                    scoreboardUserList.clear();     /* clear data */
+                    setAdapter();       /* show in recyclerView */
                     Toast.makeText(ScoreboardActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -261,7 +263,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                                 setAdapter();       /* show in recyclerView */
                             }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.printStackTrace();    /* if JSON error */
                     }
                 }
             }
