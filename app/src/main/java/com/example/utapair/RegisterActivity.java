@@ -121,11 +121,11 @@ public class RegisterActivity extends AppCompatActivity {
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     if (buttonCheck.isChecked()) {
-                        String text = "Checked you are blind";
+                        String text = "Checked you are blind person";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
                     else {
-                        String text = "Checked off you are not blind";
+                        String text = "Unchecked you are not blind person";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
                 }
