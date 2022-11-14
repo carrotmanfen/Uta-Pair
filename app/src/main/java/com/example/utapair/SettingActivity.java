@@ -68,14 +68,14 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /* use method follow AccessibilityMode */
                 if (checkLoginData()==1) {
-                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
+                    if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY")
                         openProfileActivityAccessibility();
 
                     else
                     openProfileActivity();
                 }
                 else {
-                    if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
+                    if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY")
                         openAccountActivityAccessibility();
                     else
                         openAccountActivity();

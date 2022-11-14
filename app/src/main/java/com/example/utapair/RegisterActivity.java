@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
 import android.view.View;
@@ -286,6 +287,11 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                         String text = "register success";
+                        if(buttonCheck.isChecked()){
+                            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                    .putBoolean("ACCESSIBILITY_CHECKBOX", true).commit();
+                        }
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                     openAccountActivity();
