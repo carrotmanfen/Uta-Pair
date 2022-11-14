@@ -271,7 +271,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
-            android:background="@color/brown_100"
+            android:background="@color/brown_200"
             android:src="@mipmap/ic_profile_foreground" />
 
         <!--setting button-->
