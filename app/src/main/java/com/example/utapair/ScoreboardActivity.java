@@ -52,7 +52,9 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private String buttonLevel;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
-    private String URL = "https://f373-14-207-1-150.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String URL = "https://7a2b-2001-fb1-b3-7432-88c9-4fbd-afd9-1e9e.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    SharedPreferences sh;
+    SharedPreferences.Editor editor;
 
     @Override
     /* this part will run when create this Activity */
@@ -153,9 +155,16 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     /* method to start AccountActivity */
     public void openAccountActivity(){
         /* create new intent AccountActivity Class and Start Activity */
-        Intent intent=new Intent(this, AccountActivity.class);
-        finish();       /* finish this Activity */
-        startActivity(intent);
+        if(checkLoginData()==1){
+            Intent intent=new Intent(this, ProfileActivity.class);
+            finish();       /* finish this Activity */
+            startActivity(intent);}
+        else{
+            Intent intent=new Intent(this, AccountActivity.class);
+            finish();
+            startActivity(intent);
+
+        }
     }
 
     /* method to start AccountActivity with AccessibilityMode */
@@ -323,4 +332,15 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
+    private int checkLoginData(){
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        editor = sh.edit();
+        if(sh.contains("SAVED_NAME")){
+            return 1 ;
+        }
+        else{
+            return 0;
+        }
+
+    }
 }
