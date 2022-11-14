@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private Timer timer;
     private TimerTask timerTask;
     private int time = 0;
+    private String timeScore;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
 
@@ -169,8 +171,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     /* when timer is counting continuous running time and change text */
                     public void run() {
-                        textViewTimer.setText(getTimerText());      /* change text */
                         time++;     /* running time */
+                        textViewTimer.setText(getTimerText());      /* change text */
                     }
                 });
             }
@@ -197,7 +199,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void pauseGame(){
 
         /* stop music */
-        mediaPlayer.pause();
+        if(MusicMode.getInstance().getMode() == "MUSIC") {
+            mediaPlayer.stop();
+        }
 
         /* set id of dialog */
         dialogBuilder = new AlertDialog.Builder(this,R.style.dialog);
@@ -235,7 +239,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                             else if(tapCount==2){
                                 startTimer();       /* continuous timer */
                                 dialog.dismiss();       /* close dialog */
-                                mediaPlayer.start(); /* continue music */
+                                if(MusicMode.getInstance().getMode() == "MUSIC") {
+                                    mediaPlayer.start(); /* continue music */
+                                }
+
 
                             }
                             tapCount = 0;   /* reset tapCount */
@@ -245,7 +252,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 else {
                     startTimer();       /* continuous timer */
                     dialog.dismiss();       /* close dialog */
-                    mediaPlayer.start(); /* continue music */
+                    if(MusicMode.getInstance().getMode() == "MUSIC") {
+                        mediaPlayer.start(); /* continue music */
+                    }
                 }
             }
         });
@@ -286,13 +295,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void setMusic(){
         mediaPlayer = MediaPlayer.create(this, R.raw.in_game); //*** put the music here !!!
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        if(MusicMode.getInstance().getMode() == "MUSIC") {
+            mediaPlayer.start(); /* continue music */
+        }
     }
 
 
     /* method go to MainActivity */
     public void openMainActivity(){
-        mediaPlayer.stop();
+        if(MusicMode.getInstance().getMode() == "MUSIC") {
+            mediaPlayer.stop();
+        }
         Intent intent = new Intent(this,MainActivity.class);
         finish();
         startActivity(intent);
@@ -321,7 +334,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     /* method to restart game */
     public void playAgain(){
-        mediaPlayer.stop();
+        if(MusicMode.getInstance().getMode() == "MUSIC") {
+            mediaPlayer.stop();
+        }
         finish();
         startActivity(getIntent());
     }
@@ -376,6 +391,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     checkAllMatched = false;
                 }
             }
+        }
+        /* if all match stop time */
+        if(checkAllMatched){
+            timerTask.cancel();
+            timeScore=getTimerText();
+            textViewTimer.setText(timeScore);
         }
         /* if all pair item matched return true and that mean end game */
         return checkAllMatched;
@@ -543,17 +564,25 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             /* if all button matched */
             if(checkAllMatched() == true ){
-                /* end game and go to EndgameActivity */
                 textToSpeech.shutdown();
                 if(MusicMode.getInstance().getMode() == "MUSIC") {
                     mediaPlayer.stop();
                 }
-                timerTask.cancel();
+                textViewTimer.setText(timeScore);
+                /* end game and go to EndgameActivity */
                 Intent intent = new Intent(this, EndgameActivity.class);
-                intent.putExtra("TIME_SCORE",textViewTimer.getText());
-                intent.putExtra("MODE",mode);
-                finish();
-                startActivity(intent);
+                /* set delay for correct time score */
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        intent.putExtra("TIME_SCORE",textViewTimer.getText());
+                        intent.putExtra("MODE",mode);
+                        finish();
+                        startActivity(intent);
+                    }
+                }, 1);
+
             }
         }
         else {  /* not matched */
