@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor myEdit;
 
     /* Connect Server */
-    private String URL = "https://11ab-183-88-38-182.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://7ada-2001-fb1-b3-7432-88c9-4fbd-afd9-1e9e.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -123,7 +123,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 /* if response is failure */
                 else if (response.equals("FAILURE")) {
-                    /* This page alert "Invalid login Name/Password." and users can try again */
+                    /* This page alert "Invalid login Name/Password." and users can try again and red border on both text box*/
+                    name.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                    password.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                     Toast.makeText(LoginActivity.this, "Invalid login Name/Password.", Toast.LENGTH_SHORT).show();
                 }
             }

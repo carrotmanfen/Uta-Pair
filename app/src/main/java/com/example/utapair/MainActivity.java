@@ -85,11 +85,18 @@ public class MainActivity extends AppCompatActivity {
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openAccountActivityAccessibility();
+                if (checkLoginData()==1) {
+                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
+                        openProfileActivityAccessibility();
+
+                    else
+                        openProfileActivity();
                 }
-                else{
-                    openAccountActivity();
+                else {
+                    if (AccessibilityMode.getInstance().getMode() == "ACCESIBILITY")
+                        openAccountActivityAccessibility();
+                    else
+                        openAccountActivity();
                 }
             }
         });
@@ -225,12 +232,41 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 /* if a tap play sound */
                 if (tapCount==1){
-                    String text = "double tap to go to profile";
+                    String text = "double tap to go to Account";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start AccountActivity */
                 else if(tapCount==2){
                     openAccountActivity();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
+
+    }
+    /* method to start ProfileActivity */
+    public void openProfileActivity(){
+        /* create new intent ProfileActivity Class and Start Activity */
+        Intent intent=new Intent(this, ProfileActivity.class);
+        finish();       /* finish this Activity */
+        startActivity(intent);
+    }
+
+    /* method to start ProfileActivity with AccessibilityMode */
+    public void openProfileActivityAccessibility(){
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /* if a tap play sound */
+                if (tapCount==1){
+                    String text = "double tap to go to profile";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time start AccountActivity */
+                else if(tapCount==2){
+                    openProfileActivity();
                 }
                 tapCount = 0;   /* reset tapCount */
             }
@@ -292,6 +328,16 @@ public class MainActivity extends AppCompatActivity {
                 tapCount = 0;   /* reset tapCount */
             }
         },500);     /* in 500 millisecond */
+    }
+    private int checkLoginData(){
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        if(sh.contains("SAVED_NAME")){
+            return 1 ;
+        }
+        else{
+            return 0;
+        }
+
     }
 
 }
