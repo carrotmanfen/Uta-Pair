@@ -51,14 +51,16 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
     private String saveName,newUsername,buttonLevel;
+    private int checkChange;
     private TextView textViewProfileName;
     private CheckBox buttonCheckbox;
     Button buttonLogout;
     SharedPreferences sh;
     SharedPreferences.Editor editor;
+
     /* Connect Server */
-    private String URL = "https://21b7-183-88-38-182.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://21b7-183-88-38-182.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://7ada-2001-fb1-b3-7432-88c9-4fbd-afd9-1e9e.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://7ada-2001-fb1-b3-7432-88c9-4fbd-afd9-1e9e.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,14 +177,17 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 /* if the new input is match with the username that user use to logged in */
                if(newUsername.equals(saveName)){
                    Toast.makeText(ProfileActivity.this, " nothing change ",Toast.LENGTH_SHORT).show();
+                   checkChange = 0;
                }
                /* if the new input is more than available size in database */
                else if (newUsername.length()>16){
                    Toast.makeText(ProfileActivity.this," cannot have username more than 16 character  ",Toast.LENGTH_SHORT).show();
+                   checkChange = 0;
                }
                /* if the new input is empty */
                else if (newUsername.length()==0){
                    Toast.makeText(ProfileActivity.this," username cannot be empty ",Toast.LENGTH_SHORT).show();
+                   checkChange = 0;
                }
                /* the new input is possible to change the username */
                else {
@@ -247,7 +252,12 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> data = new HashMap<>();
                 data.put("Level", buttonLevel);     /* put level to database */
-                data.put("username",saveName);      /* put username to database */
+               if(checkChange==1){
+                    data.put("username", newUsername);      /* put username to database */
+               }
+                else{
+                   data.put("username", saveName);
+               }
                 return data;
             }
         };
@@ -310,7 +320,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
     }
     public void changeUsername(){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, newNameURL, new Response.Listener<String>() {
             @Override
 
             public void onResponse(String response) {
@@ -321,14 +331,17 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     textViewProfileName.setText(newUsername); /* put the new username into interface in profile page */
                     popupEditText.setText(newUsername); /* put the new username into text box on edit name pop up */
                     Toast.makeText(ProfileActivity.this, "Success", Toast.LENGTH_SHORT).show(); /* Pop up Success */
+                    checkChange =1;
                 }
                 /* If the php response is ABLEFAILURE */
                 else if (response.equals("ABLEFAILURE")) {
+                    checkChange = 0;
                     /* Pop up Something wrong!. Please try again later */
                     Toast.makeText(ProfileActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
                 }
                 /* If the php response is EXIST */
                 else if (response.equals("EXIST")) {
+                    checkChange =0;
                     /* Pop up This username used by someone else */
                     Toast.makeText(ProfileActivity.this," This username used by someone else  ",Toast.LENGTH_SHORT).show();
                 }
@@ -336,6 +349,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                checkChange =0;
                 /* When the error on response "Server pop up error. Please try again later" */
                 Toast.makeText(ProfileActivity.this, "Server pop up error. Please try again later", Toast.LENGTH_LONG).show();
 

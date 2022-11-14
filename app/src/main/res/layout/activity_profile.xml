@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Profile page shows user information-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,8 +9,7 @@
     tools:context=".ProfileActivity"
     android:background="@color/purple_100">
 
-
-
+    <!--back button-->
     <ImageButton
         android:id="@+id/backward_btn"
         android:layout_width="50sp"
@@ -33,6 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!--PROFILE text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,15 +43,16 @@
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
             android:textSize="40sp"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="50sp">
+            android:layout_marginLeft="50sp"
+            android:layout_marginRight="50sp">
 
+            <!--NAME text-->
         <TextView
             android:id="@+id/username_textview"
             android:layout_width="wrap_content"
@@ -61,36 +64,41 @@
             android:text="NAME :"
             android:textColor="@color/white"
             android:textSize="32sp" />
-        <TextView
-            android:id="@+id/changename"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="10sp"
-            android:layout_marginBottom="0sp"
-            android:fontFamily="@font/impact"
-            android:text="yname"
-            android:textSize="32sp"
-            android:textColor="@color/white" />
 
+            <!--username text-->
+            <TextView
+                android:id="@+id/changename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10sp"
+                android:layout_marginBottom="0sp"
+                android:layout_toEndOf="@+id/username_textview"
+                android:fontFamily="@font/impact"
+                android:text="name56789112346"
+                android:textColor="@color/white"
+                android:textSize="32sp" />
 
-        <ImageButton
-            android:id="@+id/editname_btn"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_marginLeft="0sp"
-            android:layout_marginTop="0sp"
-            android:paddingTop="5sp"
-            android:adjustViewBounds="true"
-            android:background="@color/purple_100"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_editname_foreground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"></ImageButton>
+            <!--edit profile button-->
+            <ImageButton
+                android:id="@+id/editname_btn"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="0sp"
+                android:layout_marginTop="0sp"
+                android:adjustViewBounds="true"
+                android:background="@color/purple_100"
+                android:paddingTop="5sp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_editname_foreground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints"></ImageButton>
 
-        </LinearLayout>
+        </RelativeLayout>
 
+        <!--YOUR BEST % GAME text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,9 +107,9 @@
             android:textColor="@color/white"
             android:fontFamily="@font/impact"
             android:textSize="32sp"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
+        <!--checkbox for mode blind-->
         <CheckBox android:id="@+id/modeblind_checkbox"
             android:buttonTint="@color/white"
             android:layout_width="match_parent"
@@ -122,6 +130,7 @@
             android:layout_marginBottom="10sp"
             android:gravity="center">
 
+            <!--LEVEL text-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,6 +160,7 @@
 
         </LinearLayout>
 
+        <!--layout for scoreboard list-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -167,6 +177,7 @@
             android:gravity="center"
             android:background="@drawable/custom_scoreboard_header">
 
+            <!--The trophy image for the ranking column-->
             <ImageView
                 android:layout_width="50sp"
                 android:layout_height="50sp"
@@ -178,12 +189,13 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent" />
 
+            <!--Text SCORE BOARD for the column showing the user's rank in the scoreboard-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/impact"
-                android:text="SCORE BOARD"
+                android:text="SCOREBOARD"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
@@ -192,6 +204,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent" />
 
+            <!--Text TIME for the column showing the user's score-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -203,12 +216,15 @@
 
         </LinearLayout>
 
+        <!--layout for scoreboard data-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profile_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="185sp"/>
 
     </LinearLayout>
+
+        <!--LOGOUT button-->
         <Button
             android:id="@+id/logout_btn"
             android:layout_width="250sp"
@@ -224,6 +240,7 @@
 
     </LinearLayout>
 
+    <!--button bar-->
     <GridLayout
         android:id="@+id/GridLayout"
         android:layout_width="match_parent"
@@ -235,6 +252,7 @@
         android:rowCount="1"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <!--scoreboard button-->
         <ImageButton
             android:id="@+id/scoreboard_btn"
             android:layout_width="wrap_content"
@@ -245,6 +263,7 @@
             android:background="@color/brown_100"
             android:src="@mipmap/ic_scoreboard_foreground" />
 
+        <!--profile button-->
         <ImageButton
             android:id="@+id/profile_btn"
             android:layout_width="wrap_content"
@@ -255,6 +274,7 @@
             android:background="@color/brown_100"
             android:src="@mipmap/ic_profile_foreground" />
 
+        <!--setting button-->
         <ImageButton
             android:id="@+id/setting_btn"
             android:layout_width="wrap_content"

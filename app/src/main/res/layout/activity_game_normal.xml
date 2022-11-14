@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Normal level game page-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +9,7 @@
     android:background="@color/purple_100"
     tools:ignore="MissingDefaultResource">
 
+    <!--pause button-->
     <ImageButton
         android:id="@+id/pause_btn"
         android:layout_width="50sp"
@@ -21,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"></ImageButton>
 
+    <!--NORMAL text-->
     <TextView
         android:id="@+id/textLevel"
         android:layout_width="match_parent"
@@ -42,6 +46,7 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/textLevel">
 
+        <!--clock text-->
         <ImageView
             android:id="@+id/pic_clock"
             android:layout_width="60sp"
@@ -49,6 +54,7 @@
             android:layout_marginLeft="20sp"
             android:src="@mipmap/ic_clock_foreground" />
 
+        <!--stopwatch text-->
         <TextView
             android:id="@+id/time_text"
             android:layout_width="wrap_content"
@@ -62,6 +68,7 @@
 
     </LinearLayout>
 
+    <!--matching card layout-->
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

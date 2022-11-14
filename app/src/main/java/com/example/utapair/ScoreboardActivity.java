@@ -52,10 +52,9 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private String buttonLevel;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
-    private String URL = "https://21b7-183-88-38-182.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private int sdCount = 0;
+    private String URL = "https://7ada-2001-fb1-b3-7432-88c9-4fbd-afd9-1e9e.ap.ngrok.io/RegisterLogin/scoreboard.php";
     SharedPreferences sh;
-    SharedPreferences.Editor editor;
-
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +69,22 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
 
         /* set checkbox for BlindMode */
         buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
+        buttonCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /* use method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                    if (buttonCheckbox.isChecked()) {
+                        String text = "Checked mode blind";
+                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    }
+                    else {
+                        String text = "Checked off mode blind";
+                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    }
+                }
+            }
+        });
 
         /* for keep data and show in recyclerView */
         recyclerView = findViewById(R.id.scoreboard_recycler_view);
@@ -139,13 +154,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     /* this part will run when this Activity start */
     protected void onStart() {
         super.onStart();
+        sdCount = 0 ;
         /* if AccessibilityMode on when this activity start play sound */
         if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    String text = "Account";
+                    String text = "Scoreboard";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, 500);
@@ -176,8 +192,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void run() {
                 /* if a tap play sound */
                 if (tapCount==1){
-                    String text = "double tap to go to profile";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    if(checkLoginData()==1) {
+                        String text = "double tap to go to profile";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    else {
+                        String text = "double tap to go to account";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
                 }
                 /* if double tap in time start AccountActivity */
                 else if(tapCount==2){
@@ -300,6 +322,15 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         /* change level and show with toast */
         String level = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),level,Toast.LENGTH_SHORT).show();
+        /* count for do not speak when this activity is start */
+        sdCount++;
+        if (sdCount>1) {
+            /* speak when AccessibilityMode on */
+            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+                String text = "Select level " + level;
+                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+            }
+        }
         /* set button level follow mode and level to put this data in to database */
         if(buttonCheckbox.isChecked()){
             if(level.equals("EASY")){
@@ -334,7 +365,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
 
     private int checkLoginData(){
         sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
-        editor = sh.edit();
         if(sh.contains("SAVED_NAME")){
             return 1 ;
         }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--End game page will be displayed when the user completes the game-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +9,7 @@
     tools:context=".EndgameActivity"
     android:background="@color/purple_100">
 
+    <!--home button-->
     <ImageButton
         android:id="@+id/home_btn"
         android:layout_width="70sp"
@@ -30,6 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!--YOUR SCORE text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +46,7 @@
             >
         </TextView>
 
+        <!--score text-->
         <TextView
             android:id="@+id/score_time_text"
             android:layout_width="250sp"
@@ -57,6 +62,7 @@
             android:layout_gravity="center">
         </TextView>
 
+        <!--level game text-->
         <TextView
             android:id="@+id/mode_text"
             android:layout_width="wrap_content"
@@ -84,12 +90,14 @@
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
+        <!--share button-->
+
         <ImageButton
             android:id="@+id/share_btn_1"
             android:layout_width="50sp"
             android:layout_height="50sp"
-            android:background="@drawable/custom_button2"
             android:adjustViewBounds="true"
+            android:background="@drawable/custom_button2"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_share_foreground"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +109,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
+        <!--share button-->
         <Button
             android:id="@+id/share_btn_2"
             android:layout_width="120sp"
@@ -118,6 +127,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
+        <!--play again button-->
         <ImageButton
             android:id="@+id/play_again_btn_1"
             android:layout_width="50sp"
@@ -135,6 +145,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
+        <!--play again button-->
         <Button
             android:id="@+id/play_again_btn_2"
             android:layout_width="120sp"

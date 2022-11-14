@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     /* Connect server */
-    private String URL = "https://da32-2001-fb1-b3-7432-f577-2fe9-f79-d3ad.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://7ada-2001-fb1-b3-7432-88c9-4fbd-afd9-1e9e.ap.ngrok.io/RegisterLogin/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -292,12 +292,14 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (response.equals("FAILURE")) {
                     /* If response is FAILURE show pop up "Something wrong!. Please try again later" */
                     Toast.makeText(RegisterActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
+                    sayFailed();
                 } else if (response.equals("EXIST")) {
                     /* make the text below username text box be
                      * This username is already used by someone
                      * else and set the border of username text box be red */
                     textViewUsernameError.setText("This username is already used by someone else.");
                     editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                    sayFailed();
                 }
             }
         }, new Response.ErrorListener() {

@@ -2,7 +2,9 @@ package com.example.utapair;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -25,6 +27,7 @@ public class SettingActivity extends AppCompatActivity {
     private CheckBox checkBoxAccessibilityMode;
     private CheckBox checkBoxBlindMode;
     private int tapCount = 0;
+    SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +67,20 @@ public class SettingActivity extends AppCompatActivity {
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openAccountActivityAccessibility();
+                if (checkLoginData()==1) {
+                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
+                        openProfileActivityAccessibility();
+
+                    else
+                    openProfileActivity();
                 }
-                else{
-                    openAccountActivity();
+                else {
+                    if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
+                        openAccountActivityAccessibility();
+                    else
+                        openAccountActivity();
+                    }
                 }
-            }
         });
 
         /* set buttonScoreboard */
@@ -322,9 +332,9 @@ public class SettingActivity extends AppCompatActivity {
     /* method to start AccountActivity */
     public void openAccountActivity(){
         /* create new intent AccountActivity Class and Start Activity */
-        Intent intent=new Intent(this, AccountActivity.class);
-        finish();       /* finish this Activity */
-        startActivity(intent);
+            Intent intent=new Intent(this, AccountActivity.class);
+            finish();       /* finish this Activity */
+            startActivity(intent);
     }
 
     /* method to start AccountActivity with AccessibilityMode */
@@ -336,12 +346,41 @@ public class SettingActivity extends AppCompatActivity {
             public void run() {
                 /* if a tap play sound */
                 if (tapCount==1){
-                    String text = "double tap to go to profile";
+                    String text = "double tap to go to account";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time start AccountActivity */
                 else if(tapCount==2){
                     openAccountActivity();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
+
+    }
+    /* method to start ProfileActivity */
+    public void openProfileActivity(){
+        /* create new intent ProfileActivity Class and Start Activity */
+            Intent intent=new Intent(this, ProfileActivity.class);
+            finish();       /* finish this Activity */
+            startActivity(intent);
+    }
+
+    /* method to start ProfileActivity with AccessibilityMode */
+    public void openProfileActivityAccessibility(){
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /* if a tap play sound */
+                if (tapCount==1){
+                    String text = "double tap to go to profile";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time start ProfileActivity */
+                else if(tapCount==2){
+                    openProfileActivity();
                 }
                 tapCount = 0;   /* reset tapCount */
             }
@@ -397,6 +436,16 @@ public class SettingActivity extends AppCompatActivity {
                 tapCount = 0;   /* reset tapCount */
             }
         },500);     /* in 500 millisecond */
+    }
+    private int checkLoginData(){
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        if(sh.contains("SAVED_NAME")){
+            return 1 ;
+        }
+        else{
+            return 0;
+        }
+
     }
 
 }
