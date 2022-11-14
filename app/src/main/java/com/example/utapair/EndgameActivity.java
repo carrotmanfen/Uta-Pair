@@ -213,7 +213,7 @@ public class EndgameActivity extends Activity {
                 startActivity(intent);
             }
             else if (mode==0) {     /* level normal */
-                intent.putExtra("mode", 0);
+                intent.putExtra("MODE", 0);
                 intent.putExtra("LAYOUT_ID", R.layout.activity_game_normal);
                 intent.putExtra("GRID_ID", R.id.GridLayout_meduim);
                 finish();
