@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://a684-171-99-162-48.ap.ngrok.io/UTA/checkNewName.php";
-    private String scoreboardURL = "https://a684-171-99-162-48.ap.ngrok.io/UTA/scoreboardProfile.php";
+    private String newNameURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -510,12 +510,12 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             /* get data that use in database */
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> data = new HashMap<>();
-                data.put("Level", buttonLevel);     /* put level to database */
+                data.put("LEVEL", buttonLevel);     /* put level to database */
                if(checkChange==1){
-                    data.put("username", newUsername);      /* put username to database */
+                    data.put("USERNAME", newUsername);      /* put username to database */
                }
                 else{
-                   data.put("username", saveName);
+                   data.put("USERNAME", saveName);
                }
                 return data;
             }

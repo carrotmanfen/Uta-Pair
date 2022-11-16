@@ -53,8 +53,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String URL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestscoreURL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String URL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestplaceURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -304,7 +304,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         /* collect data from database */
         setUserInfo(buttonLevel);
         /* show best place user */
-        showBestScore(buttonLevel);
+        showBestPlace(buttonLevel);
     }
 
     /* method to add data from database */
@@ -345,7 +345,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             /* get data that use in database */
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> data = new HashMap<>();
-                data.put("Level", buttonLevel);     /* put level to database */
+                data.put("LEVEL", buttonLevel);     /* put level to database */
                 return data;
             }
         };
@@ -370,9 +370,9 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         }
         showScore();
     }
-    /* method show best score user*/
-    public void showBestScore(String buttonLevel){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, bestscoreURL, new Response.Listener<String>() {
+    /* method show best place user*/
+    public void showBestPlace(String buttonLevel){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, bestplaceURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                     try {
@@ -398,8 +398,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             /* get data that use in database */
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> data = new HashMap<>();
-                data.put("Level", buttonLevel);     /* put level to database */
-                data.put("username", saveName);      /* put username to database */
+                data.put("LEVEL", buttonLevel);     /* put level to database */
+                data.put("USERNAME", saveName);      /* put username to database */
                 return data;
             }
         };
