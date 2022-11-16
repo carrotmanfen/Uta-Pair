@@ -64,13 +64,14 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private int tapCount = 0;
     private int sdCount = 0;
     private String textLevel;
-    Button buttonLogout;
-    SharedPreferences sh;
-    SharedPreferences.Editor editor;
+    private String textBestPlace = " hello";
+    private Button buttonLogout;
+    private SharedPreferences sh;
+    private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://a684-171-99-162-48.ap.ngrok.io/UTA/checkNewName.php";
+    private String scoreboardURL = "https://a684-171-99-162-48.ap.ngrok.io/UTA/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +99,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View view) {
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
-                    showScore();
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY")
                     if (buttonCheckbox.isChecked()) {
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
@@ -108,10 +108,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
-                }
-                else{
-                    showScore();
-                }
+                showScore();
             }
         });
 
@@ -209,7 +206,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 @Override
                 public void run() {
                     String text = "profile";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
                 }
             }, 500);
         }
@@ -475,12 +472,26 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     try {
                         profileUserList.clear();     /* clear data */
                         JSONArray products = new JSONArray(response);
+                        int count = 0;
                         for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
                             JSONObject productobject = products.getJSONObject(i);
                             Integer row_index = productobject.getInt("row_index");
                             String endTime = productobject.getString("endTime");
+                            if(count==0) {
+                                textBestPlace = "your best place is " + row_index + " and your score is " + endTime;
+                                count++;
+                            }
                             profileUserList.add(new ProfileUser(i+1,row_index,endTime));       /* add data from database */
                             setAdapter();       /* show in recyclerView */
+                        }
+                        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textToSpeech.speak(textBestPlace,TextToSpeech.QUEUE_ADD,null);
+                                }
+                            }, 600);
                         }
 
                     } catch (JSONException e) {
@@ -525,7 +536,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         textLevel = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),textLevel,Toast.LENGTH_SHORT).show();
-        showScore();
+
         /* count for do not speak when this activity is start */
         sdCount++;
         if (sdCount>1) {
@@ -535,6 +546,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
             }
         }
+        showScore();
 
     }
     /* method to show score */

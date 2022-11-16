@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private int tapCount = 0;
 
     /* Connect Server */
-    private String URL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://a684-171-99-162-48.ap.ngrok.io/UTA/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -252,6 +252,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 /* this page alert "Server error. Please try again later" */
                 Toast.makeText(LoginActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+                sayFailed();
             }
         }) {
             @Nullable
