@@ -69,8 +69,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://ffc8-2001-fb1-b3-7432-95f5-7962-a3fc-37b5.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://ffc8-2001-fb1-b3-7432-95f5-7962-a3fc-37b5.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,16 +99,18 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View view) {
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                    showScore();
                     if (buttonCheckbox.isChecked()) {
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                        showScore();
                     }
                     else {
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                        showScore();
                     }
+                }
+                else{
+                    showScore();
                 }
             }
         });
@@ -318,14 +320,16 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         final View popupView = getLayoutInflater().inflate(R.layout.popup_edit_name,null);
         popupErrorText=popupView.findViewById(R.id.new_name_errorText);
         popupEditText = popupView.findViewById(R.id.new_name_edittext);
-        popupEditText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                String text = "type new name";
-                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                return false;
-            }
-        });
+        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+            popupEditText.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    String text = "type new name";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    return false;
+                }
+            });
+        }
         popupCancelButton = popupView.findViewById(R.id.cancel_popup_btn);
         popupConfirmButton = popupView.findViewById(R.id.confirm_popup_btn);
         sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
@@ -517,7 +521,22 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        textLevel = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(),textLevel,Toast.LENGTH_SHORT).show();
+        showScore();
+        /* count for do not speak when this activity is start */
+        sdCount++;
+        if (sdCount>1) {
+            /* speak when AccessibilityMode on */
+            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+                String text = "Select level " + textLevel;
+                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+            }
+        }
 
+    }
     /* method to show score */
     public void showScore(){
         /* set button level follow mode and level to put this data in to database */
@@ -547,22 +566,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         setUserInfo(buttonLevel);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        textLevel = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(),textLevel,Toast.LENGTH_SHORT).show();
-        /* count for do not speak when this activity is start */
-        sdCount++;
-        if (sdCount>1) {
-            /* speak when AccessibilityMode on */
-            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
-                String text = "Select level " + textLevel;
-                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-            }
-        }
-
-        showScore();
-    }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {

@@ -49,11 +49,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
     private CheckBox buttonCheckbox;
-    private String buttonLevel,textLevel;
+    private String saveName,buttonLevel,textLevel;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String URL = "https://ffc8-2001-fb1-b3-7432-95f5-7962-a3fc-37b5.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String URL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestscoreURL = "https://8928-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -66,7 +67,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         adapter.setDropDownViewResource(R.layout.spinner_text_dropdown);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        saveName = sh.getString("SAVED_NAME","");
         /* set checkbox for BlindMode */
         buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
         buttonCheckbox.setOnClickListener(new View.OnClickListener() {
@@ -74,16 +76,18 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void onClick(View view) {
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                    showScore();
                     if (buttonCheckbox.isChecked()) {
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                        showScore();
                     }
                     else {
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                        showScore();
                     }
+                }
+                else{
+                    showScore();
                 }
             }
         });
@@ -299,6 +303,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         }
         /* collect data from database */
         setUserInfo(buttonLevel);
+        /* show best place user */
+        showBestScore(buttonLevel);
     }
 
     /* method to add data from database */
@@ -346,6 +352,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
+
     @Override
     /* when select level */
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -362,9 +369,43 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             }
         }
         showScore();
-
     }
+    /* method show best score user*/
+    public void showBestScore(String buttonLevel){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, bestscoreURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                    try {
+                        JSONArray products = new JSONArray(response);
+                        for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
+                            JSONObject productobject = products.getJSONObject(i);
+                            Integer row_index = productobject.getInt("row_index");
+                            Toast.makeText(ScoreboardActivity.this, "Congratulations! you are on "+ row_index + "th place.", Toast.LENGTH_LONG).show();
+                        }
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();    /* if JSON error */
+                    }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {    /* if error */
+                Toast.makeText(ScoreboardActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Nullable
+            @Override
+            /* get data that use in database */
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> data = new HashMap<>();
+                data.put("Level", buttonLevel);     /* put level to database */
+                data.put("username", saveName);      /* put username to database */
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
     @Override
     /* implement because implement interface */
     public void onNothingSelected(AdapterView<?> adapterView) {
