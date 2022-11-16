@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private int tapCount = 0;
     private int sdCount = 0;
     private String textLevel;
-    private String textBestPlace = " hello";
+    private String textBestPlace;
     private Button buttonLogout;
     private SharedPreferences sh;
     private SharedPreferences.Editor editor;
@@ -484,6 +484,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                             profileUserList.add(new ProfileUser(i+1,row_index,endTime));       /* add data from database */
                             setAdapter();       /* show in recyclerView */
                         }
+                        /* If AccessibilityMode on speak and delay more than speak in method onStart */
                         if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {

@@ -27,7 +27,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -54,7 +53,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private int tapCount = 0;
     private int sdCount = 0;
     private String URL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestplaceURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String bestPlaceURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -76,7 +75,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void onClick(View view) {
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
-                    showScore();
                     if (buttonCheckbox.isChecked()) {
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
@@ -86,9 +84,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
                 }
-                else{
-                    showScore();
-                }
+                showScore();
             }
         });
 
@@ -372,7 +368,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     }
     /* method show best place user*/
     public void showBestPlace(String buttonLevel){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, bestplaceURL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, bestPlaceURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                     try {
@@ -380,7 +376,18 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                         for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
                             JSONObject productobject = products.getJSONObject(i);
                             Integer row_index = productobject.getInt("row_index");
-                            Toast.makeText(ScoreboardActivity.this, "Congratulations! you are on "+ row_index + "th place.", Toast.LENGTH_LONG).show();
+                            String text ="Congratulations! you are on "+ row_index + "th place.";
+                            Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
+                            /* If AccessibilityMode on speak and delay more than speak in method onStart */
+                            if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                                    }
+                                }, 600);
+                            }
                         }
 
                     } catch (JSONException e) {
