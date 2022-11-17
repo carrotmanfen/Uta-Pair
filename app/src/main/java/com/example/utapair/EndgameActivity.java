@@ -55,14 +55,14 @@ public class EndgameActivity extends Activity {
         textViewScoreTime = findViewById(R.id.score_time_text);
         Intent receiverIntent = getIntent();
         String receiveValue = receiverIntent.getStringExtra("TIME_SCORE");
-        String[] arrOfStr = receiveValue.split(":", 3);
+        String[] arrOfStr = receiveValue.split(" : ", 3);
 
         int[] score;
         score = new int[3];
         for(int i=0;i<arrOfStr.length;i++){
             try {
                 score[i] = Integer.valueOf(arrOfStr[i]);
-                System.out.println(score[i]);
+                /*System.out.println(score[i]);*/
             }
             catch (NumberFormatException ex){
                 ex.printStackTrace();
@@ -70,9 +70,11 @@ public class EndgameActivity extends Activity {
         }
         int completeScore;
         completeScore = score[2]+score[1]*100+score[0]*6000;
+        System.out.println(completeScore);
+        /*Toast.makeText(this,completeScore, Toast.LENGTH_SHORT).show();*/
         /* เอา completeScore ไปใส่ใน database ได้เลย */
 
-        System.out.println(receiveValue);
+        /*System.out.println(receiveValue);*/
         textViewScoreTime.setText(receiveValue);
         String modeText = setTextMode();
         textViewModeId = findViewById(R.id.mode_text);
@@ -171,7 +173,10 @@ public class EndgameActivity extends Activity {
                 }
             }
         });
-
+        if(checkLoginData()==1){
+            insertScore(completeScore);
+        }
+        else;
     }
 
     /* method to share score */
@@ -313,7 +318,7 @@ public class EndgameActivity extends Activity {
 
     }
 
-    public void addData(int score){
+    public void insertScore(int score){
         username = sh.getString("SAVED_NAME","");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, insertScoreURL, new Response.Listener<String>() {
             @Override
@@ -337,10 +342,11 @@ public class EndgameActivity extends Activity {
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,Integer > putInt = new HashMap<>();
-                putInt.put ("SCORE",score);
+/*                Map<String,Integer > putInt = new HashMap<>();
+                putInt.put ("SCORE",score);*/
                 Map<String, String> data = new HashMap<>();
                 data.put("USERNAME", username);
+                data.put("SCORE",String.valueOf(score));
                 data.put("LEVEL", "MAL01");
                 return data;
             }
