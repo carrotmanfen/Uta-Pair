@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.Locale;
 
 /* this class is about EndgameActivity
@@ -142,13 +143,18 @@ public class EndgameActivity extends Activity {
     /* method to share score */
     public void shareScore(){
         /* share */
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String Body = "UTA is the best app";
-        String sub = "Application Link here !!"; /* link of webpage app */
-        intent.putExtra(Intent.EXTRA_SUBJECT,Body);
-        intent.putExtra(Intent.EXTRA_TEXT,sub);
-        startActivity(Intent.createChooser(intent,"Share using"));
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("text/plain");
+//        String Body = "UTA is the best app";
+//        String sub = "Application Link here !!"; /* link of webpage app */
+//        intent.putExtra(Intent.EXTRA_SUBJECT,Body);
+//        intent.putExtra(Intent.EXTRA_TEXT,sub);
+//        startActivity(Intent.createChooser(intent,"Share using"));
+        ShareScore.getInstance().setContext(this);
+        File file = ShareScore.getInstance().saveImage();
+        if(file != null){
+            ShareScore.getInstance().sharePicture(file);
+        }
     }
 
     /* method to share score with AccessibilityMode */

@@ -545,7 +545,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             if(checkAllMatched() == true ){
                 /* end game and go to EndgameActivity */
                 textToSpeech.shutdown();
-                mediaPlayer.stop();
+                if(MusicMode.getInstance().getMode() == "MUSIC") {
+                    mediaPlayer.stop();
+                }
                 Intent intent = new Intent(this, EndgameActivity.class);
                 intent.putExtra("TIME_SCORE",getTimerText());
                 intent.putExtra("MODE",mode);
