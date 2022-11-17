@@ -52,8 +52,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String URL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestPlaceURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String URL = "https://48a5-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestPlaceURL = "https://48a5-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -151,6 +151,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 }
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+            Intent intent = new Intent(this, MainActivity.class);
+            finishAffinity();
+            startActivity(intent);
     }
 
     /* this part will run when this Activity start */

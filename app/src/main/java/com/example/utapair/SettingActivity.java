@@ -363,8 +363,8 @@ public class SettingActivity extends AppCompatActivity {
     public void openProfileActivity(){
         /* create new intent ProfileActivity Class and Start Activity */
             Intent intent=new Intent(this, ProfileActivity.class);
-            finish();       /* finish this Activity */
             startActivity(intent);
+            finish();       /* finish this Activity */
     }
 
     /* method to start ProfileActivity with AccessibilityMode */
@@ -449,6 +449,12 @@ public class SettingActivity extends AppCompatActivity {
             return 0; /* If don't have data in string key "SAVED_NAME" then return 0 */
         }
 
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        finishAffinity();
+        startActivity(intent);
     }
 
 }

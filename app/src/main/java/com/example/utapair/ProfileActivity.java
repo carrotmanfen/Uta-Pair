@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://48a5-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://48a5-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -609,18 +609,14 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     public void onCheckboxClicked(View view) {
     }
     @Override
-    public void onBackPressed(){
-        /* If still have logged in data */
-        if(sh.contains("SAVED_NAME")){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();}
-        else{
-            Intent intent = new Intent(this, AccountActivity.class);
-            startActivity(intent);
-            finish();
-        }
+    public void onBackPressed() {
 
+        /* If still have logged in data */
+        if (sh.contains("SAVED_NAME")) {
+            Intent intent = new Intent(this, MainActivity.class);
+            finishAffinity();
+            startActivity(intent);
+        }
     }
     public void changeUsername(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, newNameURL, new Response.Listener<String>() {

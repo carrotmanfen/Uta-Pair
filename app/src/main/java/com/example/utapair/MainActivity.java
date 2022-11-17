@@ -45,11 +45,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
+        /*if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);     /* set layout file */
 
         /* set all setting in first page */
         settingAll();
+
 
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
