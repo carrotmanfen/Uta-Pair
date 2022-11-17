@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,13 +45,14 @@ public class EndgameActivity extends Activity {
     private String[] timeSplit;
     private String username;
     SharedPreferences sh;
-    private String insertScoreURL = "https://87bb-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/insertScore.php";
+    private String insertScoreURL = "https://3d4f-171-99-162-219.ap.ngrok.io/UTA/insertScore.php";
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);     /* menu page file layout */
-
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        username = sh.getString("SAVED_NAME","");
         /* get score from GameActivity */
         textViewScoreTime = findViewById(R.id.score_time_text);
         Intent receiverIntent = getIntent();
@@ -182,13 +184,18 @@ public class EndgameActivity extends Activity {
     /* method to share score */
     public void shareScore(){
         /* share */
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String Body = "UTA is the best app";
-        String sub = "Application Link here !!"; /* link of webpage app */
-        intent.putExtra(Intent.EXTRA_SUBJECT,Body);
-        intent.putExtra(Intent.EXTRA_TEXT,sub);
-        startActivity(Intent.createChooser(intent,"Share using"));
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("text/plain");
+//        String Body = "UTA is the best app";
+//        String sub = "Application Link here !!"; /* link of webpage app */
+//        intent.putExtra(Intent.EXTRA_SUBJECT,Body);
+//        intent.putExtra(Intent.EXTRA_TEXT,sub);
+//        startActivity(Intent.createChooser(intent,"Share using"));
+        ShareScore.getInstance().setContext(this);
+        File file = ShareScore.getInstance().saveImage();
+        if(file != null){
+            ShareScore.getInstance().sharePicture(file);
+        }
     }
 
     /* method to share score with AccessibilityMode */
@@ -319,7 +326,6 @@ public class EndgameActivity extends Activity {
     }
 
     public void insertScore(int score){
-        username = sh.getString("SAVED_NAME","");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, insertScoreURL, new Response.Listener<String>() {
             @Override
 
@@ -346,25 +352,8 @@ public class EndgameActivity extends Activity {
                 putInt.put ("SCORE",score);*/
                 Map<String, String> data = new HashMap<>();
                 data.put("USERNAME", username);
-                data.put("SCORE",String.valueOf(score));
-
-                if(BlindMode.getInstance().getMode()=="BLIND"){
-                    if(setTextMode()=="LEVEL - EASY")
-                        data.put("LEVEL", "MAL01");
-                    else if (setTextMode()=="LEVEL - NORMAL")
-                        data.put("LEVEL", "MAL02");
-                    else if(setTextMode()=="LEVEL - HARD")
-                        data.put("LEVEL","MAL03");
-
-                }
-                else {
-                    if(setTextMode()=="LEVEL - EASY")
-                        data.put("LEVEL", "MAL04");
-                    else if (setTextMode()=="LEVEL - NORMAL")
-                        data.put("LEVEL", "MAL05");
-                    else if(setTextMode()=="LEVEL - HARD")
-                        data.put("LEVEL","MAL06");
-                }
+                data.put("SCORE", String.valueOf(score));
+                data.put("LEVEL", "MAL01");
                 return data;
             }
         };

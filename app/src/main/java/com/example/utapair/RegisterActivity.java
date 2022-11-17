@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     /* Connect server */
-    private String URL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://3d4f-171-99-162-219.ap.ngrok.io/UTA/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
