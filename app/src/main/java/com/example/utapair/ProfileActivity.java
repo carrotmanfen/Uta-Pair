@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://3d4f-171-99-162-219.ap.ngrok.io/UTA/checkNewName.php";
-    private String scoreboardURL = "https://3d4f-171-99-162-219.ap.ngrok.io/UTA/scoreboardProfile.php";
+    private String newNameURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

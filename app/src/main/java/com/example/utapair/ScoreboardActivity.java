@@ -52,6 +52,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
+    private String score;
     private String URL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboard.php";
     private String bestPlaceURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
@@ -321,8 +322,32 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                             for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
                                 JSONObject productobject = products.getJSONObject(i);
                                 String username = productobject.getString("username");
-                                String endTime = productobject.getString("endTime");
-                                scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));       /* add data from database */
+                                Integer endTime = productobject.getInt("endTime");
+                                String stringEndTimeSecond = String.valueOf((endTime/100)%60);
+                                String stringEndTimeMillSecond = String.valueOf((endTime%100));
+                                if((stringEndTimeSecond.length()<2) || (stringEndTimeMillSecond.length()<2)){
+                                    score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                    if ((stringEndTimeSecond.length()==2)&&(stringEndTimeMillSecond.length()<2)){
+                                        score = endTime/6000+":"+(endTime/100)%60+":"+"0"+endTime%100;}
+                                    else if ((stringEndTimeSecond.length()<2)&&(stringEndTimeMillSecond.length()==2)){
+                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
+                                    }
+                                    else{
+                                        score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
+                                    }
+
+
+
+                                }
+                               /* if(endTime<1000){
+                                    if(endTime<10){
+                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;}
+                                    score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
+                                }
+                                else{
+                                    score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
+                                }*/
+                                scoreboardUserList.add(new ScoreboardUser(i+1,username,score));       /* add data from database */
                                 setAdapter();       /* show in recyclerView */
                             }
                     } catch (JSONException e) {
