@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,7 +45,7 @@ public class EndgameActivity extends Activity {
     private String[] timeSplit;
     private String username;
     SharedPreferences sh;
-    private String insertScoreURL = "https://6071-14-207-218-211.ap.ngrok.io/RegisterLogin/insertScore.php";
+    private String insertScoreURL = "https://3d4f-171-99-162-219.ap.ngrok.io/UTA/insertScore.php";
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,13 +184,18 @@ public class EndgameActivity extends Activity {
     /* method to share score */
     public void shareScore(){
         /* share */
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String Body = "UTA is the best app";
-        String sub = "Application Link here !!"; /* link of webpage app */
-        intent.putExtra(Intent.EXTRA_SUBJECT,Body);
-        intent.putExtra(Intent.EXTRA_TEXT,sub);
-        startActivity(Intent.createChooser(intent,"Share using"));
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("text/plain");
+//        String Body = "UTA is the best app";
+//        String sub = "Application Link here !!"; /* link of webpage app */
+//        intent.putExtra(Intent.EXTRA_SUBJECT,Body);
+//        intent.putExtra(Intent.EXTRA_TEXT,sub);
+//        startActivity(Intent.createChooser(intent,"Share using"));
+        ShareScore.getInstance().setContext(this);
+        File file = ShareScore.getInstance().saveImage();
+        if(file != null){
+            ShareScore.getInstance().sharePicture(file);
+        }
     }
 
     /* method to share score with AccessibilityMode */
