@@ -56,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
-    private String saveName,newUsername,buttonLevel;
+    private String saveName,newUsername,buttonLevel,score;
     private int checkChange;
     private TextView textViewProfileName;
     private CheckBox buttonCheckbox;
@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://6071-14-207-218-211.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://6071-14-207-218-211.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://59cd-14-207-218-211.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://59cd-14-207-218-211.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -476,12 +476,32 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                         for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
                             JSONObject productobject = products.getJSONObject(i);
                             Integer row_index = productobject.getInt("row_index");
-                            String endTime = productobject.getString("endTime");
+                            Integer endTime = productobject.getInt("endTime");
+                            String secord = String.valueOf((endTime/100)%60);
+                            String msecord = String.valueOf(endTime%100);
+                            System.out.println(secord.length());
+                            if(secord.length()<2){
+                                if(msecord.length()<2){
+                                    score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                }else{
+                                    score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
+                                }
+                            }
+                            else if(msecord.length()<2){
+                                if(secord.length()<2){
+                                    score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                }else{
+                                    score = endTime/6000+":"+(endTime/100)%60+":"+"0"+endTime%100;
+                                }
+                            }
+                            else{
+                                score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
+                            }
                             if(count==0) {
                                 textBestPlace = "your best place is " + row_index + " and your score is " + endTime;
                                 count++;
                             }
-                            profileUserList.add(new ProfileUser(i+1,row_index,endTime));       /* add data from database */
+                            profileUserList.add(new ProfileUser(i+1,row_index,score));       /* add data from database */
                             setAdapter();       /* show in recyclerView */
                         }
                         /* If AccessibilityMode on speak and delay more than speak in method onStart */
