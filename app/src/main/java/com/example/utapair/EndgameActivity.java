@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -41,8 +42,8 @@ public class EndgameActivity extends Activity {
         int[] score;
         score = new int[3];
         for(int i=0;i<arrOfStr.length;i++){
-            score[i]=Integer.valueOf(arrOfStr[i]);
-            System.out.println(score[i]);
+            score[i]=Integer.parseInt(arrOfStr[i]);
+            System.out.println(receiveValue);
         }
         int completeScore;
         completeScore = score[2]+score[1]*100+score[0]*6000;
