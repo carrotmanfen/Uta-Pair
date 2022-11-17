@@ -207,7 +207,7 @@ public class EndgameActivity extends Activity {
             public void run() {
                 /* if a tap play sound */
                 if (tapCount==1){
-                    String text = "double tap to go to home";
+                    String text = "double tap to go share";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time to share score */
