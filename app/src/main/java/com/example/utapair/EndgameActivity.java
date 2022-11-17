@@ -1,16 +1,32 @@
 package com.example.utapair;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /* this class is about EndgameActivity
 * when game is end it will show score
@@ -26,7 +42,9 @@ public class EndgameActivity extends Activity {
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private String[] timeSplit;
-
+    private String username;
+    SharedPreferences sh;
+    private String insertScoreURL = "https://87bb-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/insertScore.php";
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,4 +293,52 @@ public class EndgameActivity extends Activity {
         return "Error!";
     }
 
+    /* method to check if user is logged in */
+    public int checkLoginData(){
+        /* check the data in sharedPreference */
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        if(sh.contains("SAVED_NAME")){
+            return 1 ; /* If have data in string key "SAVED_NAME"then return 1 */
+        }
+        else{
+            return 0; /* If don't have data in string key "SAVED_NAME" then return 0 */
+        }
+
+    }
+
+    public void addData(int score){
+        username = sh.getString("SAVED_NAME","");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, insertScoreURL, new Response.Listener<String>() {
+            @Override
+
+            public void onResponse(String response) {
+
+                if (response.equals("CANT_FIND_THIS_USER")) {
+                    Toast.makeText(EndgameActivity.this, "Can't find where to insert data", Toast.LENGTH_SHORT).show();
+                } else if (response.equals("FAILURE")) {
+                    Toast.makeText(EndgameActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
+                } else if (response.equals("SUCCESS")) {
+                    Toast.makeText(EndgameActivity.this, "Added to database", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(EndgameActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,Integer > putInt = new HashMap<>();
+                putInt.put ("SCORE",score);
+                Map<String, String> data = new HashMap<>();
+                data.put("USERNAME", username);
+                data.put("LEVEL", "MAL01");
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
 }
