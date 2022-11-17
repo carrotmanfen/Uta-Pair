@@ -438,13 +438,15 @@ public class SettingActivity extends AppCompatActivity {
             }
         },500);     /* in 500 millisecond */
     }
-    private int checkLoginData(){
+    /* method to check if user is logged in */
+    public int checkLoginData(){
+        /* check the data in sharedPreference */
         sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
         if(sh.contains("SAVED_NAME")){
-            return 1 ;
+            return 1 ; /* If have data in string key "SAVED_NAME"then return 1 */
         }
         else{
-            return 0;
+            return 0; /* If don't have data in string key "SAVED_NAME" then return 0 */
         }
 
     }

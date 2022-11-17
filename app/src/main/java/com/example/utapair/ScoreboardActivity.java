@@ -52,8 +52,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String URL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestPlaceURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String URL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestPlaceURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -377,7 +377,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                             JSONObject productobject = products.getJSONObject(i);
                             Integer row_index = productobject.getInt("row_index");
                             String text ="Congratulations! you are on "+ row_index + "th place.";
-                            Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
+                            Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_SHORT).show();
                             /* If AccessibilityMode on speak and delay more than speak in method onStart */
                             if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                                 Handler handler = new Handler();
