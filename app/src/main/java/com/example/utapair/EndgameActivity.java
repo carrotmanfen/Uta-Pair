@@ -38,7 +38,6 @@ public class EndgameActivity extends Activity {
         Intent receiverIntent = getIntent();
         String receiveValue = receiverIntent.getStringExtra("TIME_SCORE");
         String[] arrOfStr = receiveValue.split(":", 3);
-
         int[] score;
         score = new int[3];
         for(int i=0;i<arrOfStr.length;i++){
