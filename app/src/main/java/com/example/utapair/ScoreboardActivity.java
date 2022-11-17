@@ -48,13 +48,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
     private CheckBox buttonCheckbox;
-    private String saveName,buttonLevel,textLevel;
+    private String saveName,buttonLevel,textLevel,score;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String score;
-    private String URL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestPlaceURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String URL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestPlaceURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -323,31 +322,13 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                                 JSONObject productobject = products.getJSONObject(i);
                                 String username = productobject.getString("username");
                                 Integer endTime = productobject.getInt("endTime");
-                                String stringEndTimeSecond = String.valueOf((endTime/100)%60);
-                                String stringEndTimeMillSecond = String.valueOf((endTime%100));
-                                if((stringEndTimeSecond.length()<2) || (stringEndTimeMillSecond.length()<2)){
-                                    score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
-                                    if ((stringEndTimeSecond.length()==2)&&(stringEndTimeMillSecond.length()<2)){
-                                        score = endTime/6000+":"+(endTime/100)%60+":"+"0"+endTime%100;}
-                                    else if ((stringEndTimeSecond.length()<2)&&(stringEndTimeMillSecond.length()==2)){
-                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
-                                    }
-                                    else{
-                                        score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
-                                    }
-
-
-
-                                }
-                               /* if(endTime<1000){
-                                    if(endTime<10){
-                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;}
+                                if(endTime<1000){
                                     score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
                                 }
                                 else{
                                     score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
-                                }*/
-                                scoreboardUserList.add(new ScoreboardUser(i+1,username,score));       /* add data from database */
+                                }
+                                scoreboardUserList.add(new ScoreboardUser(i+1,username,score));
                                 setAdapter();       /* show in recyclerView */
                             }
                     } catch (JSONException e) {
@@ -402,7 +383,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                             JSONObject productobject = products.getJSONObject(i);
                             Integer row_index = productobject.getInt("row_index");
                             String text ="Congratulations! you are on "+ row_index + "th place.";
-                            Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
                             /* If AccessibilityMode on speak and delay more than speak in method onStart */
                             if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                                 Handler handler = new Handler();
