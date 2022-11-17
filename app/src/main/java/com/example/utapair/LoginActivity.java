@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private int tapCount = 0;
 
     /* Connect Server */
-    private String URL = "https://0201-14-207-218-211.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String URL = "https://6071-14-207-218-211.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @SuppressLint("MissingInflatedId")
     @Override

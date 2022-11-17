@@ -44,7 +44,7 @@ public class EndgameActivity extends Activity {
     private String[] timeSplit;
     private String username;
     SharedPreferences sh;
-    private String insertScoreURL = "https://0201-14-207-218-211.ap.ngrok.io/RegisterLogin/insertScore.php";
+    private String insertScoreURL = "https://6071-14-207-218-211.ap.ngrok.io/RegisterLogin/insertScore.php";
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
