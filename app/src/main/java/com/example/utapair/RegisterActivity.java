@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     /* Connect server */
-    private String URL = "https://da32-2001-fb1-b3-7432-f577-2fe9-f79-d3ad.ap.ngrok.io/RegisterLogin/register.php";
+    private String URL = "https://ffc8-2001-fb1-b3-7432-95f5-7962-a3fc-37b5.ap.ngrok.io/RegisterLogin/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -121,11 +122,11 @@ public class RegisterActivity extends AppCompatActivity {
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     if (buttonCheck.isChecked()) {
-                        String text = "Checked you are blind";
+                        String text = "Checked you are blind person";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
                     else {
-                        String text = "Checked off you are not blind";
+                        String text = "Unchecked you are not blind person";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
                 }
@@ -286,18 +287,25 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                         String text = "register success";
+                        if(buttonCheck.isChecked()){
+                            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                    .putBoolean("ACCESSIBILITY_CHECKBOX", true).commit();
+                        }
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                     openAccountActivity();
                 } else if (response.equals("FAILURE")) {
                     /* If response is FAILURE show pop up "Something wrong!. Please try again later" */
                     Toast.makeText(RegisterActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
+                    sayFailed();
                 } else if (response.equals("EXIST")) {
                     /* make the text below username text box be
                      * This username is already used by someone
                      * else and set the border of username text box be red */
                     textViewUsernameError.setText("This username is already used by someone else.");
                     editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                    sayFailed();
                 }
             }
         }, new Response.ErrorListener() {
@@ -325,6 +333,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void openAccountActivity(){
         Intent intent=new Intent(this, AccountActivity.class);
         startActivity(intent);
+        finish();
     }
     /* function use to set the UI when all fields are empty */
     public void checkAllEmpty(){

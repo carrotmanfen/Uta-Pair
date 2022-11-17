@@ -1,3 +1,4 @@
+<!--Card ice cream for pair game-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item >
         <layer-list>

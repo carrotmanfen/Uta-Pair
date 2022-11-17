@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Setting page for music settings, accessibility  settings and turn on blind mode-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +9,7 @@
     tools:context=".SettingActivity"
     android:background="@color/purple_100">
 
+    <!--back button-->
     <ImageButton
         android:id="@+id/backward_btn"
         android:layout_width="50sp"
@@ -30,6 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!--SETTING text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +46,7 @@
             >
         </TextView>
 
+        <!--checkbox to play the song-->
         <CheckBox android:id="@+id/music_checkbox"
             android:buttonTint="@color/white"
             android:layout_width="match_parent"
@@ -52,8 +57,10 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  MUSIC"
+            android:checked="true"
             android:textSize="32sp" />
 
+        <!--checkbox to turn on accessibility mode-->
         <CheckBox android:id="@+id/accessibility_checkbox"
             android:buttonTint="@color/white"
             android:layout_width="match_parent"
@@ -64,8 +71,10 @@
             android:fontFamily="@font/impact"
             android:textColor="@color/white"
             android:text="  ACCESSIBILITY"
+            android:checked="true"
             android:textSize="32sp" />
 
+        <!--checkbox to turn on blind mode-->
         <CheckBox android:id="@+id/blind_mode_checkbox"
             android:buttonTint="@color/white"
             android:layout_width="match_parent"
@@ -78,6 +87,7 @@
             android:text="  BLIND MODE"
             android:textSize="32sp" />
 
+        <!--description for blind mode-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,6 +101,7 @@
 
     </LinearLayout>
 
+    <!--button bar-->
     <GridLayout
         android:id="@+id/GridLayout"
         android:layout_width="match_parent"
@@ -102,6 +113,7 @@
         android:rowCount="1"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <!--scoreboard button-->
         <ImageButton
             android:id="@+id/scoreboard_btn"
             android:layout_width="wrap_content"
@@ -112,6 +124,7 @@
             android:background="@color/brown_100"
             android:src="@mipmap/ic_scoreboard_foreground" />
 
+        <!--profile button-->
         <ImageButton
             android:id="@+id/profile_btn"
             android:layout_width="wrap_content"
@@ -122,6 +135,7 @@
             android:background="@color/brown_100"
             android:src="@mipmap/ic_profile_foreground" />
 
+        <!--setting button-->
         <ImageButton
             android:id="@+id/setting_btn"
             android:layout_width="wrap_content"
@@ -129,7 +143,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
-            android:background="@color/brown_100"
+            android:background="@color/brown_200"
             android:src="@mipmap/ic_setting_foreground" />
 
     </GridLayout>

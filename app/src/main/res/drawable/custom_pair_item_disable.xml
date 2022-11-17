@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Custom cards for matched cards and blind mode-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
             <item >
                 <shape android:visible="true">
 
 <!--                    <solid android:color="@color/purple_100" />-->
-
-
 
                 </shape>
             </item>

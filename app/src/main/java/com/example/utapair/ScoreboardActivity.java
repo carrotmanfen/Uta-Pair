@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -25,7 +27,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -47,30 +48,45 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
     private CheckBox buttonCheckbox;
-    private String buttonLevel;
-    private RequestQueue mQueue;
+    private String saveName,buttonLevel,textLevel;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
-    private String URL = "https://dd07-183-88-63-158.ap.ngrok.io/RegisterLogin/scoreboard.php";
-
+    private int sdCount = 0;
+    private String URL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestPlaceURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard); /* set layout */
-
         /* set spinner for select level */
         Spinner spinner = findViewById(R.id.level_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.level,R.layout.spinner_text_select);
         adapter.setDropDownViewResource(R.layout.spinner_text_dropdown);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        saveName = sh.getString("SAVED_NAME","");
         /* set checkbox for BlindMode */
         buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
-
-        /* for pull data from database */
-        mQueue = Volley.newRequestQueue(this);
+        buttonCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /* use method follow AccessibilityMode */
+                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                    if (buttonCheckbox.isChecked()) {
+                        String text = "Checked mode blind";
+                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    }
+                    else {
+                        String text = "Checked off mode blind";
+                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    }
+                }
+                showScore();
+            }
+        });
 
         /* for keep data and show in recyclerView */
         recyclerView = findViewById(R.id.scoreboard_recycler_view);
@@ -140,13 +156,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     /* this part will run when this Activity start */
     protected void onStart() {
         super.onStart();
+        sdCount = 0 ;
         /* if AccessibilityMode on when this activity start play sound */
         if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    String text = "Account";
+                    String text = "Scoreboard";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, 500);
@@ -156,9 +173,16 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     /* method to start AccountActivity */
     public void openAccountActivity(){
         /* create new intent AccountActivity Class and Start Activity */
-        Intent intent=new Intent(this, AccountActivity.class);
-        finish();       /* finish this Activity */
-        startActivity(intent);
+        if(checkLoginData()==1){
+            Intent intent=new Intent(this, ProfileActivity.class);
+            finish();       /* finish this Activity */
+            startActivity(intent);}
+        else{
+            Intent intent=new Intent(this, AccountActivity.class);
+            finish();
+            startActivity(intent);
+
+        }
     }
 
     /* method to start AccountActivity with AccessibilityMode */
@@ -170,8 +194,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void run() {
                 /* if a tap play sound */
                 if (tapCount==1){
-                    String text = "double tap to go to profile";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    if(checkLoginData()==1) {
+                        String text = "double tap to go to profile";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    else {
+                        String text = "double tap to go to account";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
                 }
                 /* if double tap in time start AccountActivity */
                 else if(tapCount==2){
@@ -243,26 +273,62 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         recyclerView.setAdapter(scoreboardRecyclerAdapter);
     }
 
+    public void showScore (){
+        /* set button level follow mode and level to put this data in to database */
+        if(buttonCheckbox.isChecked()){
+            if(textLevel.equals("EASY")){
+                buttonLevel="MAL01";
+            }
+            else if(textLevel.equals("NORMAL")){
+                buttonLevel="MAL02";
+            }
+            else if(textLevel.equals("HARD")){
+                buttonLevel="MAL03";
+            }
+        }
+        else{
+            if(textLevel.equals("EASY")){
+                buttonLevel="MAL04";
+            }
+            else if(textLevel.equals("NORMAL")){
+                buttonLevel="MAL05";
+            }
+            else if(textLevel.equals("HARD")){
+                buttonLevel="MAL06";
+            }
+        }
+        /* collect data from database */
+        setUserInfo(buttonLevel);
+        /* show best place user */
+        showBestPlace(buttonLevel);
+    }
+
     /* method to add data from database */
     public void setUserInfo(String buttonLevel){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
-                    scoreboardUserList.clear();     /* clear date */
-                    JSONArray products = new JSONArray(response);
-                    for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
-                        JSONObject productobject = products.getJSONObject(i);
-                        String username = productobject.getString("username");
-                        String endTime = productobject.getString("endTime");
-                        scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));       /* add data from database */
-                        setAdapter();       /* show in recyclerView */
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                /* If response from database is FAILURE */
+                if(response.equals("FAILURE")){
+                    scoreboardUserList.clear();     /* clear data */
+                    setAdapter();       /* show in recyclerView */
+                    Toast.makeText(ScoreboardActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
                 }
-
+                else {
+                    try {
+                        scoreboardUserList.clear();     /* clear data */
+                        JSONArray products = new JSONArray(response);
+                            for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
+                                JSONObject productobject = products.getJSONObject(i);
+                                String username = productobject.getString("username");
+                                String endTime = productobject.getString("endTime");
+                                scoreboardUserList.add(new ScoreboardUser(i+1,username,endTime));       /* add data from database */
+                                setAdapter();       /* show in recyclerView */
+                            }
+                    } catch (JSONException e) {
+                        e.printStackTrace();    /* if JSON error */
+                    }
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -275,7 +341,72 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             /* get data that use in database */
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> data = new HashMap<>();
-                data.put("Level", buttonLevel);     /* put level to database */
+                data.put("LEVEL", buttonLevel);     /* put level to database */
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
+
+    @Override
+    /* when select level */
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        /* change level and show with toast */
+        textLevel = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(),textLevel,Toast.LENGTH_SHORT).show();
+        /* count for do not speak when this activity is start */
+        sdCount++;
+        if (sdCount>1) {
+            /* speak when AccessibilityMode on */
+            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+                String text = "Select level " + textLevel;
+                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+            }
+        }
+        showScore();
+    }
+    /* method show best place user*/
+    public void showBestPlace(String buttonLevel){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, bestPlaceURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                    try {
+                        JSONArray products = new JSONArray(response);
+                        for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
+                            JSONObject productobject = products.getJSONObject(i);
+                            Integer row_index = productobject.getInt("row_index");
+                            String text ="Congratulations! you are on "+ row_index + "th place.";
+                            Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
+                            /* If AccessibilityMode on speak and delay more than speak in method onStart */
+                            if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                                    }
+                                }, 600);
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();    /* if JSON error */
+                    }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {    /* if error */
+                Toast.makeText(ScoreboardActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Nullable
+            @Override
+            /* get data that use in database */
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> data = new HashMap<>();
+                data.put("LEVEL", buttonLevel);     /* put level to database */
+                data.put("USERNAME", saveName);      /* put username to database */
                 return data;
             }
         };
@@ -283,41 +414,18 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         requestQueue.add(stringRequest);
     }
     @Override
-    /* when select level */
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        /* change level and show with toast */
-        String level = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(),level,Toast.LENGTH_SHORT).show();
-        /* set button level follow mode and level to put this data in to database */
-        if(buttonCheckbox.isChecked()){
-            if(level.equals("EASY")){
-                buttonLevel="MAL01";
-            }
-            else if(level.equals("NORMAL")){
-                buttonLevel="MAL02";
-            }
-            else if(level.equals("HARD")){
-                buttonLevel="MAL03";
-            }
-        }
-        else{
-            if(level.equals("EASY")){
-                buttonLevel="MAL04";
-            }
-            else if(level.equals("NORMAL")){
-                buttonLevel="MAL05";
-            }
-            else if(level.equals("HARD")){
-                buttonLevel="MAL06";
-            }
-        }
-        /* collect data from database */
-        setUserInfo(buttonLevel);
-    }
-
-    @Override
     /* implement because implement interface */
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
+    private int checkLoginData(){
+        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        if(sh.contains("SAVED_NAME")){
+            return 1 ;
+        }
+        else{
+            return 0;
+        }
+
+    }
 }

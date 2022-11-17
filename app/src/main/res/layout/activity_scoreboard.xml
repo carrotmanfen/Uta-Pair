@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Scoreboard page shows the ranking of all players-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +9,7 @@
     tools:context=".ScoreboardActivity"
     android:background="@color/purple_100">
 
+    <!--back button-->
     <ImageButton
         android:id="@+id/backward_btn"
         android:layout_width="50sp"
@@ -31,6 +34,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="80sp">
 
+        <!--SCOREBOARD text-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,6 +52,7 @@
             android:orientation="horizontal"
             android:gravity="center">
 
+            <!--LEVEL text-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,6 +82,7 @@
 
         </LinearLayout>
 
+        <!--checkbox for mode blind-->
         <CheckBox android:id="@+id/blind_mode_checkbox"
             android:buttonTint="@color/white"
             android:layout_width="wrap_content"
@@ -89,6 +95,7 @@
             android:textSize="24sp"
             />
 
+        <!--layout for scoreboard list-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,12 +115,14 @@
                 android:gravity="center"
                 android:background="@drawable/custom_scoreboard_header">
 
+                <!--The trophy image for the ranking column-->
                 <ImageView
                     android:layout_width="50sp"
                     android:layout_height="50sp"
                     android:scaleType="centerInside"
                     android:src="@mipmap/ic_scoreboard_foreground"/>
 
+                <!--Text NAME for username column-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -127,6 +136,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
 
+                <!--Text TIME for the column showing the user's score-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,6 +148,7 @@
 
             </LinearLayout>
 
+            <!--layout for scoreboard data-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/scoreboard_recycler_view"
                 android:layout_width="match_parent"
@@ -147,6 +158,7 @@
 
     </LinearLayout>
 
+    <!--button bar-->
     <GridLayout
         android:id="@+id/GridLayout"
         android:layout_width="match_parent"
@@ -158,6 +170,7 @@
         android:rowCount="1"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <!--scoreboard button-->
         <ImageButton
             android:id="@+id/scoreboard_btn"
             android:layout_width="wrap_content"
@@ -165,9 +178,10 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
-            android:background="@color/brown_100"
+            android:background="@color/brown_200"
             android:src="@mipmap/ic_scoreboard_foreground" />
 
+        <!--profile button-->
         <ImageButton
             android:id="@+id/profile_btn"
             android:layout_width="wrap_content"
@@ -178,6 +192,7 @@
             android:background="@color/brown_100"
             android:src="@mipmap/ic_profile_foreground" />
 
+        <!--setting button-->
         <ImageButton
             android:id="@+id/setting_btn"
             android:layout_width="wrap_content"

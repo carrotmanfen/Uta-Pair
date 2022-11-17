@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Custom dialog for pop up edit name and pause-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid android:color="@color/purple_100"/>
