@@ -55,16 +55,23 @@ public class EndgameActivity extends Activity {
         textViewScoreTime = findViewById(R.id.score_time_text);
         Intent receiverIntent = getIntent();
         String receiveValue = receiverIntent.getStringExtra("TIME_SCORE");
-        String[] arrOfStr = receiveValue.split(":", 5);
+        String[] arrOfStr = receiveValue.split(":", 3);
+
         int[] score;
         score = new int[3];
         for(int i=0;i<arrOfStr.length;i++){
-            score[i]=Integer.valueOf(arrOfStr[i]);
-            System.out.println(score[i]);
+            try {
+                score[i] = Integer.valueOf(arrOfStr[i]);
+                System.out.println(score[i]);
+            }
+            catch (NumberFormatException ex){
+                ex.printStackTrace();
+            }
         }
         int completeScore;
         completeScore = score[2]+score[1]*100+score[0]*6000;
         /* เอา completeScore ไปใส่ใน database ได้เลย */
+
         System.out.println(receiveValue);
         textViewScoreTime.setText(receiveValue);
         String modeText = setTextMode();
