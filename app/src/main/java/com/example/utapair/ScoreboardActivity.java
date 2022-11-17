@@ -52,8 +52,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String URL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestPlaceURL = "https://189d-14-207-96-95.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String URL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestPlaceURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -322,8 +322,22 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                                 JSONObject productobject = products.getJSONObject(i);
                                 String username = productobject.getString("username");
                                 Integer endTime = productobject.getInt("endTime");
-                                if(endTime<1000){
-                                    score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
+                                String secord = String.valueOf((endTime/100)%60);
+                                String msecord = String.valueOf(endTime%100);
+                                System.out.println(secord.length());
+                                if(secord.length()<2){
+                                    if(msecord.length()<2){
+                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                    }else{
+                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
+                                    }
+                                }
+                                else if(msecord.length()<2){
+                                    if(secord.length()<2){
+                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                    }else{
+                                        score = endTime/6000+":"+(endTime/100)%60+":"+"0"+endTime%100;
+                                    }
                                 }
                                 else{
                                     score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
