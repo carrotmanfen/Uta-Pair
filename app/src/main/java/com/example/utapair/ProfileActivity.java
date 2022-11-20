@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://2640-180-183-130-142.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://2640-180-183-130-142.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -480,20 +480,29 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                             String secord = String.valueOf((endTime/100)%60);
                             String msecord = String.valueOf(endTime%100);
                             System.out.println(secord.length());
+                            /* If length of "secord" less 2 (0:0:00) */
                             if(secord.length()<2){
+                                /* If length of "msecord" less 2 (0:0:0) */
                                 if(msecord.length()<2){
                                     score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
-                                }else{
+                                }
+                                /* else length of "msecord" not less 2 (0:0:00) */
+                                else{
                                     score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
                                 }
                             }
+                            /* If length of "msecord" less 2 (0:00:0) */
                             else if(msecord.length()<2){
+                                /* If length of "secord" less 2 (0:0:0) */
                                 if(secord.length()<2){
                                     score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
-                                }else{
+                                }
+                                /* else length of "secord" not less 2 (0:00:0) */
+                                else{
                                     score = endTime/6000+":"+(endTime/100)%60+":"+"0"+endTime%100;
                                 }
                             }
+                            /* else length of "secord" not less 2 (0:00:00) */
                             else{
                                 score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
                             }
