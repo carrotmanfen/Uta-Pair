@@ -69,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
         /* set SharedPreference */
         sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         firstStart =sh.getBoolean("FIRST_USE_PREF",true);
-        if(firstStart){
-            startFirstDialog();
-        }
         /* set buttonPlay */
         buttonPlay = (Button) findViewById(R.id.play_btn);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +139,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+       if(firstStart){
+            startFirstDialog();
+            startFirstSetting();
+        }
+       else
+        settingAll();
     }
 
     /* this part will run when this Activity start */
@@ -349,9 +352,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+    /* This function use to appear alert dialog for first time use */
     private void startFirstDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("One time Dialog")
+                .setTitle("One time Dialog") /* set title */
                 .setMessage("All setting is on and you change it on " +
                         "bottom right of the app")
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -364,5 +368,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor shEditor = sh.edit();
         shEditor.putBoolean("FIRST_USE_PREF",false);
         shEditor.apply();
+    }
+    /* this function set all setting to checked */
+    private void startFirstSetting() {
+        MusicMode.getInstance().setMode("MUSIC");
+        AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
+        BlindMode.getInstance().setMode("BLIND");
     }
 }
