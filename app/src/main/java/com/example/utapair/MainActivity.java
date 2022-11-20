@@ -1,6 +1,8 @@
 package com.example.utapair;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton buttonSetting;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
+    private boolean firstStart;
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);     /* set layout file */
-
         /* set all setting in first page */
         settingAll();
 
@@ -65,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         /* set SharedPreference */
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
+        firstStart =sh.getBoolean("FIRST_USE_PREF",true);
+        if(firstStart){
+            startFirstDialog();
+        }
         /* set buttonPlay */
         buttonPlay = (Button) findViewById(R.id.play_btn);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
@@ -334,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
         },500);     /* in 500 millisecond */
     }
     private int checkLoginData(){
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         if(sh.contains("SAVED_NAME")){
             return 1 ;
         }
@@ -343,5 +349,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+    private void startFirstDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("One time Dialog")
+                .setMessage("All setting is on and you change it on " +
+                        "bottom right of the app")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create().show();
+        SharedPreferences.Editor shEditor = sh.edit();
+        shEditor.putBoolean("FIRST_USE_PREF",false);
+        shEditor.apply();
+    }
 }

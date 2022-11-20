@@ -441,7 +441,7 @@ public class SettingActivity extends AppCompatActivity {
     /* method to check if user is logged in */
     public int checkLoginData(){
         /* check the data in sharedPreference */
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
         if(sh.contains("SAVED_NAME")){
             return 1 ; /* If have data in string key "SAVED_NAME"then return 1 */
         }

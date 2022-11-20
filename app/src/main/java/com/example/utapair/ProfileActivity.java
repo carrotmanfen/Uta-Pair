@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://48a5-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://48a5-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://2276-180-183-130-142.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://2276-180-183-130-142.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         editor = sh.edit();
         saveName = sh.getString("SAVED_NAME","");
         textViewProfileName = findViewById(R.id.changename);

@@ -45,9 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     private int tapCount = 0;
 
     /* Connect Server */
-    private String URL = "https://48a5-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String loginUrl = "https://2276-180-183-130-142.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         /*  Declare Variable */
-        sharedPreferences = getSharedPreferences("MYSHAREDPREF", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
         username = sPassword = "";
         editTextName = findViewById(R.id.login_name_textbox);
@@ -214,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void userLogin () {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, loginUrl, new Response.Listener<String>() {
             @Override
             /* when request have response to application */
             public void onResponse(String response) {
