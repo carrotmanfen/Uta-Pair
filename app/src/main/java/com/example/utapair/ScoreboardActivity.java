@@ -52,8 +52,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String URL = "https://2640-180-183-130-142.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestPlaceURL = "https://2640-180-183-130-142.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String scoreboardURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestPlaceURL = "https://297f-2001-fb1-b3-7432-8912-ddbb-9786-c5ec.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -66,7 +66,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         adapter.setDropDownViewResource(R.layout.spinner_text_dropdown);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         saveName = sh.getString("SAVED_NAME","");
         /* set checkbox for BlindMode */
         buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
@@ -151,6 +151,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 }
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+            Intent intent = new Intent(this, MainActivity.class);
+            finishAffinity();
+            startActivity(intent);
     }
 
     /* this part will run when this Activity start */
@@ -305,7 +311,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
 
     /* method to add data from database */
     public void setUserInfo(String buttonLevel){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, scoreboardURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 /* If response from database is FAILURE */
@@ -405,7 +411,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                         for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
                             JSONObject productobject = products.getJSONObject(i);
                             Integer row_index = productobject.getInt("row_index");
-                            String text ="Congratulations! you are on "+ row_index + "th place.";
+                            String text ="Congratulations! your best score is on "+ row_index + "th place.";
                             Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
                             /* If AccessibilityMode on speak and delay more than speak in method onStart */
                             if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
@@ -448,7 +454,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     }
 
     private int checkLoginData(){
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         if(sh.contains("SAVED_NAME")){
             return 1 ;
         }

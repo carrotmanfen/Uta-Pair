@@ -87,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         editor = sh.edit();
         saveName = sh.getString("SAVED_NAME","");
         textViewProfileName = findViewById(R.id.changename);
@@ -618,18 +618,14 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     public void onCheckboxClicked(View view) {
     }
     @Override
-    public void onBackPressed(){
-        /* If still have logged in data */
-        if(sh.contains("SAVED_NAME")){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();}
-        else{
-            Intent intent = new Intent(this, AccountActivity.class);
-            startActivity(intent);
-            finish();
-        }
+    public void onBackPressed() {
 
+        /* If still have logged in data */
+        if (sh.contains("SAVED_NAME")) {
+            Intent intent = new Intent(this, MainActivity.class);
+            finishAffinity();
+            startActivity(intent);
+        }
     }
     public void changeUsername(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, newNameURL, new Response.Listener<String>() {

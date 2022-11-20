@@ -51,7 +51,7 @@ public class EndgameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);     /* menu page file layout */
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         username = sh.getString("SAVED_NAME","");
         /* get score from GameActivity */
         textViewScoreTime = findViewById(R.id.score_time_text);
@@ -207,7 +207,7 @@ public class EndgameActivity extends Activity {
             public void run() {
                 /* if a tap play sound */
                 if (tapCount==1){
-                    String text = "double tap to go to home";
+                    String text = "double tap to go share";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
                 }
                 /* if double tap in time to share score */
@@ -315,7 +315,7 @@ public class EndgameActivity extends Activity {
     /* method to check if user is logged in */
     public int checkLoginData(){
         /* check the data in sharedPreference */
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         if(sh.contains("SAVED_NAME")){
             return 1 ; /* If have data in string key "SAVED_NAME"then return 1 */
         }
@@ -332,11 +332,14 @@ public class EndgameActivity extends Activity {
             public void onResponse(String response) {
 
                 if (response.equals("CANT_FIND_THIS_USER")) {
-                    Toast.makeText(EndgameActivity.this, "Can't find where to insert data", Toast.LENGTH_SHORT).show();
+                    /*System.out.println("CANT_FIND_THIS_USER");*/
+                   /* Toast.makeText(EndgameActivity.this, "Can't find where to insert data", Toast.LENGTH_SHORT).show();*/
                 } else if (response.equals("FAILURE")) {
-                    Toast.makeText(EndgameActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
+                    /*System.out.println("Failure");*/
+                    /*Toast.makeText(EndgameActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();*/
                 } else if (response.equals("SUCCESS")) {
-                    Toast.makeText(EndgameActivity.this, "Added to database", Toast.LENGTH_SHORT).show();
+                   /* Toast.makeText(EndgameActivity.this, "Added to database", Toast.LENGTH_SHORT).show();*/
+                    /*System.out.println("SUCCESS");*/
                 }
             }
         }, new Response.ErrorListener() {
