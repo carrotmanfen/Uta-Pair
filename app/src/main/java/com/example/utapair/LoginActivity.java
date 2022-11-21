@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private int tapCount = 0;
 
     /* Connect Server */
-    private String loginURL = "https://2640-180-183-130-142.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String loginURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/checkLogin.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

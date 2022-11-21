@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://2640-180-183-130-142.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://2640-180-183-130-142.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/checkNewName.php";
+    private String scoreboardURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -214,7 +214,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
     /* method to logout of user */
     public void logout(){
-        editor.clear(); /* Clear data in sh SharedPreference */
+        editor.remove("SAVED_NAME");/* Clear data in sh SharedPreference */
+        editor.remove("SAVED_PASSWORD");
         editor.commit(); /* Commit change to sh SharedPreference */
         /* sh SharedPreference doesn't clear the data */
         if(sh.contains("SAVED_NAME")){
@@ -329,7 +330,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         }
         popupCancelButton = popupView.findViewById(R.id.cancel_popup_btn);
         popupConfirmButton = popupView.findViewById(R.id.confirm_popup_btn);
-        sh = getSharedPreferences("MYSHAREDPREF", Context.MODE_PRIVATE);
+        sh = getSharedPreferences("MY_SHARED_PREF",MODE_PRIVATE);
         editor = sh.edit();
         saveName = sh.getString("SAVED_NAME","");
         popupEditText.setText(saveName);
