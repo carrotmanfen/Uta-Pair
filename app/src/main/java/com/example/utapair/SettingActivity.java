@@ -35,28 +35,18 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);      /* set layout file */
 
         /* set MusicMode to shared preference */
-        switch(checkBoxMusicMode.getId()) {
-            case R.id.music_checkbox:
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean("MUSIC_CHECKBOX", checkBoxMusicMode.isChecked()).commit();
-                break;
-        }
+
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                .putBoolean("MUSIC_CHECKBOX", checkBoxMusicMode.isChecked()).commit();
 
         /* set BlindMode to shared preference */
-        switch(checkBoxBlindMode.getId()) {
-            case R.id.blind_mode_checkbox:
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean("BLIND_CHECKBOX", checkBoxBlindMode.isChecked()).commit();
-                break;
-        }
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                .putBoolean("BLIND_CHECKBOX", checkBoxBlindMode.isChecked()).commit();
+
 
         /* set AccessibilityMode to shared preference */
-        switch(checkBoxAccessibilityMode.getId()) {
-            case R.id.accessibility_checkbox:
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean("ACCESSIBILITY_CHECKBOX", checkBoxAccessibilityMode.isChecked()).commit();
-                break;
-        }
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                .putBoolean("ACCESSIBILITY_CHECKBOX", checkBoxAccessibilityMode.isChecked()).commit();
 
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
