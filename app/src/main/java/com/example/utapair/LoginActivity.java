@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private int tapCount = 0;
 
     /* Connect Server */
-    private String loginURL = "https://b4fd-2001-fb1-b0-8f9d-e1c7-b113-b636-154a.ap.ngrok.io/RegisterLogin/checkLogin.php";
+    private String loginURL = "https://uta-pair-api.herokuapp.com/checkLogin.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
