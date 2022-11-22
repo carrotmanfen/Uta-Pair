@@ -52,8 +52,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String scoreboardURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestPlaceURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String scoreboardURL = "https://b4fd-2001-fb1-b0-8f9d-e1c7-b113-b636-154a.ap.ngrok.io/RegisterLogin/scoreboard.php";
+    private String bestPlaceURL = "https://b4fd-2001-fb1-b0-8f9d-e1c7-b113-b636-154a.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
