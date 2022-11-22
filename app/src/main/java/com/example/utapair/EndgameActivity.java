@@ -89,7 +89,7 @@ public class EndgameActivity extends Activity {
                 if (status != TextToSpeech.ERROR) {
                     textToSpeech.setLanguage(Locale.US);
                     /* if Accessibility Open */
-                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"||BlindMode.getInstance().getMode()=="BLIND") {
                         /* speak score */
                         timeSplit = new String[3];
                         timeSplit = receiveValue.trim().replaceAll("\\s","").split(":");

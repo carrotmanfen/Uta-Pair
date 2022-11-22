@@ -409,7 +409,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraphic[1] = R.drawable.custom_pair_cake;
         buttonGraphic[2] = R.drawable.custom_pair_candy;
         /* if AccessibilityMode on set buttonGraphicTexts */
-        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY" || BlindMode.getInstance().getMode()=="BLIND"){
             /* set text each buttonGraphic */
             buttonGraphicTexts[0] = "brownies";
             buttonGraphicTexts[1] = "cakes";
@@ -427,7 +427,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraphic[4] = R.drawable.custom_pair_cookie;
         buttonGraphic[5] = R.drawable.custom_pair_donut;
         /* if AccessibilityMode on set buttonGraphicTexts */
-        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
             /* set text each buttonGraphic */
             buttonGraphicTexts[0] = "brownies";
             buttonGraphicTexts[1] = "cakes";
@@ -451,7 +451,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraphic[7] = R.drawable.custom_pair_macaron;
         buttonGraphic[8] = R.drawable.custom_pair_pancake;
         /* if AccessibilityMode on set buttonGraphicTexts */
-        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
             /* set text each buttonGraphic */
             buttonGraphicTexts[0] = "brownies";
             buttonGraphicTexts[1] = "cakes";
@@ -533,7 +533,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             buttonSelected1 = button;
             buttonSelected1.flipped();      /* flipped button */
             /* if AccessibilityMode on speak symbol and position */
-            if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+            if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
                 speak(buttonSelected1.getSymbol() + " " +buttonSelected1.getPosition());
             }
             return;
@@ -546,7 +546,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             /* flipped the second one to user */
             button.flipped();
             /* speak if in Accessibility mode */
-            if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+            if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
                 speak(button.getSymbol() + " " + button.getPosition());
                 speak(matchedWord());
             }
@@ -593,7 +593,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 buttonSelected2 = button;
                 buttonSelected2.flipped();      /* flipped button */
                 /* if AccessibilityMode on speak not matched */
-                if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+                if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND") {
                     speak(buttonSelected2.getSymbol() + " " + buttonSelected2.getPosition());
                     /* speak not matched */
                     speak("not matched");
