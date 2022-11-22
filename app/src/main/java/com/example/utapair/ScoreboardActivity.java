@@ -46,7 +46,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private RecyclerView recyclerView;
     private ImageButton buttonProfile;
     private ImageButton buttonSetting;
-    private ImageButton buttonBack;
+    private ImageButton buttonHome;
     private CheckBox buttonCheckbox;
     private String saveName,buttonLevel,textLevel,score;
     private TextToSpeech textToSpeech;
@@ -137,8 +137,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         });
 
         /* set buttonBack */
-        buttonBack = findViewById(R.id.backward_btn);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        buttonHome = findViewById(R.id.home_btn);
+        buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {

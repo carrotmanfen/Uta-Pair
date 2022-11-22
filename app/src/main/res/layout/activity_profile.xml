@@ -11,15 +11,15 @@
 
     <!--back button-->
     <ImageButton
-        android:id="@+id/backward_btn"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
+        android:id="@+id/home_btn"
+        android:layout_width="70sp"
+        android:layout_height="70sp"
         android:background="@color/purple_100"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        android:layout_marginTop="10sp"
-        android:layout_marginLeft="10sp"
-        android:src="@mipmap/ic_backward_foreground"
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="5sp"
+        android:src="@mipmap/ic_home"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"></ImageButton>

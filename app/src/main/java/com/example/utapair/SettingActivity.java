@@ -21,7 +21,7 @@ import java.util.Locale;
 public class SettingActivity extends AppCompatActivity {
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
-    private ImageButton buttonBack;
+    private ImageButton buttonHome;
     private TextToSpeech textToSpeech;
     private CheckBox checkBoxMusicMode;
     private CheckBox checkBoxAccessibilityMode;
@@ -69,8 +69,8 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         /* set buttonBack */
-        buttonBack = findViewById(R.id.backward_btn);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        buttonHome = findViewById(R.id.home_btn);
+        buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
