@@ -13,6 +13,8 @@ public class MemoryButton extends AppCompatButton {
     protected int row;
     protected int col;
     protected int frontDrawableId;
+    protected int mode;
+    protected int buttonSize;
 
     protected boolean isFlipped = false;
     protected boolean isMatched = false;
@@ -25,9 +27,10 @@ public class MemoryButton extends AppCompatButton {
     protected String position;
 
     /* constructor */
-    public MemoryButton(Context context, int r, int c, int frontImageId){    /* give position(r,c) and id of image in drawable source of gridlayout first */
+    public MemoryButton(Context context, int r, int c, int frontImageId,int mode){    /* give position(r,c) and id of image in drawable source of gridlayout first */
         super(context);
 
+        this.mode = mode;
         row = r;
         col = c;
         frontDrawableId = frontImageId;     /* declare id picture for known when they matching */
@@ -45,10 +48,23 @@ public class MemoryButton extends AppCompatButton {
         GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(r),GridLayout.spec(c)); /* it tell position of grid */
 
         /* set dimension and density*/
-        tempParams.width = (int) getResources().getDisplayMetrics().density * 120;
-        tempParams.height = (int) getResources().getDisplayMetrics().density * 120;
+        buttonSize = setButtonSize(mode);
+        tempParams.width = (int) getResources().getDisplayMetrics().density * buttonSize;
+        tempParams.height = (int) getResources().getDisplayMetrics().density * buttonSize;
         setLayoutParams(tempParams);
 
+    }
+    /* method for specify a size of button */
+    public int setButtonSize(int mode){
+        switch (mode){
+            case -1:
+                return 240;
+            case 0:
+                return 160;
+            case 1:
+                return 130;
+        }
+        return 0;
     }
 
     /* method to check Matched */
@@ -107,5 +123,6 @@ public class MemoryButton extends AppCompatButton {
     public void setBackGroundButton(Drawable background){
         setBackground(background);
     }
+
 
 }

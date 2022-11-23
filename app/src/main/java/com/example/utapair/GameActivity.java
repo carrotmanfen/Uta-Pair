@@ -107,7 +107,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         /* set button in to location */
         for(int r = 0; r < numRows; r++) {
             for(int c = 0; c < numColumns; c++){
-                MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ]);
+                MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ], mode);
                 tempButton.setSymbol(buttonGraphicTexts[ buttonGraphicLocation[r * numColumns+c] ]);
                 tempButton.setPosition(r+1,c+1);
                 tempButton.setId(View.generateViewId());    /* create id for matched */
