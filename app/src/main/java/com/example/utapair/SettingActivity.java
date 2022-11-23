@@ -21,7 +21,7 @@ import java.util.Locale;
 public class SettingActivity extends AppCompatActivity {
     private ImageButton buttonProfile;
     private ImageButton buttonScoreboard;
-    private ImageButton buttonBack;
+    private ImageButton buttonHome;
     private TextToSpeech textToSpeech;
     private CheckBox checkBoxMusicMode;
     private CheckBox checkBoxAccessibilityMode;
@@ -45,8 +45,8 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         /* set buttonBack */
-        buttonBack = findViewById(R.id.backward_btn);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        buttonHome = findViewById(R.id.home_btn);
+        buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
@@ -149,6 +149,19 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /* set MusicMode to shared preference */
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                .putBoolean("MUSIC_CHECKBOX", checkBoxMusicMode.isChecked()).commit();
+
+        /* set BlindMode to shared preference */
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                .putBoolean("BLIND_CHECKBOX", checkBoxBlindMode.isChecked()).commit();
+
+
+        /* set AccessibilityMode to shared preference */
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                .putBoolean("ACCESSIBILITY_CHECKBOX", checkBoxAccessibilityMode.isChecked()).commit();
     }
 
     /* this part will run when this Activity start */

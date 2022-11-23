@@ -55,7 +55,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private Button popupCancelButton , popupConfirmButton ;
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
-    private ImageButton buttonBack;
+    private ImageButton buttonHome;
     private String saveName,newUsername,buttonLevel,score;
     private int checkChange;
     private TextView textViewProfileName;
@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences.Editor editor;
 
     /* Connect Server */
-    private String newNameURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/checkNewName.php";
-    private String scoreboardURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/scoreboardProfile.php";
+    private String newNameURL = "https://uta-pair-api.herokuapp.com/checkNewName.php";
+    private String scoreboardURL = "https://uta-pair-api.herokuapp.com/scoreboardProfile.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,8 +180,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         });
 
         /* set buttonBack */
-        buttonBack = findViewById(R.id.backward_btn);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        buttonHome = findViewById(R.id.home_btn);
+        buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {

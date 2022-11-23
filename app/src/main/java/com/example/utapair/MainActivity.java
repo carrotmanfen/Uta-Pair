@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
        if(firstStart){
             startFirstDialog();
             startFirstSetting();
+
         }
        else
         settingAll();

@@ -46,14 +46,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private RecyclerView recyclerView;
     private ImageButton buttonProfile;
     private ImageButton buttonSetting;
-    private ImageButton buttonBack;
+    private ImageButton buttonHome;
     private CheckBox buttonCheckbox;
     private String saveName,buttonLevel,textLevel,score;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private String scoreboardURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/scoreboard.php";
-    private String bestPlaceURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/scoreboardShowBestScore.php";
+    private String scoreboardURL = "https://uta-pair-api.herokuapp.com/scoreboard.php";
+    private String bestPlaceURL = "https://uta-pair-api.herokuapp.com/scoreboardShowBestScore.php";
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
@@ -137,8 +137,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         });
 
         /* set buttonBack */
-        buttonBack = findViewById(R.id.backward_btn);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        buttonHome = findViewById(R.id.home_btn);
+        buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {

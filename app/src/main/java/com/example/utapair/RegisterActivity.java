@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     /* Connect server */
-    private String registerURL = "https://0852-2001-fb1-b0-8f9d-81d-4ad0-9dad-210f.ap.ngrok.io/RegisterLogin/register.php";
+    private String registerURL = "https://uta-pair-api.herokuapp.com/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
