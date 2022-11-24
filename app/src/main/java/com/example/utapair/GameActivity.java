@@ -54,6 +54,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int tapCount = 0;
 
     private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer2;
 
     @Override
     /* this part will run when create this Activity */
@@ -493,20 +494,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     /* method to speech */
     public void speak(String text){
         Handler handler = new Handler();
-        /* if speaking not speak */
-        if(textToSpeech.isSpeaking()){
-            return;
-        }
-        else {  /* if note speaking make it speak */
-            itWasBusy = true;
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    itWasBusy = false;
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
-                }
-            }, 500);
-        }
+        itWasBusy = true;
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                itWasBusy = false;
+                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        }, 500);
+
     }
     @Override
     public void onBackPressed(){
@@ -519,8 +515,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     /* override onClick method */
     public void onClick(View v) {
+        /* set sound */
+        mediaPlayer2 = MediaPlayer.create(this, R.raw.sc);
         /* if speaking do nothing */
-        if(itWasBusy || textToSpeech.isSpeaking()){
+        if(itWasBusy){
             return;
         }
         /* create MemoryButton */
@@ -528,10 +526,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(button.isMatched) {
             return;
         }
-        /* if click adnt busy and not matched then check it have data in bttn 1 yet */
+        /* if click not busy and not matched then check it have data in bttn 1 yet */
         if(buttonSelected1 == null ){
             buttonSelected1 = button;
             buttonSelected1.flipped();      /* flipped button */
+            /* play sound when click */
+            mediaPlayer2.start();
             /* if AccessibilityMode on speak symbol and position */
             if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
                 speak(buttonSelected1.getSymbol() + " " +buttonSelected1.getPosition());
@@ -543,12 +543,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         if(buttonSelected1.getFrontDrawableId() == button.getFrontDrawableId() ){ /* matched */
+            /* play sound when click */
+            mediaPlayer2.start();
             /* flipped the second one to user */
             button.flipped();
             /* speak if in Accessibility mode */
             if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
-                speak(button.getSymbol() + " " + button.getPosition());
-                speak(matchedWord());
+                speak(button.getSymbol() + " " + button.getPosition()+matchedWord());
             }
             /* tell it that was matched */
             buttonSelected1.setMatched(true);
@@ -586,17 +587,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         else {  /* not matched */
-            if(textToSpeech.isSpeaking()) {
-                return;
-            }
-            else {
+                /* play sound when click */
+                mediaPlayer2.start();
                 buttonSelected2 = button;
                 buttonSelected2.flipped();      /* flipped button */
                 /* if AccessibilityMode on speak not matched */
                 if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND") {
-                    speak(buttonSelected2.getSymbol() + " " + buttonSelected2.getPosition());
                     /* speak not matched */
-                    speak("not matched");
+                    speak(buttonSelected2.getSymbol() + " " + buttonSelected2.getPosition()+"not matched");
                 }
                 itWasBusy = true;       /* set to busy */
                 final Handler handler = new Handler();
@@ -611,7 +609,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         itWasBusy = false;  /* end of delay */
                     }
                 }, 500);
-            }
+
         }
 
     }

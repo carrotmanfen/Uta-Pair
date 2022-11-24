@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -41,6 +42,7 @@ public class EndgameActivity extends Activity {
     private ImageButton imageButtonPlayAgain;
     private ImageButton imageButtonShare;
     private TextToSpeech textToSpeech;
+    private MediaPlayer mediaPlayer;
     private int tapCount = 0;
     private String[] timeSplit;
     private String username;
@@ -51,6 +53,9 @@ public class EndgameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);     /* menu page file layout */
+        /* play sound when click */
+        mediaPlayer = MediaPlayer.create(this, R.raw.correct);
+        mediaPlayer.start();
         sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         username = sh.getString("SAVED_NAME","");
         /* get score from GameActivity */
