@@ -144,13 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-       if(firstStart){
-            startFirstDialog();
-            startFirstSetting();
 
-        }
-       else
-        settingAll();
     }
 
     /* this part will run when this Activity start */
@@ -167,6 +161,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 500);
         }
+
+        if(firstStart){
+            startFirstDialog();
+            startFirstSetting();
+        }
+        else
+            settingAll();
     }
 
     /* method to set all setting */
@@ -368,6 +369,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mediaPlayerClick.start(); /* sound click */
+                        String text = "Home";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                         dialogInterface.dismiss();
                     }
                 })
@@ -375,6 +378,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor shEditor = sh.edit();
         shEditor.putBoolean("FIRST_USE_PREF",false);
         shEditor.apply();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text = "All setting is on and you change it on bottom right of the app";
+                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+            }
+        },500);     /* in 500 millisecond */
     }
     /* this function set all setting to checked */
     private void startFirstSetting() {
