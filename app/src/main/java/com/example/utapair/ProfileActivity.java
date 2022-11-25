@@ -1,5 +1,7 @@
 package com.example.utapair;
 
+import static com.example.utapair.R.raw.sc;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private Button buttonLogout;
     private SharedPreferences sh;
     private SharedPreferences.Editor editor;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick;
 
     /* Connect Server */
     private String newNameURL = "https://uta-pair-api.herokuapp.com/checkNewName.php";
@@ -78,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override

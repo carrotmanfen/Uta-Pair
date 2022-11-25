@@ -1,5 +1,6 @@
 package com.example.utapair;
 
+import static com.example.utapair.R.raw.sc;
 import static java.lang.String.valueOf;
 
 import androidx.annotation.Nullable;
@@ -53,7 +54,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick;
     private String scoreboardURL = "https://uta-pair-api.herokuapp.com/scoreboard.php";
     private String bestPlaceURL = "https://uta-pair-api.herokuapp.com/scoreboardShowBestScore.php";
     SharedPreferences sh;
@@ -61,6 +62,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         setContentView(R.layout.activity_scoreboard); /* set layout */
         /* set spinner for select level */
         Spinner spinner = findViewById(R.id.level_spinner);

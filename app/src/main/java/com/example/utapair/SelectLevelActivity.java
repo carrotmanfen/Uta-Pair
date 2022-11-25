@@ -1,5 +1,7 @@
 package com.example.utapair;
 
+import static com.example.utapair.R.raw.sc;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -22,7 +24,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     private Button buttonPlayHard;   /* dimension = 6 rows, 3 cols */
     private ImageButton buttonBack;
     private TextToSpeech textToSpeech;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick;
     private int tapCount = 0;
 
     @Override
@@ -30,7 +32,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_select_level); /* menu page file layout */
-
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override

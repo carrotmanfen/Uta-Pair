@@ -1,5 +1,7 @@
 package com.example.utapair;
 
+import static com.example.utapair.R.raw.sc;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -27,7 +29,7 @@ public class SettingActivity extends AppCompatActivity {
     private CheckBox checkBoxMusicMode;
     private CheckBox checkBoxAccessibilityMode;
     private CheckBox checkBoxBlindMode;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick;
     private int tapCount = 0;
     SharedPreferences sh;
     @Override
@@ -35,7 +37,7 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);      /* set layout file */
-
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override

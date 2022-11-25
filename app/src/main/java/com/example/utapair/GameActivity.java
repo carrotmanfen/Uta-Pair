@@ -1,5 +1,7 @@
 package com.example.utapair;
 
+import static com.example.utapair.R.raw.sc;
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -51,16 +53,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private String timeScore;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
-
-    /* set sound */
     private MediaPlayer mediaPlayer;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick;
 
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
 
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         /* keep data from inputExtra to variable */
         Bundle bundle = getIntent().getExtras();
         mode = bundle.getInt("MODE");

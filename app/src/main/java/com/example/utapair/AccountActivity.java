@@ -1,5 +1,7 @@
 package com.example.utapair;
 
+import static com.example.utapair.R.raw.sc;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,13 +25,15 @@ public class AccountActivity extends AppCompatActivity {
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
     private TextToSpeech textToSpeech;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick ;
     private int tapCount = 0;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);      /* set layout file */
+
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
 
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {

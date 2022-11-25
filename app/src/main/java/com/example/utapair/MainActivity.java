@@ -1,5 +1,7 @@
 package com.example.utapair;
 
+import static com.example.utapair.R.raw.sc;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,16 +44,14 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
     private TextToSpeech textToSpeech;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick ;
     private int tapCount = 0;
     private boolean firstStart;
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
-        /*if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }*/
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);     /* set layout file */
         /* set all setting in first page */

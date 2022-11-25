@@ -1,4 +1,6 @@
 package com.example.utapair;
+import static com.example.utapair.R.raw.sc;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor myEdit;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick;
 
     /* Connect Server */
     private String loginURL = "https://uta-pair-api.herokuapp.com/checkLogin.php";
@@ -53,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override

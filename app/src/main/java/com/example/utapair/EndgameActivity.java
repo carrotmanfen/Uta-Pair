@@ -1,5 +1,7 @@
 package com.example.utapair;
 
+import static com.example.utapair.R.raw.sc;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -43,7 +45,7 @@ public class EndgameActivity extends Activity {
     private ImageButton imageButtonShare;
     private TextToSpeech textToSpeech;
     private MediaPlayer mediaPlayer;
-    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
+    private MediaPlayer mediaPlayerClick;
     private int tapCount = 0;
     private String[] timeSplit;
     private String username;
@@ -54,6 +56,7 @@ public class EndgameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);     /* menu page file layout */
+        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         /* play sound when click */
         mediaPlayer = MediaPlayer.create(this, R.raw.correct);
         mediaPlayer.start();
