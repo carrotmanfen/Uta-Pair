@@ -3,6 +3,7 @@ package com.example.utapair;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -21,6 +22,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     private Button buttonPlayHard;   /* dimension = 6 rows, 3 cols */
     private ImageButton buttonBack;
     private TextToSpeech textToSpeech;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
     private int tapCount = 0;
 
     @Override
@@ -45,6 +47,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             /* set when click button start game easy mode */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openEasyGameActivityAccessibility();
@@ -61,6 +64,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             /* set when click button start game normal mode */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openNormalGameActivityAccessibility();
@@ -77,6 +81,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             /* set when click button start game hard mode */
             public void onClick(View v) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openHardGameActivityAccessibility();
@@ -93,6 +98,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();

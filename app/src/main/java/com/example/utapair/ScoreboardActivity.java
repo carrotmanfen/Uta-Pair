@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -52,6 +53,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
     private String scoreboardURL = "https://uta-pair-api.herokuapp.com/scoreboard.php";
     private String bestPlaceURL = "https://uta-pair-api.herokuapp.com/scoreboardShowBestScore.php";
     SharedPreferences sh;
@@ -73,6 +75,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         buttonCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     if (buttonCheckbox.isChecked()) {
@@ -110,6 +113,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             @Override
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openAccountActivityAccessibility();
@@ -126,6 +130,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             @Override
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();
@@ -142,6 +147,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();

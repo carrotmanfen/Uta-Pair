@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor myEdit;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
 
     /* Connect Server */
     private String loginURL = "https://uta-pair-api.herokuapp.com/checkLogin.php";
@@ -99,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -113,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     loginAccessibility();

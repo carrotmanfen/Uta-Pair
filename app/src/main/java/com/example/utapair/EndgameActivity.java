@@ -43,6 +43,7 @@ public class EndgameActivity extends Activity {
     private ImageButton imageButtonShare;
     private TextToSpeech textToSpeech;
     private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
     private int tapCount = 0;
     private String[] timeSplit;
     private String username;
@@ -111,6 +112,7 @@ public class EndgameActivity extends Activity {
         imageButtonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     shareScoreAccessibility();
@@ -126,6 +128,7 @@ public class EndgameActivity extends Activity {
         buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     shareScoreAccessibility();
@@ -141,6 +144,7 @@ public class EndgameActivity extends Activity {
         imageButtonPlayAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     playAgainAccessibility();
@@ -156,6 +160,7 @@ public class EndgameActivity extends Activity {
         buttonPlayAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     playAgainAccessibility();
@@ -171,6 +176,7 @@ public class EndgameActivity extends Activity {
         imageButtonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openMainAccessibility();

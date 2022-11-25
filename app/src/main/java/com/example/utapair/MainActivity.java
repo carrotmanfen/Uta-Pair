@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
     private TextToSpeech textToSpeech;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
     private int tapCount = 0;
     private boolean firstStart;
     SharedPreferences sh;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             /* set when click buttonPlay start SelectLevelActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openSelectLevelActivityAccessibility();
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if (checkLoginData()==1) {
                     if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
@@ -130,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();
@@ -362,6 +367,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        mediaPlayerClick.start(); /* sound click */
                         dialogInterface.dismiss();
                     }
                 })

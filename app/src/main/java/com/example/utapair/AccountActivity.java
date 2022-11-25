@@ -3,6 +3,7 @@ package com.example.utapair;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -22,6 +23,7 @@ public class AccountActivity extends AppCompatActivity {
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
     private TextToSpeech textToSpeech;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
     private int tapCount = 0;
     @Override
     /* this part will run when create this Activity */
@@ -45,6 +47,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click buttonRegister start RegisterActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openRegisterActivityAccessibility();
@@ -61,6 +64,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click buttonLogin start LoginActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openLoginActivityAccessibility();
@@ -77,6 +81,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -93,6 +98,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
@@ -109,6 +115,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();

@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,8 +52,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
 
+    /* set sound */
     private MediaPlayer mediaPlayer;
-    private MediaPlayer mediaPlayer2;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
 
     @Override
     /* this part will run when create this Activity */
@@ -124,6 +124,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /* when click pause the game */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 pauseGame();
             }
         });
@@ -224,6 +225,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /* when click resume game and continuous timer */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     tapCount++;     /* when tap button count in tapCount */
@@ -266,6 +268,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /* when click restart game */
             public void onClick(View v) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     playAgainAccessibility();
@@ -282,6 +285,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /* when click go to MainActivity */
             public void onClick(View v) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openMainAccessibility();
@@ -515,8 +519,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     /* override onClick method */
     public void onClick(View v) {
-        /* set sound */
-        mediaPlayer2 = MediaPlayer.create(this, R.raw.sc);
         /* if speaking do nothing */
         if(itWasBusy){
             return;
@@ -531,7 +533,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             buttonSelected1 = button;
             buttonSelected1.flipped();      /* flipped button */
             /* play sound when click */
-            mediaPlayer2.start();
+            mediaPlayerClick.start(); /* sound click */
             /* if AccessibilityMode on speak symbol and position */
             if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
                 speak(buttonSelected1.getSymbol() + " " +buttonSelected1.getPosition());
@@ -544,7 +546,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(buttonSelected1.getFrontDrawableId() == button.getFrontDrawableId() ){ /* matched */
             /* play sound when click */
-            mediaPlayer2.start();
+            mediaPlayerClick.start(); /* sound click */
             /* flipped the second one to user */
             button.flipped();
             /* speak if in Accessibility mode */
@@ -588,7 +590,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {  /* not matched */
                 /* play sound when click */
-                mediaPlayer2.start();
+                mediaPlayerClick.start(); /* sound click */
                 buttonSelected2 = button;
                 buttonSelected2.flipped();      /* flipped button */
                 /* if AccessibilityMode on speak not matched */

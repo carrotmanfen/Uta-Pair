@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -68,6 +69,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private Button buttonLogout;
     private SharedPreferences sh;
     private SharedPreferences.Editor editor;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
 
     /* Connect Server */
     private String newNameURL = "https://uta-pair-api.herokuapp.com/checkNewName.php";
@@ -98,6 +100,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         buttonCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY")
                     if (buttonCheckbox.isChecked()) {
@@ -117,6 +120,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     logoutAccessibility();
@@ -142,7 +146,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* Use function Editname() */
+                mediaPlayerClick.start(); /* sound click */
+                /* Use function EditName() */
                 EditName();
             }
         });
@@ -153,6 +158,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
@@ -169,6 +175,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();
@@ -185,6 +192,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -346,6 +354,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         popupConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     tapCount++; /* when tap button count in tapCount */
                     Handler handler = new Handler();
@@ -439,6 +448,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         popupCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     String text = "change name cancel";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);

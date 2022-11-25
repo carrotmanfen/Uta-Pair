@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -26,6 +27,7 @@ public class SettingActivity extends AppCompatActivity {
     private CheckBox checkBoxMusicMode;
     private CheckBox checkBoxAccessibilityMode;
     private CheckBox checkBoxBlindMode;
+    private MediaPlayer mediaPlayerClick = MediaPlayer.create(this, R.raw.sc);
     private int tapCount = 0;
     SharedPreferences sh;
     @Override
@@ -50,6 +52,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -66,6 +69,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if (checkLoginData()==1) {
                     if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
@@ -89,6 +93,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
@@ -106,6 +111,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click CheckBox set MusicMode */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use setMusicMode method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     setMusicModeAccessibility();
@@ -123,6 +129,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click Checkbox set AccessibilityMode */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use setAccessibilityMode method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                    setAccessibilityModeAccessibility();
@@ -140,6 +147,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click Checkbox set AccessibilityMode */
             public void onClick(View view) {
+                mediaPlayerClick.start(); /* sound click */
                 /* use setBlindMode method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     setBlindModeAccessibility();
