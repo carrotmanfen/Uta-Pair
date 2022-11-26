@@ -12,6 +12,7 @@ public class MemoryButton extends AppCompatButton {
     /* attributes */
     protected int row;
     protected int col;
+    protected double resolutionSize;
     protected int frontDrawableId;
     protected int mode;
     protected int buttonSize;
@@ -27,12 +28,13 @@ public class MemoryButton extends AppCompatButton {
     protected String position;
 
     /* constructor */
-    public MemoryButton(Context context, int r, int c, int frontImageId,int mode){    /* give position(r,c) and id of image in drawable source of gridlayout first */
+    public MemoryButton(Context context, int r, int c, int frontImageId,int mode, double resolutionSize){    /* give position(r,c) and id of image in drawable source of gridlayout first */
         super(context);
 
         this.mode = mode;
         row = r;
         col = c;
+        this.resolutionSize = resolutionSize;
         frontDrawableId = frontImageId;     /* declare id picture for known when they matching */
 
         if(BlindMode.getInstance().getMode()=="BLIND") {       /* if BlindMode in back is pair item disable */
@@ -48,21 +50,45 @@ public class MemoryButton extends AppCompatButton {
         GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(r),GridLayout.spec(c)); /* it tell position of grid */
 
         /* set dimension and density*/
-        buttonSize = setButtonSize(mode);
+        buttonSize = setButtonSize(mode,resolutionSize);
         tempParams.width = (int) getResources().getDisplayMetrics().density * buttonSize;
         tempParams.height = (int) getResources().getDisplayMetrics().density * buttonSize;
         setLayoutParams(tempParams);
 
     }
     /* method for specify a size of button */
-    public int setButtonSize(int mode){
+    public int setButtonSize(int mode,double resolutionSize){
         switch (mode){
             case -1:
-                return 240;
+                if(resolutionSize <= 5.0){
+                    return 150;
+                }
+                if(resolutionSize > 5.0 && resolutionSize < 5.9){
+                    return 180;
+                }
+                if(resolutionSize >= 5.9){
+                    return 220;
+                }
             case 0:
-                return 160;
+                if(resolutionSize <= 5.0){
+                    return 120;
+                }
+                if(resolutionSize > 5.0 && resolutionSize < 5.9){
+                    return 140;
+                }
+                if(resolutionSize >= 5.9){
+                    return 160;
+                }
             case 1:
-                return 130;
+                if(resolutionSize <= 5.0){
+                    return 100;
+                }
+                if(resolutionSize > 5.0 && resolutionSize < 5.9){
+                    return 120;
+                }
+                if(resolutionSize >= 5.9){
+                    return 130;
+                }
         }
         return 0;
     }

@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.print.PrintAttributes;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +37,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int numRows;
     private int numColumns;
     private Boolean itWasBusy = false;
+    private double resolutionSize;
 
     /* variable for constructor */
     private int mode;
@@ -82,6 +84,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             setMusic();
         }
 
+        /* get resolution of phone*/
+        resolutionSize = DisplayMetricsHelper.getScreenSize(this);
+        System.out.println(resolutionSize);
 
         button = new MemoryButton[numberOfElements];    /* create MemoryButton objects same number of element */
 
@@ -108,7 +113,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         /* set button in to location */
         for(int r = 0; r < numRows; r++) {
             for(int c = 0; c < numColumns; c++){
-                MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ], mode);
+                MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ], mode, resolutionSize);
                 tempButton.setSymbol(buttonGraphicTexts[ buttonGraphicLocation[r * numColumns+c] ]);
                 tempButton.setPosition(r+1,c+1);
                 tempButton.setId(View.generateViewId());    /* create id for matched */
