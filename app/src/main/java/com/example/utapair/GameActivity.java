@@ -579,6 +579,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     mediaPlayer.stop();
                 }
                 soundClick.stopMediaPlayer();
+                soundClick.releaseMediaPlayer();
                 textViewTimer.setText(timeScore);
                 /* end game and go to EndgameActivity */
                 Intent intent = new Intent(this, EndgameActivity.class);

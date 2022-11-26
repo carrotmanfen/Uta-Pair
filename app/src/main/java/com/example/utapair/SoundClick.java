@@ -36,20 +36,26 @@ public class SoundClick{
          * media mediaPlayer will not ready
          * for new sound to play */
 
-        if(mediaPlayerClick.isPlaying())
+        if(mediaPlayerClick.isPlaying()) {
             mediaPlayerClick2.start();
-        else
+        }
+        else {
             mediaPlayerClick.start();
+        }
 
-
-    }
-
-    public void onPrepared(MediaPlayer player) {
-        player.start();
     }
 
     public void stopMediaPlayer(){
-        mediaPlayerClick.stop();
-        mediaPlayerClick2.stop();
+        if(mediaPlayerClick.isPlaying()) {
+            mediaPlayerClick.stop();
+        }
+        if(mediaPlayerClick2.isPlaying()) {
+            mediaPlayerClick2.stop();
+        }
+    }
+
+    public void releaseMediaPlayer(){
+        mediaPlayerClick.release();
+        mediaPlayerClick2.release();
     }
 }
