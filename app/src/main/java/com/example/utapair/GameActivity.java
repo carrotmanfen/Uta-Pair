@@ -346,8 +346,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void playAgain(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop();
-            soundClick.stopMediaPlayer();
         }
+        soundClick.stopMediaPlayer();
+        dialog.dismiss();
         finish();
         startActivity(getIntent());
     }
