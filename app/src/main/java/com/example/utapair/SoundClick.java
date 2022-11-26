@@ -12,17 +12,21 @@ import java.io.IOException;
 public class SoundClick{
     private Context context;
     private MediaPlayer mediaPlayerClick;
+    private MediaPlayer mediaPlayerClick2;
 
     public SoundClick(Context context){
         mediaPlayerClick = MediaPlayer.create(context, R.raw.sc2);
+        mediaPlayerClick2 = MediaPlayer.create(context, R.raw.sc2);
     }
 
-    public SoundClick(Context context, Uri uriMedia){
+    public SoundClick(Context context, Uri uriMedia,Uri uriMedia2){
         mediaPlayerClick = MediaPlayer.create(context, uriMedia);
+        mediaPlayerClick2 = MediaPlayer.create(context, uriMedia2);
     }
 
-    public void setMediaPlayerClick(Uri uriMedia) {
+    public void setMediaPlayerClick(Uri uriMedia,Uri uriMedia2) {
         this.mediaPlayerClick = MediaPlayer.create(context, uriMedia);
+        this.mediaPlayerClick2 = MediaPlayer.create(context, uriMedia2);
     }
 
     /* method to play sound click */
@@ -32,7 +36,11 @@ public class SoundClick{
          * media mediaPlayer will not ready
          * for new sound to play */
 
+        if(mediaPlayerClick.isPlaying())
+            mediaPlayerClick2.start();
+        else
             mediaPlayerClick.start();
+
 
     }
 
@@ -42,5 +50,6 @@ public class SoundClick{
 
     public void stopMediaPlayer(){
         mediaPlayerClick.stop();
+        mediaPlayerClick2.stop();
     }
 }
