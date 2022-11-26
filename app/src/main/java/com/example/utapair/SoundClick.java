@@ -36,6 +36,10 @@ public class SoundClick{
 
     }
 
+    public void onPrepared(MediaPlayer player) {
+        player.start();
+    }
+
     public void stopMediaPlayer(){
         mediaPlayerClick.stop();
     }
