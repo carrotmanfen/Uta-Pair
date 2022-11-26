@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private Button buttonLogout;
     private SharedPreferences sh;
     private SharedPreferences.Editor editor;
-    private MediaPlayer mediaPlayerClick;
+    private SoundClick soundClick;
 
     /* Connect Server */
     private String newNameURL = "https://uta-pair-api.herokuapp.com/checkNewName.php";
@@ -80,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
+        soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -102,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         buttonCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY")
                     if (buttonCheckbox.isChecked()) {
@@ -122,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     logoutAccessibility();
@@ -148,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* Use function EditName() */
                 EditName();
             }
@@ -160,7 +160,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
@@ -177,7 +177,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();
@@ -194,7 +194,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -356,7 +356,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         popupConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     tapCount++; /* when tap button count in tapCount */
                     Handler handler = new Handler();
@@ -450,7 +450,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         popupCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     String text = "change name cancel";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
@@ -577,12 +577,15 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     }
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
         textLevel = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),textLevel,Toast.LENGTH_SHORT).show();
 
         /* count for do not speak when this activity is start */
-        sdCount++;
+        if(sdCount<=1)
+            sdCount++;
         if (sdCount>1) {
+            soundClick.playSoundClick();
             /* speak when AccessibilityMode on */
             if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
                 String text = "Select level " + textLevel;

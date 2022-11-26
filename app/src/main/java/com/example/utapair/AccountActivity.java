@@ -25,7 +25,7 @@ public class AccountActivity extends AppCompatActivity {
     private ImageButton buttonSetting;
     private ImageButton buttonBack;
     private TextToSpeech textToSpeech;
-    private MediaPlayer mediaPlayerClick ;
+    private SoundClick soundClick;
     private int tapCount = 0;
     @Override
     /* this part will run when create this Activity */
@@ -33,7 +33,7 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);      /* set layout file */
 
-        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
+        soundClick = new SoundClick(this);
 
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -51,7 +51,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click buttonRegister start RegisterActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openRegisterActivityAccessibility();
@@ -68,7 +68,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click buttonLogin start LoginActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openLoginActivityAccessibility();
@@ -85,7 +85,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -102,7 +102,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
@@ -119,7 +119,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();

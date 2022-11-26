@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor myEdit;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
-    private MediaPlayer mediaPlayerClick;
+    private SoundClick soundClick;
 
     /* Connect Server */
     private String loginURL = "https://uta-pair-api.herokuapp.com/checkLogin.php";
@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
+        soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     loginAccessibility();

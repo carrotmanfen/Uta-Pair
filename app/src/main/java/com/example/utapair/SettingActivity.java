@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 
+import java.io.IOException;
 import java.util.Locale;
 
 /* This file is about SettingActivity
@@ -29,7 +30,7 @@ public class SettingActivity extends AppCompatActivity {
     private CheckBox checkBoxMusicMode;
     private CheckBox checkBoxAccessibilityMode;
     private CheckBox checkBoxBlindMode;
-    private MediaPlayer mediaPlayerClick;
+    private SoundClick soundClick;
     private int tapCount = 0;
     SharedPreferences sh;
     @Override
@@ -37,7 +38,7 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);      /* set layout file */
-        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
+        soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -54,7 +55,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -71,7 +72,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if (checkLoginData()==1) {
                     if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
@@ -95,7 +96,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
@@ -113,7 +114,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click CheckBox set MusicMode */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use setMusicMode method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     setMusicModeAccessibility();
@@ -131,7 +132,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click Checkbox set AccessibilityMode */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use setAccessibilityMode method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                    setAccessibilityModeAccessibility();
@@ -149,7 +150,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             /* set when click Checkbox set AccessibilityMode */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use setBlindMode method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     setBlindModeAccessibility();
@@ -473,6 +474,7 @@ public class SettingActivity extends AppCompatActivity {
         }
 
     }
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);

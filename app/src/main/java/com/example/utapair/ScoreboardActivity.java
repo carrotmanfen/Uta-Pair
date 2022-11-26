@@ -54,7 +54,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
-    private MediaPlayer mediaPlayerClick;
+    private SoundClick soundClick;
     private String scoreboardURL = "https://uta-pair-api.herokuapp.com/scoreboard.php";
     private String bestPlaceURL = "https://uta-pair-api.herokuapp.com/scoreboardShowBestScore.php";
     SharedPreferences sh;
@@ -62,7 +62,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
+        soundClick = new SoundClick(this);
         setContentView(R.layout.activity_scoreboard); /* set layout */
         /* set spinner for select level */
         Spinner spinner = findViewById(R.id.level_spinner);
@@ -77,7 +77,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         buttonCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     if (buttonCheckbox.isChecked()) {
@@ -115,7 +115,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             @Override
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openAccountActivityAccessibility();
@@ -132,7 +132,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             @Override
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();
@@ -149,7 +149,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
@@ -399,8 +399,10 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         textLevel = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),textLevel,Toast.LENGTH_SHORT).show();
         /* count for do not speak when this activity is start */
-        sdCount++;
+        if(sdCount<=1)
+            sdCount++;
         if (sdCount>1) {
+            soundClick.playSoundClick();
             /* speak when AccessibilityMode on */
             if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
                 String text = "Select level " + textLevel;

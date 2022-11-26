@@ -54,14 +54,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private MediaPlayer mediaPlayer;
-    private MediaPlayer mediaPlayerClick;
+    private SoundClick soundClick;
 
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
-
-        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         /* keep data from inputExtra to variable */
         Bundle bundle = getIntent().getExtras();
         mode = bundle.getInt("MODE");
@@ -77,6 +75,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         gridLayout.setUseDefaultMargins(true);    /* use grid default if want to special must implement*/
         numberOfElements = numRows * numColumns;   /* set number of all element pair_item */
 
+        soundClick = new SoundClick(this);
 
         /* set music when playing game */
         if(MusicMode.getInstance().getMode() == "MUSIC") {
@@ -125,7 +124,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /* when click pause the game */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 pauseGame();
             }
         });
@@ -226,7 +225,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /* when click resume game and continuous timer */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     tapCount++;     /* when tap button count in tapCount */
@@ -269,7 +268,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /* when click restart game */
             public void onClick(View v) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     playAgainAccessibility();
@@ -286,7 +285,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /* when click go to MainActivity */
             public void onClick(View v) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openMainAccessibility();
@@ -342,6 +341,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void playAgain(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop();
+            soundClick.stopMediaPlayer();
         }
         finish();
         startActivity(getIntent());
@@ -534,7 +534,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             buttonSelected1 = button;
             buttonSelected1.flipped();      /* flipped button */
             /* play sound when click */
-            mediaPlayerClick.start(); /* sound click */
+            soundClick.playSoundClick(); /* sound click */
             /* if AccessibilityMode on speak symbol and position */
             if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
                 speak(buttonSelected1.getSymbol() + " " +buttonSelected1.getPosition());
@@ -547,7 +547,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(buttonSelected1.getFrontDrawableId() == button.getFrontDrawableId() ){ /* matched */
             /* play sound when click */
-            mediaPlayerClick.start(); /* sound click */
+            soundClick.playSoundClick(); /* sound click */
             /* flipped the second one to user */
             button.flipped();
             /* speak if in Accessibility mode */
@@ -572,6 +572,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if(MusicMode.getInstance().getMode() == "MUSIC") {
                     mediaPlayer.stop();
                 }
+                soundClick.stopMediaPlayer();
                 textViewTimer.setText(timeScore);
                 /* end game and go to EndgameActivity */
                 Intent intent = new Intent(this, EndgameActivity.class);
@@ -591,7 +592,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {  /* not matched */
                 /* play sound when click */
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 buttonSelected2 = button;
                 buttonSelected2.flipped();      /* flipped button */
                 /* if AccessibilityMode on speak not matched */

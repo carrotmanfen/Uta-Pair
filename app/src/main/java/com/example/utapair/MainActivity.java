@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import java.io.IOException;
 import java.util.Locale;
 
 /* This file is about MainActivity
@@ -44,16 +45,16 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton buttonScoreboard;
     private ImageButton buttonSetting;
     private TextToSpeech textToSpeech;
-    private MediaPlayer mediaPlayerClick ;
+    private SoundClick soundClick;
     private int tapCount = 0;
     private boolean firstStart;
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
-        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);     /* set layout file */
+        soundClick= new SoundClick(this);
         /* set all setting in first page */
         settingAll();
 
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             /* set when click buttonPlay start SelectLevelActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openSelectLevelActivityAccessibility();
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if (checkLoginData()==1) {
                     if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openScoreboardActivityAccessibility();
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     openSettingActivityAccessibility();
@@ -161,13 +162,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 500);
         }
-
         if(firstStart){
-            startFirstDialog();
-            startFirstSetting();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String text = "All setting is on and you change it on bottom right of the app";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    startFirstDialog();
+                    startFirstSetting();
+                }
+            },500);     /* in 500 millisecond */
         }
-        else
+        else{
             settingAll();
+        }
+
     }
 
     /* method to set all setting */
@@ -368,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mediaPlayerClick.start(); /* sound click */
+                        soundClick.playSoundClick(); /* sound click */
                         String text = "Home";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                         dialogInterface.dismiss();
@@ -378,14 +388,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor shEditor = sh.edit();
         shEditor.putBoolean("FIRST_USE_PREF",false);
         shEditor.apply();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String text = "All setting is on and you change it on bottom right of the app";
-                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-            }
-        },500);     /* in 500 millisecond */
+
     }
     /* this function set all setting to checked */
     private void startFirstSetting() {
@@ -393,4 +396,5 @@ public class MainActivity extends AppCompatActivity {
         AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
         BlindMode.getInstance().setMode("BLIND");
     }
+
 }

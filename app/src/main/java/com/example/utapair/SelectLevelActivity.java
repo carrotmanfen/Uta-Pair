@@ -24,7 +24,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     private Button buttonPlayHard;   /* dimension = 6 rows, 3 cols */
     private ImageButton buttonBack;
     private TextToSpeech textToSpeech;
-    private MediaPlayer mediaPlayerClick;
+    private SoundClick soundClick;
     private int tapCount = 0;
 
     @Override
@@ -32,7 +32,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_select_level); /* menu page file layout */
-        mediaPlayerClick = MediaPlayer.create(this, sc); /* set sound */
+        soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -49,7 +49,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             /* set when click button start game easy mode */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openEasyGameActivityAccessibility();
@@ -66,7 +66,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             /* set when click button start game normal mode */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openNormalGameActivityAccessibility();
@@ -83,7 +83,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             /* set when click button start game hard mode */
             public void onClick(View v) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     openHardGameActivityAccessibility();
@@ -100,7 +100,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             @Override
             /* set when click button go to previous activity */
             public void onClick(View view) {
-                mediaPlayerClick.start(); /* sound click */
+                soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
                     onBackPressedAccessibility();
