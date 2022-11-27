@@ -538,6 +538,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop(); /*stop the music*/
         }
+        soundClick.releaseMediaPlayer();
         super.onBackPressed(); /* Back to the previous activity*/
     }
 
