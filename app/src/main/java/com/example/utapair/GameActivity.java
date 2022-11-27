@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Timer;
@@ -169,6 +170,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    protected void onStop() {
+        super.onStop();
+        pauseGame();
+
+
+    }
+
     /* method to start timer and setText */
     private void startTimer() {
         timerTask = new TimerTask() {
@@ -248,6 +256,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                                 startTimer();       /* continuous timer */
                                 dialog.dismiss();       /* close dialog */
                                 if(MusicMode.getInstance().getMode() == "MUSIC") {
+                                    try {  /* we need prepare when application stop and come back */
+                                        mediaPlayer.prepare();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                     mediaPlayer.start(); /* continue music */
                                 }
 
@@ -261,6 +274,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     startTimer();       /* continuous timer */
                     dialog.dismiss();       /* close dialog */
                     if(MusicMode.getInstance().getMode() == "MUSIC") {
+                        try {  /* we need prepare when application stop and come back */
+                            mediaPlayer.prepare();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         mediaPlayer.start(); /* continue music */
                     }
                 }
