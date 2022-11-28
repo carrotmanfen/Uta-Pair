@@ -333,7 +333,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void openMainActivity(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop();
+            mediaPlayer.release();
         }
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
         Intent intent = new Intent(this,MainActivity.class);
         finish();
         startActivity(intent);
@@ -364,8 +367,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void playAgain(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop();
+            mediaPlayer.release();
         }
         soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
         dialog.dismiss();
         finish();
         startActivity(getIntent());
@@ -537,6 +542,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop(); /*stop the music*/
+            mediaPlayer.release();
         }
         soundClick.releaseMediaPlayer();
         super.onBackPressed(); /* Back to the previous activity*/
@@ -596,6 +602,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 textToSpeech.shutdown();
                 if(MusicMode.getInstance().getMode() == "MUSIC") {
                     mediaPlayer.stop();
+                    mediaPlayer.release();
                 }
                 soundClick.stopMediaPlayer();
                 soundClick.releaseMediaPlayer();
