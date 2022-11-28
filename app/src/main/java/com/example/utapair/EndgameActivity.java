@@ -263,6 +263,7 @@ public class EndgameActivity extends Activity {
 
     /* method to playAgain in same level */
     public void playAgain(){
+        mediaPlayer.release();
         soundClick.stopMediaPlayer();
         soundClick.releaseMediaPlayer();
         Intent intent = new Intent(this,GameActivity.class);
