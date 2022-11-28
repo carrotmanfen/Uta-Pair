@@ -170,11 +170,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    protected void onStop() {
-        super.onStop();
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
         pauseGame();
-
-
     }
 
     /* method to start timer and setText */
