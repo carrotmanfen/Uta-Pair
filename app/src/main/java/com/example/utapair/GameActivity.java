@@ -515,6 +515,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }, 500);
 
     }
+
     @Override
     public void onBackPressed(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {

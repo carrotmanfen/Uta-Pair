@@ -74,10 +74,10 @@ public class MemoryButton extends AppCompatButton {
                     return 120;
                 }
                 if(resolutionSize > 5.0 && resolutionSize < 5.9){
-                    return 140;
+                    return 130;
                 }
                 if(resolutionSize >= 5.9){
-                    return 160;
+                    return 140;
                 }
             case 1:
                 if(resolutionSize <= 5.0){
