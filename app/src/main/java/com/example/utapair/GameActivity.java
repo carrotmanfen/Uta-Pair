@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Timer;
@@ -169,6 +170,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        pauseGame();
+    }
+
     /* method to start timer and setText */
     private void startTimer() {
         timerTask = new TimerTask() {
@@ -248,6 +255,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                                 startTimer();       /* continuous timer */
                                 dialog.dismiss();       /* close dialog */
                                 if(MusicMode.getInstance().getMode() == "MUSIC") {
+                                    try {  /* we need prepare when application stop and come back */
+                                        mediaPlayer.prepare();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                     mediaPlayer.start(); /* continue music */
                                 }
 
@@ -261,6 +273,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     startTimer();       /* continuous timer */
                     dialog.dismiss();       /* close dialog */
                     if(MusicMode.getInstance().getMode() == "MUSIC") {
+                        try {  /* we need prepare when application stop and come back */
+                            mediaPlayer.prepare();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         mediaPlayer.start(); /* continue music */
                     }
                 }
@@ -315,6 +332,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void openMainActivity(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop();
+            mediaPlayer.release();
         }
         Intent intent = new Intent(this,MainActivity.class);
         finish();
@@ -346,8 +364,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void playAgain(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop();
+            mediaPlayer.release();
         }
         soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
         dialog.dismiss();
         finish();
         startActivity(getIntent());
@@ -520,7 +540,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed(){
         if(MusicMode.getInstance().getMode() == "MUSIC") {
             mediaPlayer.stop(); /*stop the music*/
+            mediaPlayer.release();
         }
+        soundClick.releaseMediaPlayer();
         super.onBackPressed(); /* Back to the previous activity*/
     }
 
@@ -578,6 +600,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 textToSpeech.shutdown();
                 if(MusicMode.getInstance().getMode() == "MUSIC") {
                     mediaPlayer.stop();
+                    mediaPlayer.release();
                 }
                 soundClick.stopMediaPlayer();
                 soundClick.releaseMediaPlayer();

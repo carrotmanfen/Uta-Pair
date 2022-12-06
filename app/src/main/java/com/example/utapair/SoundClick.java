@@ -54,6 +54,9 @@ public class SoundClick{
         }
     }
 
+    /* when we use object to play sound
+     * it use memory when play sound a lot
+     * we need to release mediaPLayer */
     public void releaseMediaPlayer(){
         mediaPlayerClick.release();
         mediaPlayerClick2.release();
