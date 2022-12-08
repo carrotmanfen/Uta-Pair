@@ -226,10 +226,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 /* If response is success */
                 if (response.equals("SUCCESS")) {
-                    String saveName = editTextName.getText().toString();
-                    String save_password = editTextPassword.getText().toString();
-                    myEdit.putString("SAVED_NAME", saveName);
-                    myEdit.putString("SAVED_PASSWORD", save_password);
+                    String loginName = editTextName.getText().toString();
+                    String loginPassword = editTextPassword.getText().toString();
+                    myEdit.putString("SAVED_NAME", loginName);
+                    myEdit.putString("SAVED_PASSWORD", loginPassword);
                     myEdit.commit();
 
                     /* This page alert "Success" and open ProfileActivity.class */
