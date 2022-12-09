@@ -54,7 +54,7 @@ public class MemoryButton extends AppCompatButton {
 
         /* set dimension and density*/
         tempParams.width = (int) (Math.round(getResources().getDisplayMetrics().widthPixels / columnsNum) - getPixelsFromDp(30)); // (getResources().getDisplayMetrics().density * 5)
-        tempParams.height = (int) (Math.round(getResources().getDisplayMetrics().heightPixels / rowsNum) - getPixelsFromDp(90)); // (getResources().getDisplayMetrics().density * 70)
+        tempParams.height = (int) (Math.round(getResources().getDisplayMetrics().heightPixels / rowsNum) - getPixelsFromDp(70)); // (getResources().getDisplayMetrics().density * 70)
         setLayoutParams(tempParams);
 
     }
