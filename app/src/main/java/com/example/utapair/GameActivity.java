@@ -38,7 +38,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int numRows;
     private int numColumns;
     private Boolean itWasBusy = false;
-    private double resolutionSize;
 
     /* variable for constructor */
     private int mode;
@@ -85,10 +84,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             setMusic();
         }
 
-        /* get resolution of phone*/
-        resolutionSize = DisplayMetricsHelper.getScreenSize(this);
-        System.out.println(resolutionSize);
-
         button = new MemoryButton[numberOfElements];    /* create MemoryButton objects same number of element */
 
         /* set graphic half of element because 1 picture have 2 pair item to matched */
@@ -114,7 +109,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         /* set button in to location */
         for(int r = 0; r < numRows; r++) {
             for(int c = 0; c < numColumns; c++){
-                MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ], mode, resolutionSize);
+                MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ], mode,numColumns,numRows);
                 tempButton.setSymbol(buttonGraphicTexts[ buttonGraphicLocation[r * numColumns+c] ]);
                 tempButton.setPosition(r+1,c+1);
                 tempButton.setId(View.generateViewId());    /* create id for matched */
