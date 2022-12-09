@@ -583,10 +583,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             /* tell it that was matched */
             buttonSelected1.setMatched(true);
             button.setMatched(true);
+
             /* when matched disable background */
             Drawable visible = getDrawable(R.drawable.custom_pair_item_disable);
+
             buttonSelected1.setBackGroundButton(visible);
             button.setBackGroundButton(visible);
+
             /* when match disable button to can not click */
             buttonSelected1.setEnabled(false);
             button.setEnabled(false);
