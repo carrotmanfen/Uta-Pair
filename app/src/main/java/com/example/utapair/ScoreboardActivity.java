@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.AdapterView;
@@ -74,6 +75,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         saveName = sh.getString("SAVED_NAME","");
         /* set checkbox for BlindMode */
         buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
+        buttonCheckbox.setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("BLIND_SCOREBOARD",false));
         buttonCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,10 +90,17 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
+                    switch(buttonCheckbox.getId()) {
+                        case R.id.blind_mode_checkbox:
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                    .putBoolean("BLIND_SCOREBOARD", buttonCheckbox.isChecked()).commit();
+                            break;
+                    }
                 }
                 showScore();
             }
         });
+
 
         /* for keep data and show in recyclerView */
         recyclerView = findViewById(R.id.scoreboard_recycler_view);
@@ -181,6 +190,10 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     text = "level  easy";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                    if(PreferenceManager.getDefaultSharedPreferences(ScoreboardActivity.this).getBoolean("BLIND_SCOREBOARD",false)){
+                        text = "Blind Mode";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+                    }
                 }
             }, 500);
         }
