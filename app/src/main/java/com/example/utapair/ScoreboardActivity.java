@@ -328,7 +328,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 if(response.equals("FAILURE")){
                     scoreboardUserList.clear();     /* clear data */
                     setAdapter();       /* show in recyclerView */
-                    Toast.makeText(ScoreboardActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScoreboardActivity.this, "None of your records is on top 50", Toast.LENGTH_SHORT).show();
                     if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
