@@ -359,34 +359,35 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                                 JSONObject productobject = products.getJSONObject(i);
                                 String username = productobject.getString("username");
                                 Integer endTime = productobject.getInt("endTime");
+                                String minute = String.valueOf(endTime/6000);
                                 String second = String.valueOf((endTime/100)%60);
-                                String milliSecond = String.valueOf(endTime%100);
+                                String mSecond = String.valueOf(endTime%100);
                                 System.out.println(second.length());
                                 /* If length of "second" less 2 (0:0:00) */
                                 if(second.length()<2){
-                                    /* If length of "milliSecond" less 2 (0:0:0) */
-                                    if(milliSecond.length()<2){
-                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                    /* If length of "mSecond" less 2 (0:0:0) */
+                                    if(mSecond.length()<2){
+                                        score = minute+":"+"0"+second+":"+"0"+mSecond;
                                     }
-                                    /* else length of "milliSecond" not less 2 (0:0:00) */
+                                    /* else length of "mSecond" not less 2 (0:0:00) */
                                     else{
-                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
+                                        score = minute+":"+"0"+second+":"+mSecond;
                                     }
                                 }
-                                /* If length of "milliSecond" less 2 (0:00:0) */
-                                else if(milliSecond.length()<2){
+                                /* If length of "mSecond" less 2 (0:00:0) */
+                                else if(mSecond.length()<2){
                                     /* If length of "second" less 2 (0:0:0) */
                                     if(second.length()<2){
-                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                        score = minute+":"+"0"+second+":"+"0"+mSecond;
                                     }
                                     /* else length of "second" not less 2 (0:00:0) */
                                     else{
-                                        score = endTime/6000+":"+(endTime/100)%60+":"+"0"+endTime%100;
+                                        score = minute+":"+second+":"+"0"+mSecond;
                                     }
                                 }
                                 /* else length of "second" not less 2 (0:00:00) */
                                 else{
-                                    score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
+                                    score = minute+":"+second+":"+mSecond;
                                 }
                                 scoreboardUserList.add(new ScoreboardUser(i+1,username,score));
                                 setAdapter();       /* show in recyclerView */
@@ -447,7 +448,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void onResponse(String response) {
                     try {
                         JSONArray products = new JSONArray(response);
-                        for(int i=0;i<products.length();i++){   /* do loop to collect data from database */
+                        for(int i=0;i<products.length();i++){   /* for loop to collect data from database */
                             JSONObject productobject = products.getJSONObject(i);
                             Integer row_index = productobject.getInt("row_index");
                             String text ="Congratulations! your best score is on "+ row_index + "th place.";

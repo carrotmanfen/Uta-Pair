@@ -12,6 +12,8 @@ public class MemoryButton extends AppCompatButton {
     /* attributes */
     protected int row;
     protected int col;
+    protected int columnsNum;
+    protected int rowsNum;
     protected double resolutionSize;
     protected int frontDrawableId;
     protected int mode;
@@ -28,13 +30,14 @@ public class MemoryButton extends AppCompatButton {
     protected String position;
 
     /* constructor */
-    public MemoryButton(Context context, int r, int c, int frontImageId,int mode, double resolutionSize){    /* give position(r,c) and id of image in drawable source of gridlayout first */
+    public MemoryButton(Context context, int r, int c, int frontImageId,int mode, int columnsNum,int rowsNum){    /* give position(r,c) and id of image in drawable source of gridlayout first */
         super(context);
 
         this.mode = mode;
         row = r;
         col = c;
-        this.resolutionSize = resolutionSize;
+        this.rowsNum = rowsNum;
+        this.columnsNum = columnsNum;
         frontDrawableId = frontImageId;     /* declare id picture for known when they matching */
 
         if(BlindMode.getInstance().getMode()=="BLIND") {       /* if BlindMode in back is pair item disable */
@@ -42,7 +45,7 @@ public class MemoryButton extends AppCompatButton {
             front = context.getDrawable(R.drawable.custom_pair_item_disable);      /* set drawable in front */
         }
         else {      /* if BlindMod off in back is pair item */
-            back = context.getDrawable(R.drawable.custom_pair_item); // ตรงนี้ต้องใส่ไปเลยให้ findviewbyId ของรูป background
+            back = context.getDrawable(R.drawable.custom_pair_item);
             front = context.getDrawable(frontImageId);      /* set drawable in front */
         }
         setBackground(back);    /* set background in to back*/
@@ -50,47 +53,17 @@ public class MemoryButton extends AppCompatButton {
         GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(r),GridLayout.spec(c)); /* it tell position of grid */
 
         /* set dimension and density*/
-        buttonSize = setButtonSize(mode,resolutionSize);
-        tempParams.width = (int) getResources().getDisplayMetrics().density * buttonSize;
-        tempParams.height = (int) getResources().getDisplayMetrics().density * buttonSize;
+        tempParams.width = (int) (Math.round(getResources().getDisplayMetrics().widthPixels / columnsNum) - getPixelsFromDp(30)); // (getResources().getDisplayMetrics().density * 5)
+        tempParams.height = (int) (Math.round(getResources().getDisplayMetrics().heightPixels / rowsNum) - getPixelsFromDp(90)); // (getResources().getDisplayMetrics().density * 70)
         setLayoutParams(tempParams);
 
     }
-    /* method for specify a size of button */
-    public int setButtonSize(int mode,double resolutionSize){
-        switch (mode){
-            case -1:
-                if(resolutionSize <= 5.0){
-                    return 150;
-                }
-                if(resolutionSize > 5.0 && resolutionSize < 5.9){
-                    return 180;
-                }
-                if(resolutionSize >= 5.9){
-                    return 220;
-                }
-            case 0:
-                if(resolutionSize <= 5.0){
-                    return 120;
-                }
-                if(resolutionSize > 5.0 && resolutionSize < 5.9){
-                    return 130;
-                }
-                if(resolutionSize >= 5.9){
-                    return 140;
-                }
-            case 1:
-                if(resolutionSize <= 5.0){
-                    return 100;
-                }
-                if(resolutionSize > 5.0 && resolutionSize < 5.9){
-                    return 120;
-                }
-                if(resolutionSize >= 5.9){
-                    return 130;
-                }
-        }
-        return 0;
+
+
+    /* method for convert dp to pixel */
+    public float getPixelsFromDp(int dp){
+        float px = dp * (getResources().getDisplayMetrics().densityDpi / 160);
+        return  Math.round(px);
     }
 
     /* method to check Matched */
