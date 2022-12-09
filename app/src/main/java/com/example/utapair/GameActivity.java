@@ -309,6 +309,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else {
                     openMainActivity();
+                    dialog.cancel();
                 }
             }
         });
@@ -349,6 +350,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 /* if double tap in time go to MainActivity */
                 else if(tapCount==2){
                     openMainActivity();
+                    dialog.cancel();
                 }
                 tapCount = 0;   /* reset tapCount */
             }

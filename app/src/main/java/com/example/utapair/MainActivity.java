@@ -55,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);     /* set layout file */
         soundClick= new SoundClick(this);
-        /* set all setting in first page */
-        settingAll();
-
-
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -145,7 +141,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        if(firstStart){
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String text = "All setting is on and you change it on bottom right of the app";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                    startFirstDialog();
+                    startFirstSetting();
+                }
+            },500);     /* in 500 millisecond */
+        }
+        else{
+            /* set all setting in first page */
+            settingAll();
+        }
     }
 
     /* this part will run when this Activity start */
@@ -161,21 +172,6 @@ public class MainActivity extends AppCompatActivity {
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, 500);
-        }
-        if(firstStart){
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    String text = "All setting is on and you change it on bottom right of the app";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                    startFirstDialog();
-                    startFirstSetting();
-                }
-            },500);     /* in 500 millisecond */
-        }
-        else{
-            settingAll();
         }
 
     }
