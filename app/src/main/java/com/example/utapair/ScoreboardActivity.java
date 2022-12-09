@@ -51,7 +51,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonSetting;
     private ImageButton buttonHome;
     private CheckBox buttonCheckbox;
-    private String saveName,buttonLevel,textLevel,textMode,score;
+    private String saveName,buttonLevel,textLevel,score;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
@@ -83,12 +83,10 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     if (buttonCheckbox.isChecked()) {
-                        textMode = "Blind";
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
                     else {
-                        textMode = "";
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
@@ -190,10 +188,10 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 public void run() {
                     String text = "Scoreboard";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-                    text = "level  easy";
+                    text = "level easy";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
                     if(PreferenceManager.getDefaultSharedPreferences(ScoreboardActivity.this).getBoolean("BLIND_SCOREBOARD",false)){
-                        text = "Blind Mode";
+                        text = "on blind Mode";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
                     }
                 }
@@ -330,8 +328,6 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         }
         /* collect data from database */
         setUserInfo(buttonLevel);
-        /* show best place user */
-        showBestPlace(buttonLevel);
     }
 
     /* method to add data from database */
@@ -343,15 +339,13 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 if(response.equals("FAILURE")){
                     scoreboardUserList.clear();     /* clear data */
                     setAdapter();       /* show in recyclerView */
-                    Toast.makeText(ScoreboardActivity.this, "There is no record of your score in the top 50", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScoreboardActivity.this, "There is no record" , Toast.LENGTH_SHORT).show();
                     if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                String text = "There is no record of your score in the top 50";
-                                textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
-                                text = "Keep going !";
+                                String text = "There is no record ";
                                 textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
                             }
                         }, 500);
@@ -397,6 +391,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                                 scoreboardUserList.add(new ScoreboardUser(i+1,username,score));
                                 setAdapter();       /* show in recyclerView */
                             }
+                        showBestPlace(buttonLevel); /* show best place user */
                     } catch (JSONException e) {
                         e.printStackTrace();    /* if JSON error */
                     }
@@ -433,14 +428,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         if (sdCount>1) {
             soundClick.playSoundClick();
             /* speak when AccessibilityMode on */
-            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
-                if(textMode=="") {
-                    String text = "Select level" + textLevel;
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-                }
-                else if(textMode=="Blind") {
-                    String text = "Select level" + textLevel +"on blind mode";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+                String text = "Select level " + textLevel;
+                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                if(PreferenceManager.getDefaultSharedPreferences(ScoreboardActivity.this).getBoolean("BLIND_SCOREBOARD",false)){
+                    text = "on Blind Mode";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
                 }
             }
 
@@ -454,7 +447,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void onResponse(String response) {
                     try {
                         JSONArray products = new JSONArray(response);
-                        for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
+                        for(int i=0;i<products.length();i++){   /* do loop to collect data from database */
                             JSONObject productobject = products.getJSONObject(i);
                             Integer row_index = productobject.getInt("row_index");
                             String text ="Congratulations! your best score is on "+ row_index + "th place.";
@@ -472,6 +465,20 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                         }
 
                     } catch (JSONException e) {
+
+                        String text = "There is no record of your score in the top 50.";
+                        Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
+                        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                                    String text = "Keep going !";
+                                    textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                                }
+                            }, 600);
+                        }
                         e.printStackTrace();    /* if JSON error */
                     }
             }

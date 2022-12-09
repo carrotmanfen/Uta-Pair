@@ -230,7 +230,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     text = "level easy";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
                     if(PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).getBoolean("BLIND_PROFILE",false)){
-                        text = "Blind Mode";
+                        text = "on blind Mode";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
                     }
                 }
@@ -615,9 +615,13 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         if (sdCount>1) {
             soundClick.playSoundClick();
             /* speak when AccessibilityMode on */
-            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
+            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
                 String text = "Select level " + textLevel;
                 textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                if(PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).getBoolean("BLIND_PROFILE",false)){
+                    text = "on Blind Mode";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                }
             }
         }
         showScore();
