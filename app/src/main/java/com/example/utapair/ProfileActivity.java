@@ -217,6 +217,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 public void run() {
                     String text = "profile";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+                    text = "level easy";
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
                 }
             }, 500);
         }
@@ -479,7 +481,19 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 if(response.equals("FAILURE")){
                     profileUserList.clear();    /* clear data */
                     setAdapter();   /* show in recyclerView */
-                    Toast.makeText(ProfileActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, "None of your record", Toast.LENGTH_SHORT).show();
+                    if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                String text = "None of your records";
+                                textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                                text = "Keep going !";
+                                textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                            }
+                        }, 500);
+                    }
                 }
                 else{
                     try {

@@ -179,6 +179,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 public void run() {
                     String text = "Scoreboard";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    text = "level  easy";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
                 }
             }, 500);
         }
@@ -327,6 +329,18 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                     scoreboardUserList.clear();     /* clear data */
                     setAdapter();       /* show in recyclerView */
                     Toast.makeText(ScoreboardActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
+                    if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                String text = "None of your records is on top 50";
+                                textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                                text = "Keep going !";
+                                textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                            }
+                        }, 500);
+                    }
                 }
                 else {
                     try {
