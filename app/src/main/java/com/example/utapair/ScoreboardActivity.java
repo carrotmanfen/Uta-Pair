@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.AdapterView;
@@ -74,6 +75,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         saveName = sh.getString("SAVED_NAME","");
         /* set checkbox for BlindMode */
         buttonCheckbox = findViewById(R.id.blind_mode_checkbox);
+        buttonCheckbox.setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("BLIND_SCOREBOARD",false));
         buttonCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,10 +90,17 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
+                    switch(buttonCheckbox.getId()) {
+                        case R.id.blind_mode_checkbox:
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                    .putBoolean("BLIND_SCOREBOARD", buttonCheckbox.isChecked()).commit();
+                            break;
+                    }
                 }
                 showScore();
             }
         });
+
 
         /* for keep data and show in recyclerView */
         recyclerView = findViewById(R.id.scoreboard_recycler_view);
@@ -179,6 +188,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 public void run() {
                     String text = "Scoreboard";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    text = "level  easy";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                    if(PreferenceManager.getDefaultSharedPreferences(ScoreboardActivity.this).getBoolean("BLIND_SCOREBOARD",false)){
+                        text = "Blind Mode";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+                    }
                 }
             }, 500);
         }
@@ -326,7 +341,19 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 if(response.equals("FAILURE")){
                     scoreboardUserList.clear();     /* clear data */
                     setAdapter();       /* show in recyclerView */
-                    Toast.makeText(ScoreboardActivity.this, "Don't have data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScoreboardActivity.this, "None of your records is on top 50", Toast.LENGTH_SHORT).show();
+                    if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                String text = "None of your records is on top 50";
+                                textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                                text = "Keep going !";
+                                textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                            }
+                        }, 500);
+                    }
                 }
                 else {
                     try {
@@ -336,34 +363,35 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                                 JSONObject productobject = products.getJSONObject(i);
                                 String username = productobject.getString("username");
                                 Integer endTime = productobject.getInt("endTime");
-                                String secord = String.valueOf((endTime/100)%60);
-                                String msecord = String.valueOf(endTime%100);
-                                System.out.println(secord.length());
-                                /* If length of "secord" less 2 (0:0:00) */
-                                if(secord.length()<2){
-                                    /* If length of "msecord" less 2 (0:0:0) */
-                                    if(msecord.length()<2){
-                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                String minute = String.valueOf(endTime/6000);
+                                String second = String.valueOf((endTime/100)%60);
+                                String mSecond = String.valueOf(endTime%100);
+                                System.out.println(second.length());
+                                /* If length of "second" less 2 (0:0:00) */
+                                if(second.length()<2){
+                                    /* If length of "mSecond" less 2 (0:0:0) */
+                                    if(mSecond.length()<2){
+                                        score = minute+":"+"0"+second+":"+"0"+mSecond;
                                     }
-                                    /* else length of "msecord" not less 2 (0:0:00) */
+                                    /* else length of "mSecond" not less 2 (0:0:00) */
                                     else{
-                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+endTime%100;
+                                        score = minute+":"+"0"+second+":"+mSecond;
                                     }
                                 }
-                                /* If length of "msecord" less 2 (0:00:0) */
-                                else if(msecord.length()<2){
-                                    /* If length of "secord" less 2 (0:0:0) */
-                                    if(secord.length()<2){
-                                        score = endTime/6000+":"+"0"+(endTime/100)%60+":"+"0"+endTime%100;
+                                /* If length of "mSecond" less 2 (0:00:0) */
+                                else if(mSecond.length()<2){
+                                    /* If length of "second" less 2 (0:0:0) */
+                                    if(second.length()<2){
+                                        score = minute+":"+"0"+second+":"+"0"+mSecond;
                                     }
-                                    /* else length of "secord" not less 2 (0:00:0) */
+                                    /* else length of "second" not less 2 (0:00:0) */
                                     else{
-                                        score = endTime/6000+":"+(endTime/100)%60+":"+"0"+endTime%100;
+                                        score = minute+":"+second+":"+"0"+mSecond;
                                     }
                                 }
-                                /* else length of "secord" not less 2 (0:00:00) */
+                                /* else length of "second" not less 2 (0:00:00) */
                                 else{
-                                    score = endTime/6000+":"+(endTime/100)%60+":"+endTime%100;
+                                    score = minute+":"+second+":"+mSecond;
                                 }
                                 scoreboardUserList.add(new ScoreboardUser(i+1,username,score));
                                 setAdapter();       /* show in recyclerView */
@@ -407,6 +435,10 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
                 String text = "Select level " + textLevel;
                 textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                if(PreferenceManager.getDefaultSharedPreferences(ScoreboardActivity.this).getBoolean("BLIND_SCOREBOARD",false)){
+                    text = "on Blind Mode";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                }
             }
         }
         showScore();

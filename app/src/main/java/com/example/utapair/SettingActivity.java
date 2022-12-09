@@ -313,9 +313,8 @@ public class SettingActivity extends AppCompatActivity {
 
     /* method set AccessibilityMode and share preference */
     public  void setAccessibilityMode(){
-        boolean checkedSoundClick = checkBoxAccessibilityMode.isChecked();
         /* set AccessibilityMode follow Checkbox */
-        if(checkedSoundClick){
+        if(checkBoxAccessibilityMode.isChecked()){
             AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
         }
         else {
@@ -325,7 +324,7 @@ public class SettingActivity extends AppCompatActivity {
         switch(checkBoxAccessibilityMode.getId()) {
             case R.id.accessibility_checkbox:
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean("ACCESSIBILITY_CHECKBOX", checkedSoundClick).commit();
+                        .putBoolean("ACCESSIBILITY_CHECKBOX", checkBoxAccessibilityMode.isChecked()).commit();
                 break;
         }
     }
