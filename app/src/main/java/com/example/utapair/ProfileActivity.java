@@ -481,15 +481,15 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 if(response.equals("FAILURE")){
                     profileUserList.clear();    /* clear data */
                     setAdapter();   /* show in recyclerView */
-                    Toast.makeText(ProfileActivity.this, "None of your record", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, "There is no record of your gameplay", Toast.LENGTH_SHORT).show();
                     if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                String text = "None of your records";
+                                String text = "There is no record of your gameplay";
                                 textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
-                                text = "Keep going !";
+                                text = "Lets play some uta pair !";
                                 textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
                             }
                         }, 500);

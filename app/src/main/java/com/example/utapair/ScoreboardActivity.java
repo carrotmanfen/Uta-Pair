@@ -50,7 +50,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private ImageButton buttonSetting;
     private ImageButton buttonHome;
     private CheckBox buttonCheckbox;
-    private String saveName,buttonLevel,textLevel,score;
+    private String saveName,buttonLevel,textLevel,textMode,score;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private int sdCount = 0;
@@ -81,10 +81,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 /* use method follow AccessibilityMode */
                 if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                     if (buttonCheckbox.isChecked()) {
+                        textMode = "Blind";
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
                     else {
+                        textMode = "";
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
@@ -328,13 +330,13 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 if(response.equals("FAILURE")){
                     scoreboardUserList.clear();     /* clear data */
                     setAdapter();       /* show in recyclerView */
-                    Toast.makeText(ScoreboardActivity.this, "None of your records is on top 50", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScoreboardActivity.this, "There is no record of your score in the top 50", Toast.LENGTH_SHORT).show();
                     if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                String text = "None of your records is on top 50";
+                                String text = "There is no record of your score in the top 50";
                                 textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
                                 text = "Keep going !";
                                 textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
@@ -419,9 +421,16 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             soundClick.playSoundClick();
             /* speak when AccessibilityMode on */
             if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY") {
-                String text = "Select level " + textLevel;
-                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                if(textMode=="") {
+                    String text = "Select level" + textLevel;
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
+                else if(textMode=="Blind") {
+                    String text = "Select level" + textLevel +"on blind mode";
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
             }
+
         }
         showScore();
     }
