@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
 import android.view.View;
@@ -99,6 +100,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
         /* set checkbox for BlindMode */
         buttonCheckbox = findViewById(R.id.modeblind_checkbox);
+        buttonCheckbox.setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("BLIND_PROFILE",false));
         buttonCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,9 +115,17 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
+                    switch(buttonCheckbox.getId()) {
+                        case R.id.modeblind_checkbox:
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                    .putBoolean("BLIND_PROFILE", buttonCheckbox.isChecked()).commit();
+                            break;
+                    }
                 showScore();
             }
         });
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                .putBoolean("BLIND_PROFILE", buttonCheckbox.isChecked()).commit();
 
         /* set buttonLogout */
         buttonLogout = findViewById(R.id.logout_btn);
@@ -219,6 +229,10 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
                     text = "level easy";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+                    if(PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).getBoolean("BLIND_PROFILE",false)){
+                        text = "Blind Mode";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+                    }
                 }
             }, 500);
         }
