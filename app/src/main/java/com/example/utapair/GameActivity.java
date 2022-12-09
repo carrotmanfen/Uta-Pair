@@ -142,22 +142,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"||BlindMode.getInstance().getMode()=="BLIND") {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     /* play sound follow level */
                     if(mode==-1){
-                        String text = "Start level easy";
+                        String text = "Start level easy have 3 row 2 columns";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                     else if(mode==0){
-                        String text = "Start level normal";
+                        String text = "Start level normal have 4 row 3 columns ";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                     else{
-                        String text = "Start level hard";
+                        String text = "Start level hard have 6 rows 3 columns";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                 }

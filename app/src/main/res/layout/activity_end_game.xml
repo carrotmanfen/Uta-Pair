@@ -87,33 +87,15 @@
         android:layout_marginBottom="50sp">
 
         <Space
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-
-        <!--share button-->
-
-        <ImageButton
-            android:id="@+id/share_btn_1"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/custom_button2"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_share_foreground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"></ImageButton>
-
-        <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
+
         <!--share button-->
         <Button
-            android:id="@+id/share_btn_2"
-            android:layout_width="120sp"
+            android:id="@+id/share_btn"
+            android:layout_width="160sp"
             android:layout_height="50sp"
             android:background="@drawable/custom_button2"
             android:fontFamily="@font/impact"
@@ -123,23 +105,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="110dp" />
 
-        <Space
-            android:layout_width="18dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-
-        <!--play again button-->
-        <ImageButton
-            android:id="@+id/play_again_btn_1"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/custom_button2"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_play_again_foreground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"></ImageButton>
 
         <Space
             android:layout_width="wrap_content"
@@ -148,8 +113,8 @@
 
         <!--play again button-->
         <Button
-            android:id="@+id/play_again_btn_2"
-            android:layout_width="120sp"
+            android:id="@+id/play_again_btn"
+            android:layout_width="160sp"
             android:layout_height="50sp"
             android:background="@drawable/custom_button2"
             android:fontFamily="@font/impact"
@@ -160,9 +125,9 @@
             tools:layout_editor_absoluteX="110dp" />
 
         <Space
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="1" />
 
     </LinearLayout>
 
