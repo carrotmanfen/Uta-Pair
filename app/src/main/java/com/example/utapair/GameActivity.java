@@ -586,14 +586,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             /* when matched disable background */
             Drawable visible = getDrawable(R.drawable.custom_pair_item_disable);
-
-            buttonSelected1.setBackGroundButton(visible);
-            button.setBackGroundButton(visible);
-
-            /* when match disable button to can not click */
-            buttonSelected1.setEnabled(false);
-            button.setEnabled(false);
-            buttonSelected1 = null; /* set to null for getting new data */
+            itWasBusy = true;
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                /* flipped back and set buttonSelect to null for getting new data */
+                public void run() {
+                    button.setBackGroundButton(visible);
+                    buttonSelected1.setBackGroundButton(visible);
+                    /* when match disable button to can not click */
+                    buttonSelected1.setEnabled(false);
+                    button.setEnabled(false);
+                    buttonSelected1 = null; /* set to null for getting new data */
+                    itWasBusy = false;
+                }
+            }, 500);
 
             /* if all button matched */
             if(checkAllMatched() == true ){
@@ -608,7 +615,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 /* end game and go to EndgameActivity */
                 Intent intent = new Intent(this, EndgameActivity.class);
                 /* set delay for correct time score */
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
