@@ -570,6 +570,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         if(buttonSelected1.getFrontDrawableId() == button.getFrontDrawableId() ){ /* matched */
+
             /* play sound when click */
             soundClick.playSoundClick(); /* sound click */
             /* flipped the second one to user */
@@ -582,13 +583,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             buttonSelected1.setMatched(true);
             button.setMatched(true);
             /* when matched disable background */
+            final Handler handler2 = new Handler();
             Drawable visible = getDrawable(R.drawable.custom_pair_item_disable);
-            buttonSelected1.setBackGroundButton(visible);
-            button.setBackGroundButton(visible);
-            /* when match disable button to can not click */
-            buttonSelected1.setEnabled(false);
-            button.setEnabled(false);
-            buttonSelected1 = null; /* set to null for getting new data */
+            handler2.postDelayed(new Runnable() {
+                @Override
+                /* flipped back and set buttonSelect to null for getting new data */
+                public void run() {
+                    button.setBackGroundButton(visible);
+                    buttonSelected1.setBackGroundButton(visible);
+                    /* when match disable button to can not click */
+                    buttonSelected1.setEnabled(false);
+                    button.setEnabled(false);
+                    buttonSelected1 = null; /* set to null for getting new data */
+                }
+            }, 500);
+
 
             /* if all button matched */
             if(checkAllMatched() == true ){
