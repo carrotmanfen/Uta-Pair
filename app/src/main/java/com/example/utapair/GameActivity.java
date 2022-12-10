@@ -142,22 +142,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"||BlindMode.getInstance().getMode()=="BLIND") {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     /* play sound follow level */
                     if(mode==-1){
-                        String text = "Start level easy";
+                        String text = "Start level easy have 3 row 2 columns";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                     else if(mode==0){
-                        String text = "Start level normal";
+                        String text = "Start level normal have 4 row 3 columns ";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                     else{
-                        String text = "Start level hard";
+                        String text = "Start level hard have 6 rows 3 columns";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
                 }
@@ -309,6 +309,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else {
                     openMainActivity();
+                    dialog.cancel();
                 }
             }
         });
@@ -349,6 +350,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 /* if double tap in time go to MainActivity */
                 else if(tapCount==2){
                     openMainActivity();
+                    dialog.cancel();
                 }
                 tapCount = 0;   /* reset tapCount */
             }
@@ -570,7 +572,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         if(buttonSelected1.getFrontDrawableId() == button.getFrontDrawableId() ){ /* matched */
-
             /* play sound when click */
             soundClick.playSoundClick(); /* sound click */
             /* flipped the second one to user */
@@ -582,22 +583,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             /* tell it that was matched */
             buttonSelected1.setMatched(true);
             button.setMatched(true);
-            /* when matched disable background */
-            final Handler handler2 = new Handler();
-            Drawable visible = getDrawable(R.drawable.custom_pair_item_disable);
-            handler2.postDelayed(new Runnable() {
-                @Override
-                /* flipped back and set buttonSelect to null for getting new data */
-                public void run() {
-                    button.setBackGroundButton(visible);
-                    buttonSelected1.setBackGroundButton(visible);
-                    /* when match disable button to can not click */
-                    buttonSelected1.setEnabled(false);
-                    button.setEnabled(false);
-                    buttonSelected1 = null; /* set to null for getting new data */
-                }
-            }, 500);
 
+            /* when matched disable background */
+            Drawable visible = getDrawable(R.drawable.custom_pair_item_disable);
+
+            buttonSelected1.setBackGroundButton(visible);
+            button.setBackGroundButton(visible);
+
+            /* when match disable button to can not click */
+            buttonSelected1.setEnabled(false);
+            button.setEnabled(false);
+            buttonSelected1 = null; /* set to null for getting new data */
 
             /* if all button matched */
             if(checkAllMatched() == true ){

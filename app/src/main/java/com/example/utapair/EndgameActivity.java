@@ -110,24 +110,9 @@ public class EndgameActivity extends Activity {
             }
         });
 
-        /* share button implements */
-        imageButtonShare = findViewById(R.id.share_btn_1);
-        imageButtonShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    shareScoreAccessibility();
-                }
-                else {
-                    shareScore();
-                }
-            }
-        });
 
         /* share button implements */
-        buttonShare = findViewById(R.id.share_btn_2);
+        buttonShare = findViewById(R.id.share_btn);
         buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,24 +127,9 @@ public class EndgameActivity extends Activity {
             }
         });
 
-        /* imageButtonPlayAgain implement */
-        imageButtonPlayAgain = findViewById(R.id.play_again_btn_1);
-        imageButtonPlayAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    playAgainAccessibility();
-                }
-                else {
-                    playAgain();
-                }
-            }
-        });
 
         /* ButtonPlayAgain implement */
-        buttonPlayAgain = findViewById(R.id.play_again_btn_2);
+        buttonPlayAgain = findViewById(R.id.play_again_btn);
         buttonPlayAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -53,8 +53,13 @@ public class MemoryButton extends AppCompatButton {
         GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(r),GridLayout.spec(c)); /* it tell position of grid */
 
         /* set dimension and density*/
-        tempParams.width = (int) (Math.round(getResources().getDisplayMetrics().widthPixels / columnsNum) - getPixelsFromDp(30)); // (getResources().getDisplayMetrics().density * 5)
-        tempParams.height = (int) (Math.round(getResources().getDisplayMetrics().heightPixels / rowsNum) - getPixelsFromDp(70)); // (getResources().getDisplayMetrics().density * 70)
+        tempParams.width = (int) (Math.round(getResources().getDisplayMetrics().widthPixels / columnsNum) - getPixelsFromDp(20)); // (getResources().getDisplayMetrics().density * 5)
+        tempParams.height = (int) (Math.round(getResources().getDisplayMetrics().heightPixels / rowsNum) - getPixelsFromDp(40)); // (getResources().getDisplayMetrics().density * 70)
+        if(tempParams.width>=tempParams.height){
+            tempParams.width=tempParams.height;
+        }else{
+            tempParams.height=tempParams.width;
+        }
         setLayoutParams(tempParams);
 
     }
