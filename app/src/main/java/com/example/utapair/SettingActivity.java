@@ -316,6 +316,8 @@ public class SettingActivity extends AppCompatActivity {
         /* set AccessibilityMode follow Checkbox */
         if(checkBoxAccessibilityMode.isChecked()){
             AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
+            String text = "Accessibility mode on";
+            textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
         }
         else {
             AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
@@ -346,6 +348,8 @@ public class SettingActivity extends AppCompatActivity {
                 else if(tapCount==2){
                     checkBoxAccessibilityMode.setChecked(false);        /* set checkbox to uncheck */
                     setAccessibilityMode();
+                    String text = "Accessibility mode off";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 tapCount = 0;   /* reset tapCount */
             }
