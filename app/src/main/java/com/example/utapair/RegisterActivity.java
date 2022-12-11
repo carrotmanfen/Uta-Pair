@@ -305,9 +305,12 @@ public class RegisterActivity extends AppCompatActivity {
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
                                     .putBoolean("ACCESSIBILITY_MODE", true).commit();
                         }
+                        openAccountActivity();
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
-                    openAccountActivity();
+                    else {
+                        openAccountActivity();
+                    }
                 } else if (response.equals("FAILURE")) {
                     /* If response is FAILURE show pop up "Something wrong!. Please try again later" */
                     Toast.makeText(RegisterActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
@@ -344,9 +347,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void openAccountActivity(){
-        Intent intent=new Intent(this, AccountActivity.class);
-        startActivity(intent);
-        finish();
+        NewIntent.launchActivity(AccountActivity.class,this);
     }
     /* function use to set the UI when all fields are empty */
     public void checkAllEmpty(){
