@@ -308,14 +308,14 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (response.equals("FAILURE")) {
                     /* If response is FAILURE show pop up "Something wrong!. Please try again later" */
                     Toast.makeText(RegisterActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
-                    sayFailed("");
+                    sayFailed("Something wrong!. Please try again later");
                 } else if (response.equals("EXIST")) {
                     /* make the text below username text box be
                      * This username is already used by someone
                      * else and set the border of username text box be red */
                     textViewUsernameError.setText("This username is already used by someone else.");
                     editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-                    sayFailed("");
+                    sayFailed("This username is already used by someone else.");
                 }
             }
         }, new Response.ErrorListener() {
@@ -366,16 +366,16 @@ public class RegisterActivity extends AppCompatActivity {
         if(password.equals("")){
             editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewPasswordError.setText("Fields can not be empty!");
-            sayFailed("username and password are empty");
+            sayFailed("username and password can not be empty");
         }
         /* if username and confirm-password fields are empty */
         else if(confirmedPassword.equals("")){
             editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewRePasswordError.setText("Fields can not be empty!");
-            sayFailed("username and confirm password are empty");
+            sayFailed("username and confirm password can not be empty");
         }
         else {
-            sayFailed("username is empty");
+            sayFailed("username can not be empty");
         }
     }
     /* function use to set the UI when in the case which password is empty */
@@ -386,16 +386,16 @@ public class RegisterActivity extends AppCompatActivity {
         if(username.equals("")){
             editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewUsernameError.setText("Fields can not be empty!");
-            sayFailed("username and password are empty");
+            sayFailed("username and password can not be empty");
         }
         /* if password and confirm password fields are empty */
         else if(confirmedPassword.equals("")){
             editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewRePasswordError.setText("Fields can not be empty!");
-            sayFailed("password and confirm password are empty");
+            sayFailed("password and confirm password can not be empty");
         }
         else {
-            sayFailed("password is empty");
+            sayFailed("password can not be empty");
         }
     }
     /* function use to set the UI when in the case which confirm password is empty */
@@ -408,17 +408,17 @@ public class RegisterActivity extends AppCompatActivity {
             /* set the confirm-password and username text box into red border and appear text Fields can not be empty! */
             editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewUsernameError.setText("Fields can not be empty!");
-            sayFailed("username and confirm password are empty");
+            sayFailed("username and confirm password can not be empty");
         }
         /* if confirm password and password is empty */
         else if(password.equals("")){
             /* set the confirm-password and password text box into red border and appear text Fields can not be empty! */
             editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewPasswordError.setText("Fields can not be empty!");
-            sayFailed("password and confirm password are empty");
+            sayFailed("password and confirm password can not be empty");
         }
         else {
-            sayFailed("confirm password is empty");
+            sayFailed("confirm password can not be empty");
         }
     }
 
