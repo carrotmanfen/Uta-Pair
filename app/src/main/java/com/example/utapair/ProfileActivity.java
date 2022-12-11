@@ -250,6 +250,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         if(sh.contains("SAVED_NAME")){
             /* Pop up logout unsuccessfully */
             Toast.makeText(ProfileActivity.this, "Logout unsuccessfully", Toast.LENGTH_SHORT).show();
+            sayFailed("Logout unsuccessfully");
         }
         /* sh SharedPreference data is cleared */
         else {
@@ -258,6 +259,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             /* Navigate to MainActivity page */
             Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
             startActivity(intent);
+            sayFailed("Logout successfully");
             finish();
         }
     }
@@ -365,7 +367,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                                     /* set a error text to nothing change due to same as old username*/
                                     popupErrorText.setText("nothing change due to same as old username");
                                     checkChange = 0;
-                                    sayFailed();
+                                    sayFailed("nothing change due to same as old username");
                                 }
                                 /* if the new input is more than available size in database */
                                 else if (newUsername.length()>16){
@@ -374,16 +376,16 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                                     /* set a error text to Unable to create username more than 16 character */
                                     popupErrorText.setText("Unable to create username more than 16 character");
                                     checkChange = 0;
-                                    sayFailed();
+                                    sayFailed("Unable to create username more than 16 character");
                                 }
                                 /* if the new input is empty */
                                 else if (newUsername.length()==0){
                                     /* set red border on the editable text box */
                                     popupEditText.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-                                    /* set a error text to Username can't be empty */
-                                    popupErrorText.setText("Username can't be empty");
+                                    /* set a error text to Username can not be empty */
+                                    popupErrorText.setText("Username can not be empty");
                                     checkChange = 0;
-                                    sayFailed();
+                                    sayFailed("Username can not be empty");
                                 }
                                 /* the new input is possible to change the username */
                                 else {
@@ -412,16 +414,16 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                         popupEditText.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                         /* set a error text to Unable to create username more than 16 character */
                         popupErrorText.setText("Unable to create username more than 16 character");
-                        /*Toast.makeText(ProfileActivity.this," cannot have username more than 16 character  ",Toast.LENGTH_SHORT).show();*/
+                        /*Toast.makeText(ProfileActivity.this," can not have username more than 16 character  ",Toast.LENGTH_SHORT).show();*/
                         checkChange = 0;
                     }
                     /* if the new input is empty */
                     else if (newUsername.length()==0){
                         /* set red border on the editable text box */
                         popupEditText.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-                        /* set a error text to Username can't be empty */
-                        popupErrorText.setText("Username can't be empty");
-                       /* Toast.makeText(ProfileActivity.this," username cannot be empty ",Toast.LENGTH_SHORT).show();*/
+                        /* set a error text to Username can not be empty */
+                        popupErrorText.setText("Username can not be empty");
+                       /* Toast.makeText(ProfileActivity.this," username can not be empty ",Toast.LENGTH_SHORT).show();*/
                         checkChange = 0;
                     }
                     /* the new input is possible to change the username */
@@ -567,10 +569,9 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
-    /* method to speak change name failed */
-    public void sayFailed(){
+    /* method to speak when change name failed  */
+    public void sayFailed(String text){
         if (accessibilityMode) {
-            String text = "change name failed";
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
@@ -674,7 +675,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     popupErrorText.setText("Something wrong!. Please try again later");
                     /* Pop up Something wrong!. Please try again later */
                     /* Toast.makeText(ProfileActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show(); */
-                    sayFailed();
+                    sayFailed("Something wrong!. Please try again later");
                 }
                 /* If the php response is EXIST */
                 else if (response.equals("EXIST")) {
@@ -685,7 +686,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     popupErrorText.setText("This username used by someone else");
                     /* Pop up This username used by someone else */
                    /* Toast.makeText(ProfileActivity.this,"This username used by someone else ",Toast.LENGTH_SHORT).show();*/
-                    sayFailed();
+                    sayFailed("This username used by someone else");
                 }
             }
         }, new Response.ErrorListener() {
@@ -698,7 +699,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 popupErrorText.setText("Server error. Please try again later");
                 /* When the error on response "Server pop up error. Please try again later" */
                 /* Toast.makeText(ProfileActivity.this, "Server error. Please try again later", Toast.LENGTH_LONG).show(); */
-                sayFailed();
+                sayFailed("Server error. Please try again later");
 
             }
         }) { /* Pass data to php file */
