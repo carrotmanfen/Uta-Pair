@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox buttonCheck;
     private Button buttonSignUp;
     private ImageButton buttonBack;
-    private String username, password, comfirmedPassword, blindModeString;
+    private String username, password, confirmedPassword, blindModeString;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private SoundClick soundClick;
@@ -143,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
         textViewUsernameError = findViewById(R.id.username_errorText);
         textViewPasswordError = findViewById(R.id.password_errorText);
 
-        username = password = comfirmedPassword = "";
+        username = password = confirmedPassword = "";
         blindModeString = "0";
 
         /* set buttonBack */
@@ -191,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void checkRegisterInput() {
         username = editTextName.getText().toString().trim();
         password = editTextPassword.getText().toString().trim();
-        comfirmedPassword = editTextRePassword.getText().toString().trim();
+        confirmedPassword = editTextRePassword.getText().toString().trim();
         /* Set background to custom_input (Drawable) */
         editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input));
         editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input));
@@ -201,14 +201,14 @@ public class RegisterActivity extends AppCompatActivity {
         textViewRePasswordError.setText("");
         textViewPasswordError.setText("");
          /* If users send password not match with confirm password. */
-         if(!username.equals("") && !password.equals("")) {
+         if(!username.equals("") && !password.equals("") &&!confirmedPassword.equals("")) {
              /* If password and confirm-password doesn't match */
-             if(!password.equals(comfirmedPassword)){
+             if(!password.equals(confirmedPassword)){
                 textViewRePasswordError.setText("Password do not match.");
                 /* Set background to custom_input (Drawable) */
                 editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-                sayFailed("");
+                sayFailed("Password do not match.");
             }
             /* If username and password is less than 16 character */
             else if ((username.length() <= 16) && (editTextPassword.length() <= 16)) {
@@ -225,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity {
                 textViewUsernameError.setText("Unable to use more than 16 characters username.");
                 editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 Toast.makeText(this, "Invalid username input", Toast.LENGTH_SHORT).show();
-                sayFailed("");
+                sayFailed("Unable to use more than 16 characters username.");
             }
             /* If password is unable to use */
             else {
@@ -236,29 +236,26 @@ public class RegisterActivity extends AppCompatActivity {
                 editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 Toast.makeText(this, "Invalid password input", Toast.LENGTH_SHORT).show();
-                sayFailed("");
+                sayFailed("Unable to use more than 16 characters password.");
             }
         }
         /* If all fields are empty */
-        else if(username.equals("") && password.equals("") && comfirmedPassword.equals("")){
+        else if(username.equals("") && password.equals("") && confirmedPassword.equals("")){
                // use function that set the UI for all fields are empty
                checkAllEmpty();
-               sayFailed("");
+               sayFailed("All fields can not be empty");
         }
         /* If username field is empty */
         else if(username.equals("")){
              checkNameEmpty();  /* use function that set the UI for username is empty */
-             sayFailed("");
         }
         /* If password field is empty */
         else if(password.equals("")){
              checkPasswordEmpty();   /* use function that set the UI for password is empty */
-             sayFailed("");
         }
         /* If confirm password field is empty */
-        else if(comfirmedPassword.equals("")){
+        else if(confirmedPassword.equals("")){
              checkRePasswordEmpty(); /* use function that set the UI for confirm password is empty */
-             sayFailed("");
         }
     }
 
@@ -369,11 +366,16 @@ public class RegisterActivity extends AppCompatActivity {
         if(password.equals("")){
             editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewPasswordError.setText("Fields can not be empty!");
+            sayFailed("username and password are empty");
         }
         /* if username and confirm-password fields are empty */
-        else if(comfirmedPassword.equals("")){
+        else if(confirmedPassword.equals("")){
             editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewRePasswordError.setText("Fields can not be empty!");
+            sayFailed("username and confirm password are empty");
+        }
+        else {
+            sayFailed("username is empty");
         }
     }
     /* function use to set the UI when in the case which password is empty */
@@ -384,11 +386,16 @@ public class RegisterActivity extends AppCompatActivity {
         if(username.equals("")){
             editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewUsernameError.setText("Fields can not be empty!");
+            sayFailed("username and password are empty");
         }
         /* if password and confirm password fields are empty */
-        else if(comfirmedPassword.equals("")){
+        else if(confirmedPassword.equals("")){
             editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewRePasswordError.setText("Fields can not be empty!");
+            sayFailed("password and confirm password are empty");
+        }
+        else {
+            sayFailed("password is empty");
         }
     }
     /* function use to set the UI when in the case which confirm password is empty */
@@ -401,12 +408,17 @@ public class RegisterActivity extends AppCompatActivity {
             /* set the confirm-password and username text box into red border and appear text Fields can not be empty! */
             editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewUsernameError.setText("Fields can not be empty!");
+            sayFailed("username and confirm password are empty");
         }
         /* if confirm password and password is empty */
         else if(password.equals("")){
             /* set the confirm-password and password text box into red border and appear text Fields can not be empty! */
             editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             textViewPasswordError.setText("Fields can not be empty!");
+            sayFailed("password and confirm password are empty");
+        }
+        else {
+            sayFailed("confirm password is empty");
         }
     }
 
