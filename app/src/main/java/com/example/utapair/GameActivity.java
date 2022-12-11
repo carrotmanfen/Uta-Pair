@@ -600,7 +600,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     buttonSelected1 = null; /* set to null for getting new data */
                     itWasBusy = false;
                 }
-            }, 500);
+            }, 5);
 
             /* if all button matched */
             if(checkAllMatched() == true ){

@@ -233,6 +233,7 @@ public class EndgameActivity extends Activity {
 
     /* method to playAgain in same level */
     public void playAgain(){
+        mediaPlayer.stop();
         mediaPlayer.release();
         soundClick.stopMediaPlayer();
         soundClick.releaseMediaPlayer();
