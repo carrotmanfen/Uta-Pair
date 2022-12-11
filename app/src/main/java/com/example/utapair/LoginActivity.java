@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private SoundClick soundClick;
+    private boolean accessibilityMode;
 
     /* Connect Server */
     private String loginURL = "https://uta-pair-api.herokuapp.com/checkLogin.php";
@@ -55,6 +57,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        /* set mode from share preference */
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
+
         soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -75,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             /* when touch speak text */
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                if(accessibilityMode){
                     String text = "Type your name";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
@@ -88,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             /* when touch speak text */
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                if(accessibilityMode){
                     String text = "Type your password";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
@@ -106,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     onBackPressedAccessibility();
                 }
                 else {
@@ -121,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     loginAccessibility();
                 }
                 else {
@@ -136,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(accessibilityMode) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -148,9 +154,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
+    }
+
     /* method to speak failed register */
     public void sayFailed(){
-        if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if (accessibilityMode) {
             String text = "login failed";
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
@@ -235,7 +249,7 @@ public class LoginActivity extends AppCompatActivity {
                     /* This page alert "Success" and open ProfileActivity.class */
                     Toast.makeText(LoginActivity.this, "Success.", Toast.LENGTH_SHORT).show();
                     if (sharedPreferences.contains("SAVED_NAME")) {
-                        if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                        if (accessibilityMode) {
                             String text = "login success";
                             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                         }
@@ -276,9 +290,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     /* Method for using open profile page */
     public void openProfileActivity () {
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
-        finish();
+        NewIntent.launchActivity(ProfileActivity.class,this);
     }
 
     /* method to go to previous activity with AccessibilityMode */

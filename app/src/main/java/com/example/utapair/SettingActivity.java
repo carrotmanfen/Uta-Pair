@@ -32,12 +32,19 @@ public class SettingActivity extends AppCompatActivity {
     private CheckBox checkBoxBlindMode;
     private SoundClick soundClick;
     private int tapCount = 0;
+    private boolean blindMode,accessibilityMode,musicMode;
     SharedPreferences sh;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);      /* set layout file */
+
+        /* set mode from share preference */
+        blindMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("BLIND_MODE",false);
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
+        musicMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("MUSIC_MODE",false);
+
         soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -57,7 +64,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     onBackPressedAccessibility();
                 }
                 else {
@@ -74,19 +81,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if (checkLoginData()==1) {
-                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY")
-
-                        openProfileActivityAccessibility();
-                    else
-                        openProfileActivity();
-                }
-                else {
-                    if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY")
-                        openAccountActivityAccessibility();
-                    else
-                        openAccountActivity();
-                    }
+                openAccountActivity();
                 }
         });
 
@@ -98,25 +93,21 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openScoreboardActivityAccessibility();
-                }
-                else {
-                    openScoreboardActivity();
-                }
+                openScoreboardActivity();
+
             }
         });
 
         /* set checkBoxMusicMode */
         checkBoxMusicMode = findViewById(R.id.music_checkbox);
-        checkBoxMusicMode.setChecked(MusicMode.getInstance().getMode()=="MUSIC");       /* set state checkbox */
+        checkBoxMusicMode.setChecked(musicMode);       /* set state checkbox */
         checkBoxMusicMode.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click CheckBox set MusicMode */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use setMusicMode method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     setMusicModeAccessibility();
                 }
                 else {
@@ -127,14 +118,14 @@ public class SettingActivity extends AppCompatActivity {
 
         /* set checkBoxAccessibilityMode */
         checkBoxAccessibilityMode = findViewById(R.id.accessibility_checkbox);
-        checkBoxAccessibilityMode.setChecked(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY");       /* set state checkbox */
+        checkBoxAccessibilityMode.setChecked(accessibilityMode);       /* set state checkbox */
         checkBoxAccessibilityMode.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click Checkbox set AccessibilityMode */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use setAccessibilityMode method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                    setAccessibilityModeAccessibility();
                 }
                 else {
@@ -145,14 +136,14 @@ public class SettingActivity extends AppCompatActivity {
 
         /* set checkBoxBlindMode */
         checkBoxBlindMode = (CheckBox) findViewById(R.id.blind_mode_checkbox);
-        checkBoxBlindMode.setChecked(BlindMode.getInstance().getMode()=="BLIND");       /* set state checkbox */
+        checkBoxBlindMode.setChecked(blindMode);       /* set state checkbox */
         checkBoxBlindMode.setOnClickListener(new View.OnClickListener() {
             @Override
             /* set when click Checkbox set AccessibilityMode */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use setBlindMode method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     setBlindModeAccessibility();
                 }
                 else {
@@ -161,18 +152,20 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        /*  this 3  line is setting remember mode when open for first time */
+
         /* set MusicMode to shared preference */
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                .putBoolean("MUSIC_CHECKBOX", checkBoxMusicMode.isChecked()).commit();
+                .putBoolean("MUSIC_MODE", checkBoxMusicMode.isChecked()).commit();
 
         /* set BlindMode to shared preference */
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                .putBoolean("BLIND_CHECKBOX", checkBoxBlindMode.isChecked()).commit();
+                .putBoolean("BLIND_MODE", checkBoxBlindMode.isChecked()).commit();
 
 
         /* set AccessibilityMode to shared preference */
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                .putBoolean("ACCESSIBILITY_CHECKBOX", checkBoxAccessibilityMode.isChecked()).commit();
+                .putBoolean("ACCESSIBILITY_MODE", checkBoxAccessibilityMode.isChecked()).commit();
     }
 
     /* this part will run when this Activity start */
@@ -180,7 +173,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onStart();
         checkBoxAccessibilityMode = findViewById(R.id.accessibility_checkbox);
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(accessibilityMode) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -191,21 +184,22 @@ public class SettingActivity extends AppCompatActivity {
             }, 500);
         }
     }
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
+    }
 
     /* method set MusicMode and share preference */
     public void setMusicMode(){
-        /* set MusicMode follow Checkbox */
-        if(checkBoxMusicMode.isChecked()){
-            MusicMode.getInstance().setMode("MUSIC");
-        }
-        else{
-            MusicMode.getInstance().setMode("NOT_MUSIC");
-        }
         /* set MusicMode to shared preference */
         switch(checkBoxMusicMode.getId()) {
             case R.id.music_checkbox:
+                musicMode=checkBoxMusicMode.isChecked();
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean("MUSIC_CHECKBOX", checkBoxMusicMode.isChecked()).commit();
+                        .putBoolean("MUSIC_MODE", checkBoxMusicMode.isChecked()).commit();
                 break;
         }
     }
@@ -253,18 +247,12 @@ public class SettingActivity extends AppCompatActivity {
 
     /* method set BlindMode and share preference */
     public void setBlindMode(){
-        /* set BlindMode follow blindModeCheckbox */
-        if(checkBoxBlindMode.isChecked()){
-            BlindMode.getInstance().setMode("BLIND");
-        }
-        else{
-            BlindMode.getInstance().setMode("NOT_BLIND");
-        }
         /* set BlindMode to shared preference */
         switch(checkBoxBlindMode.getId()) {
             case R.id.blind_mode_checkbox:
+                blindMode=checkBoxBlindMode.isChecked();
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean("BLIND_CHECKBOX", checkBoxBlindMode.isChecked()).commit();
+                        .putBoolean("BLIND_MODE", checkBoxBlindMode.isChecked()).commit();
                 break;
         }
     }
@@ -313,18 +301,12 @@ public class SettingActivity extends AppCompatActivity {
 
     /* method set AccessibilityMode and share preference */
     public  void setAccessibilityMode(){
-        /* set AccessibilityMode follow Checkbox */
-        if(checkBoxAccessibilityMode.isChecked()){
-            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
-        }
-        else {
-            AccessibilityMode.getInstance().setMode("NOT_ACCESSIBILITY");
-        }
         /* set AccessibilityMode to shared preference */
         switch(checkBoxAccessibilityMode.getId()) {
             case R.id.accessibility_checkbox:
+                accessibilityMode=checkBoxAccessibilityMode.isChecked();
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean("ACCESSIBILITY_CHECKBOX", checkBoxAccessibilityMode.isChecked()).commit();
+                        .putBoolean("ACCESSIBILITY_MODE", checkBoxAccessibilityMode.isChecked()).commit();
                 break;
         }
     }
@@ -355,90 +337,33 @@ public class SettingActivity extends AppCompatActivity {
 
     /* method to start AccountActivity */
     public void openAccountActivity(){
-        /* create new intent AccountActivity Class and Start Activity */
-            Intent intent=new Intent(this, AccountActivity.class);
-            finish();       /* finish this Activity */
-            startActivity(intent);
-    }
-
-    /* method to start AccountActivity with AccessibilityMode */
-    public void openAccountActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to account";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start AccountActivity */
-                else if(tapCount==2){
-                    openAccountActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
+        if(checkLoginData()==1){
+            if (accessibilityMode) {
+                NewIntent.launchActivityAccessibility(ProfileActivity.class, this, textToSpeech, "double tap to go to profile", 500);
             }
-        },500);     /* in 500 millisecond */
-
-    }
-    /* method to start ProfileActivity */
-    public void openProfileActivity(){
-        /* create new intent ProfileActivity Class and Start Activity */
-            Intent intent=new Intent(this, ProfileActivity.class);
-            startActivity(intent);
-            finish();       /* finish this Activity */
-    }
-
-    /* method to start ProfileActivity with AccessibilityMode */
-    public void openProfileActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to profile";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start ProfileActivity */
-                else if(tapCount==2){
-                    openProfileActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
+            else {
+                NewIntent.launchActivity(ProfileActivity.class, this);
             }
-        },500);     /* in 500 millisecond */
-
+        }
+        else{
+            if (accessibilityMode) {
+                NewIntent.launchActivityAccessibility(AccountActivity.class, this, textToSpeech, "double tap to go to account", 500);
+            }
+            else {
+                NewIntent.launchActivity(AccountActivity.class, this);
+            }
+        }
     }
+
 
     /* method to start ScoreboardActivity */
     public void openScoreboardActivity(){
-        /* create new intent ScoreboardActivity Class and Start Activity */
-        Intent intent=new Intent(this, ScoreboardActivity.class);
-        finish();       /* finish this Activity */
-        startActivity(intent);
-    }
-
-    /* method to start ScoreboardActivity with AccessibilityMode */
-    public void openScoreboardActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to scoreboard";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start ScoreboardActivity */
-                else if(tapCount==2){
-                    openScoreboardActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(ScoreboardActivity.class, this, textToSpeech, "double tap to go to scoreboard", 500);
+        }
+        else{
+            NewIntent.launchActivity(ScoreboardActivity.class, this);
+        }
     }
 
     /* method to go to previous activity with AccessibilityMode */

@@ -30,7 +30,7 @@ public class MemoryButton extends AppCompatButton {
     protected String position;
 
     /* constructor */
-    public MemoryButton(Context context, int r, int c, int frontImageId,int mode, int columnsNum,int rowsNum){    /* give position(r,c) and id of image in drawable source of gridlayout first */
+    public MemoryButton(Context context, int r, int c, int frontImageId,int mode, int columnsNum,int rowsNum ,boolean blindMode){    /* give position(r,c) and id of image in drawable source of gridlayout first */
         super(context);
 
         this.mode = mode;
@@ -40,7 +40,7 @@ public class MemoryButton extends AppCompatButton {
         this.columnsNum = columnsNum;
         frontDrawableId = frontImageId;     /* declare id picture for known when they matching */
 
-        if(BlindMode.getInstance().getMode()=="BLIND") {       /* if BlindMode in back is pair item disable */
+        if(blindMode) {       /* if BlindMode in back is pair item disable */
             back = context.getDrawable(R.drawable.custom_pair_item_disable);
             front = context.getDrawable(R.drawable.custom_pair_item_disable);      /* set drawable in front */
         }

@@ -38,10 +38,11 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox buttonCheck;
     private Button buttonSignUp;
     private ImageButton buttonBack;
-    private String username, password, comfirmedPassword, blindMode;
+    private String username, password, comfirmedPassword, blindModeString;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private SoundClick soundClick;
+    private boolean accessibilityMode;
     /* Connect server */
     private String registerURL = "https://uta-pair-api.herokuapp.com/register.php";
 
@@ -49,6 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        /* set mode from share preference */
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
         soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -67,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
             /* when touch speak text */
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                if(accessibilityMode){
                     String text = "Type your name";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
@@ -81,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
             /* when touch speak text */
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                if(accessibilityMode){
                     String text = "Type your password";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
@@ -95,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
             /* when touch speak text */
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                if(accessibilityMode){
                     String text = "Type confirm your password";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
@@ -109,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     signUpAccessibility();
                 }
                 else {
@@ -123,7 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                if(accessibilityMode){
                     if (buttonCheck.isChecked()) {
                         String text = "Checked you are blind person";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
@@ -140,7 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
         textViewPasswordError = findViewById(R.id.password_errorText);
 
         username = password = comfirmedPassword = "";
-        blindMode = "0";
+        blindModeString = "0";
 
         /* set buttonBack */
         buttonBack = findViewById(R.id.register_backward_btn);
@@ -150,7 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     onBackPressedAccessibility();
                 }
                 else {
@@ -164,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(accessibilityMode) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -174,6 +178,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }, 500);
         }
+    }
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
     }
 
     /* when users click sign up button. */
@@ -197,13 +208,13 @@ public class RegisterActivity extends AppCompatActivity {
                 /* Set background to custom_input (Drawable) */
                 editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-                sayFailed();
+                sayFailed("");
             }
             /* If username and password is less than 16 character */
             else if ((username.length() <= 16) && (editTextPassword.length() <= 16)) {
                 /* If blind button is checked */
                 if(buttonCheck.isChecked()){
-                    blindMode = "1";
+                    blindModeString = "1";
                 }
                 addData();
             }
@@ -214,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity {
                 textViewUsernameError.setText("Unable to use more than 16 characters username.");
                 editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 Toast.makeText(this, "Invalid username input", Toast.LENGTH_SHORT).show();
-                sayFailed();
+                sayFailed("");
             }
             /* If password is unable to use */
             else {
@@ -225,36 +236,35 @@ public class RegisterActivity extends AppCompatActivity {
                 editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                 Toast.makeText(this, "Invalid password input", Toast.LENGTH_SHORT).show();
-                sayFailed();
+                sayFailed("");
             }
         }
         /* If all fields are empty */
         else if(username.equals("") && password.equals("") && comfirmedPassword.equals("")){
                // use function that set the UI for all fields are empty
                checkAllEmpty();
-               sayFailed();
+               sayFailed("");
         }
         /* If username field is empty */
         else if(username.equals("")){
              checkNameEmpty();  /* use function that set the UI for username is empty */
-             sayFailed();
+             sayFailed("");
         }
         /* If password field is empty */
         else if(password.equals("")){
              checkPasswordEmpty();   /* use function that set the UI for password is empty */
-             sayFailed();
+             sayFailed("");
         }
         /* If confirm password field is empty */
         else if(comfirmedPassword.equals("")){
              checkRePasswordEmpty(); /* use function that set the UI for confirm password is empty */
-             sayFailed();
+             sayFailed("");
         }
     }
 
     /* method to speak failed register */
-    public void sayFailed(){
-        if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-            String text = "register failed";
+    public void sayFailed(String text){
+        if (accessibilityMode) {
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
@@ -289,12 +299,11 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.equals("SUCCESS")) {
                     /* Pop up Success */
                     Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    if (accessibilityMode) {
                         String text = "register success";
                         if(buttonCheck.isChecked()){
-                            AccessibilityMode.getInstance().setMode("ACCESSIBILITY");
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                    .putBoolean("ACCESSIBILITY_CHECKBOX", true).commit();
+                                    .putBoolean("ACCESSIBILITY_MODE", true).commit();
                         }
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
@@ -302,14 +311,14 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (response.equals("FAILURE")) {
                     /* If response is FAILURE show pop up "Something wrong!. Please try again later" */
                     Toast.makeText(RegisterActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();
-                    sayFailed();
+                    sayFailed("");
                 } else if (response.equals("EXIST")) {
                     /* make the text below username text box be
                      * This username is already used by someone
                      * else and set the border of username text box be red */
                     textViewUsernameError.setText("This username is already used by someone else.");
                     editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-                    sayFailed();
+                    sayFailed("");
                 }
             }
         }, new Response.ErrorListener() {
@@ -326,7 +335,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Map<String, String> data = new HashMap<>();
                 data.put("USERNAME", username);
                 data.put("PASSWORD", password);
-                data.put("BLIND", blindMode);
+                data.put("BLIND", blindModeString);
                 return data;
             }
         };

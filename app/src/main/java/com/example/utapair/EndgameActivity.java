@@ -51,11 +51,17 @@ public class EndgameActivity extends Activity {
     private String username;
     SharedPreferences sh;
     private String insertScoreURL = "https://uta-pair-api.herokuapp.com/insertScore.php";
+    private boolean blindMode,accessibilityMode;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);     /* menu page file layout */
+
+        /* set mode from share preference */
+        blindMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("BLIND_MODE",false);
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
+
         soundClick = new SoundClick(this);
         /* play sound when click */
         mediaPlayer = MediaPlayer.create(this, R.raw.correct);
@@ -98,7 +104,7 @@ public class EndgameActivity extends Activity {
                 if (status != TextToSpeech.ERROR) {
                     textToSpeech.setLanguage(Locale.US);
                     /* if Accessibility Open */
-                    if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"||BlindMode.getInstance().getMode()=="BLIND") {
+                    if(accessibilityMode||blindMode) {
                         /* speak score */
                         timeSplit = new String[3];
                         timeSplit = receiveValue.trim().replaceAll("\\s","").split(":");
@@ -118,7 +124,7 @@ public class EndgameActivity extends Activity {
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     shareScoreAccessibility();
                 }
                 else {
@@ -135,12 +141,7 @@ public class EndgameActivity extends Activity {
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    playAgainAccessibility();
-                }
-                else {
-                    playAgain();
-                }
+                playAgain();
             }
         });
 
@@ -151,12 +152,7 @@ public class EndgameActivity extends Activity {
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openMainAccessibility();
-                }
-                else {
-                    openMainActivity();
-                }
+                openMainActivity();
             }
         });
         if(checkLoginData()==1){
@@ -165,16 +161,17 @@ public class EndgameActivity extends Activity {
         else;
     }
 
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
+    }
+
     /* method to share score */
     public void shareScore(){
         /* share */
-//        Intent intent = new Intent(Intent.ACTION_SEND);
-//        intent.setType("text/plain");
-//        String Body = "UTA is the best app";
-//        String sub = "Application Link here !!"; /* link of webpage app */
-//        intent.putExtra(Intent.EXTRA_SUBJECT,Body);
-//        intent.putExtra(Intent.EXTRA_TEXT,sub);
-//        startActivity(Intent.createChooser(intent,"Share using"));
         ShareScore.getInstance().setContext(this);
         File file = ShareScore.getInstance().saveImage();
         if(file != null){
@@ -205,84 +202,61 @@ public class EndgameActivity extends Activity {
 
     /* method to go to MainActivity */
     public void openMainActivity(){
-        Intent intent = new Intent(this,MainActivity.class);
-        finish();
-        startActivity(intent);
-    }
-
-    /* method to MainActivity with AccessibilityMode */
-    public void openMainAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to home";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time go to MainActivity */
-                else if(tapCount==2){
-                    openMainActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(MainActivity.class,this,textToSpeech,"double tap to go to home",500);
+        }
+        else {
+            NewIntent.launchActivity(MainActivity.class, this);
+        }
     }
 
     /* method to playAgain in same level */
     public void playAgain(){
+        mediaPlayer.stop();
         mediaPlayer.release();
         soundClick.stopMediaPlayer();
         soundClick.releaseMediaPlayer();
-        Intent intent = new Intent(this,GameActivity.class);
         Bundle bundle = getIntent().getExtras();
         int mode = bundle.getInt("MODE");
             if (mode==-1){      /* level easy */
-                intent.putExtra("MODE", -1);
-                intent.putExtra("LAYOUT_ID", R.layout.activity_game_easy2);
-                intent.putExtra("GRID_ID", R.id.GridLayout_easy);
-                finish();
-                startActivity(intent);
+                Map Map = new HashMap<String,Integer>();
+                Map.put("MODE", -1);
+                Map.put("LAYOUT_ID", R.layout.activity_game_easy2);
+                Map.put("GRID_ID",R.id.GridLayout_easy);
+                if (accessibilityMode){
+                    NewIntent.launchActivityAccessibility(GameActivity.class,this,Map,textToSpeech,"double tap to play again",500);
+                }
+                else {
+                    NewIntent.launchActivity(GameActivity.class, this, Map);
+                }
             }
             else if (mode==0) {     /* level normal */
-                intent.putExtra("MODE", 0);
-                intent.putExtra("LAYOUT_ID", R.layout.activity_game_normal);
-                intent.putExtra("GRID_ID", R.id.GridLayout_meduim);
-                finish();
-                startActivity(intent);
+                Map Map = new HashMap<String,Integer>();
+                Map.put("MODE", 0);
+                Map.put("LAYOUT_ID", R.layout.activity_game_normal);
+                Map.put("GRID_ID",R.id.GridLayout_meduim);
+                if (accessibilityMode){
+                    NewIntent.launchActivityAccessibility(GameActivity.class,this,Map,textToSpeech,"double tap to play again",500);
+                }
+                else {
+                    NewIntent.launchActivity(GameActivity.class, this, Map);
+                }
             }
             else if (mode==1) {     /* level hard */
-                intent.putExtra("MODE", 1);
-                intent.putExtra("LAYOUT_ID", R.layout.activity_game_hard);
-                intent.putExtra("GRID_ID", R.id.GridLayout_hard);
-                finish();
-                startActivity(intent);
+                Map Map = new HashMap<String,Integer>();
+                Map.put("MODE", 1);
+                Map.put("LAYOUT_ID", R.layout.activity_game_hard);
+                Map.put("GRID_ID",R.id.GridLayout_hard);
+                if (accessibilityMode){
+                    NewIntent.launchActivityAccessibility(GameActivity.class,this,Map,textToSpeech,"double tap to play again",500);
+                }
+                else {
+                    NewIntent.launchActivity(GameActivity.class, this, Map);
+                }
             }
 
     }
 
-    /* method to play again with AccessibilityMode */
-    public void playAgainAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to play again";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time to play again */
-                else if(tapCount==2){
-                    playAgain();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
-    }
 
     /* method to set text mode in layout */
     public String setTextMode(){
@@ -317,16 +291,13 @@ public class EndgameActivity extends Activity {
             @Override
 
             public void onResponse(String response) {
-
+                /* this part will print check for store data in database was successfully */
                 if (response.equals("CANT_FIND_THIS_USER")) {
-                    /*System.out.println("CANT_FIND_THIS_USER");*/
                    /* Toast.makeText(EndgameActivity.this, "Can't find where to insert data", Toast.LENGTH_SHORT).show();*/
                 } else if (response.equals("FAILURE")) {
-                    /*System.out.println("Failure");*/
                     /*Toast.makeText(EndgameActivity.this, "Something wrong!. Please try again later", Toast.LENGTH_SHORT).show();*/
                 } else if (response.equals("SUCCESS")) {
                    /* Toast.makeText(EndgameActivity.this, "Added to database", Toast.LENGTH_SHORT).show();*/
-                    /*System.out.println("SUCCESS");*/
                 }
             }
         }, new Response.ErrorListener() {
@@ -341,7 +312,7 @@ public class EndgameActivity extends Activity {
                 Map<String, String> data = new HashMap<>();
                 data.put("USERNAME", username);
                 data.put("SCORE", String.valueOf(score));
-                if(BlindMode.getInstance().getMode()=="BLIND"){
+                if(blindMode){
                     if(setTextMode()=="LEVEL - EASY")
                         data.put("LEVEL", "MAL01");
                     else if (setTextMode()=="LEVEL - NORMAL")

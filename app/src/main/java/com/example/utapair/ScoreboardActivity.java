@@ -56,6 +56,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     private int tapCount = 0;
     private int sdCount = 0;
     private SoundClick soundClick;
+    private boolean accessibilityMode;
     private String scoreboardURL = "https://uta-pair-api.herokuapp.com/scoreboard.php";
     private String bestPlaceURL = "https://uta-pair-api.herokuapp.com/scoreboardShowBestScore.php";
     SharedPreferences sh;
@@ -63,8 +64,11 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        soundClick = new SoundClick(this);
         setContentView(R.layout.activity_scoreboard); /* set layout */
+
+        /* set mode from share preference */
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
+        soundClick = new SoundClick(this);
         /* set spinner for select level */
         Spinner spinner = findViewById(R.id.level_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.level,R.layout.spinner_text_select);
@@ -81,7 +85,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                if(accessibilityMode){
                     if (buttonCheckbox.isChecked()) {
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
@@ -126,12 +130,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openAccountActivityAccessibility();
-                }
-                else{
-                    openAccountActivity();
-                }
+                openAccountActivity();
+
             }
         });
 
@@ -143,12 +143,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
-                    openSettingActivityAccessibility();
-                }
-                else {
-                    openSettingActivity();
-                }
+                openSettingActivity();
+
             }
         });
 
@@ -160,7 +156,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     onBackPressedAccessibility();
                 }
                 else {
@@ -181,7 +177,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         super.onStart();
         sdCount = 0 ;
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(accessibilityMode) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -198,77 +194,44 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             }, 500);
         }
     }
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
+    }
 
     /* method to start AccountActivity */
     public void openAccountActivity(){
         /* create new intent AccountActivity Class and Start Activity */
         if(checkLoginData()==1){
-            Intent intent=new Intent(this, ProfileActivity.class);
-            finish();       /* finish this Activity */
-            startActivity(intent);}
-        else{
-            Intent intent=new Intent(this, AccountActivity.class);
-            finish();
-            startActivity(intent);
-
-        }
-    }
-
-    /* method to start AccountActivity with AccessibilityMode */
-    public void openAccountActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    if(checkLoginData()==1) {
-                        String text = "double tap to go to profile";
-                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-                    }
-                    else {
-                        String text = "double tap to go to account";
-                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-                    }
-                }
-                /* if double tap in time start AccountActivity */
-                else if(tapCount==2){
-                    openAccountActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
+            if (accessibilityMode) {
+                NewIntent.launchActivityAccessibility(ProfileActivity.class, this, textToSpeech, "double tap to go to profile", 500);
             }
-        },500);     /* in 500 millisecond */
-
+            else {
+                NewIntent.launchActivity(ProfileActivity.class, this);
+            }
+        }
+        else{
+            if (accessibilityMode) {
+                NewIntent.launchActivityAccessibility(AccountActivity.class, this, textToSpeech, "double tap to go to account", 500);
+            }
+            else {
+                NewIntent.launchActivity(AccountActivity.class, this);
+            }
+        }
     }
 
     /* method to start SettingActivity */
     public void openSettingActivity(){
         /* create new intent SettingActivity Class and Start Activity */
-        Intent intent=new Intent(this, SettingActivity.class);
-        finish();
-        startActivity(intent);
-    }
-
-    /* method to start SettingActivity with AccessibilityMode */
-    public void openSettingActivityAccessibility(){
-        tapCount++; /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to setting";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start SettingActivity */
-                else if(tapCount==2){
-                    openSettingActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(SettingActivity.class, this, textToSpeech, "double tap to go to setting", 500);
+        }
+        else{
+            NewIntent.launchActivity(SettingActivity.class, this);
+        }
     }
 
     /* method to go to previous activity with AccessibilityMode */
@@ -340,7 +303,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                     scoreboardUserList.clear();     /* clear data */
                     setAdapter();       /* show in recyclerView */
                     Toast.makeText(ScoreboardActivity.this, "There is no record" , Toast.LENGTH_SHORT).show();
-                    if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                    if(accessibilityMode){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -361,33 +324,33 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                                 Integer endTime = productobject.getInt("endTime");
                                 String minute = String.valueOf(endTime/6000);
                                 String second = String.valueOf((endTime/100)%60);
-                                String mSecond = String.valueOf(endTime%100);
+                                String milliSecond = String.valueOf(endTime%100);
                                 System.out.println(second.length());
                                 /* If length of "second" less 2 (0:0:00) */
                                 if(second.length()<2){
-                                    /* If length of "mSecond" less 2 (0:0:0) */
-                                    if(mSecond.length()<2){
-                                        score = minute+":"+"0"+second+":"+"0"+mSecond;
+                                    /* If length of "milliSecond" less 2 (0:0:0) */
+                                    if(milliSecond.length()<2){
+                                        score = minute+":"+"0"+second+":"+"0"+milliSecond;
                                     }
-                                    /* else length of "mSecond" not less 2 (0:0:00) */
+                                    /* else length of "milliSecond" not less 2 (0:0:00) */
                                     else{
-                                        score = minute+":"+"0"+second+":"+mSecond;
+                                        score = minute+":"+"0"+second+":"+milliSecond;
                                     }
                                 }
-                                /* If length of "mSecond" less 2 (0:00:0) */
-                                else if(mSecond.length()<2){
+                                /* If length of "milliSecond" less 2 (0:00:0) */
+                                else if(milliSecond.length()<2){
                                     /* If length of "second" less 2 (0:0:0) */
                                     if(second.length()<2){
-                                        score = minute+":"+"0"+second+":"+"0"+mSecond;
+                                        score = minute+":"+"0"+second+":"+"0"+milliSecond;
                                     }
                                     /* else length of "second" not less 2 (0:00:0) */
                                     else{
-                                        score = minute+":"+second+":"+"0"+mSecond;
+                                        score = minute+":"+second+":"+"0"+milliSecond;
                                     }
                                 }
                                 /* else length of "second" not less 2 (0:00:00) */
                                 else{
-                                    score = minute+":"+second+":"+mSecond;
+                                    score = minute+":"+second+":"+milliSecond;
                                 }
                                 scoreboardUserList.add(new ScoreboardUser(i+1,username,score));
                                 setAdapter();       /* show in recyclerView */
@@ -429,7 +392,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
         if (sdCount>1) {
             soundClick.playSoundClick();
             /* speak when AccessibilityMode on */
-            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+            if (accessibilityMode){
                 String text = "Select level " + textLevel;
                 textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 if(PreferenceManager.getDefaultSharedPreferences(ScoreboardActivity.this).getBoolean("BLIND_SCOREBOARD",false)){
@@ -454,7 +417,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                             String text ="Congratulations! your best score is on "+ row_index + "th place.";
                             Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
                             /* If AccessibilityMode on speak and delay more than speak in method onStart */
-                            if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                            if(accessibilityMode){
                                 Handler handler = new Handler();
                                 handler.postDelayed(new Runnable() {
                                     @Override
@@ -469,7 +432,7 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
 
                         String text = "There is no record of your score in the top 50.";
                         Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
-                        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                        if(accessibilityMode){
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override

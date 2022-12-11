@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -57,11 +58,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int tapCount = 0;
     private MediaPlayer mediaPlayer;
     private SoundClick soundClick;
+    private boolean blindMode,accessibilityMode,musicMode;
 
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
+
+        /* set mode from share preference */
+        blindMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("BLIND_MODE",false);
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
+        musicMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("MUSIC_MODE",false);
+
         /* keep data from inputExtra to variable */
         Bundle bundle = getIntent().getExtras();
         mode = bundle.getInt("MODE");
@@ -80,7 +88,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         soundClick = new SoundClick(this);
 
         /* set music when playing game */
-        if(MusicMode.getInstance().getMode() == "MUSIC") {
+        if(musicMode) {
             setMusic();
         }
 
@@ -109,7 +117,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         /* set button in to location */
         for(int r = 0; r < numRows; r++) {
             for(int c = 0; c < numColumns; c++){
-                MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ], mode,numColumns,numRows);
+                MemoryButton tempButton = new MemoryButton(this, r, c, buttonGraphic[ buttonGraphicLocation[r * numColumns+c] ], mode,numColumns,numRows,blindMode);
                 tempButton.setSymbol(buttonGraphicTexts[ buttonGraphicLocation[r * numColumns+c] ]);
                 tempButton.setPosition(r+1,c+1);
                 tempButton.setId(View.generateViewId());    /* create id for matched */
@@ -142,7 +150,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"||BlindMode.getInstance().getMode()=="BLIND") {
+        if(accessibilityMode||blindMode) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -163,6 +171,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 500);
         }
+    }
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
+        stopMusic();
     }
 
     @Override
@@ -208,7 +224,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void pauseGame(){
 
         /* stop music */
-        if(MusicMode.getInstance().getMode() == "MUSIC") {
+        if(musicMode) {
             mediaPlayer.stop();
         }
 
@@ -234,7 +250,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     tapCount++;     /* when tap button count in tapCount */
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -249,7 +265,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                             else if(tapCount==2){
                                 startTimer();       /* continuous timer */
                                 dialog.dismiss();       /* close dialog */
-                                if(MusicMode.getInstance().getMode() == "MUSIC") {
+                                if(musicMode) {
                                     try {  /* we need prepare when application stop and come back */
                                         mediaPlayer.prepare();
                                     } catch (IOException e) {
@@ -267,7 +283,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 else {
                     startTimer();       /* continuous timer */
                     dialog.dismiss();       /* close dialog */
-                    if(MusicMode.getInstance().getMode() == "MUSIC") {
+                    if(musicMode) {
                         try {  /* we need prepare when application stop and come back */
                             mediaPlayer.prepare();
                         } catch (IOException e) {
@@ -287,7 +303,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     playAgainAccessibility();
                 }
                 else {
@@ -304,13 +320,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openMainAccessibility();
-                }
-                else {
-                    openMainActivity();
-                    dialog.cancel();
-                }
+                openMainActivity();
+                dialog.cancel();
             }
         });
     }
@@ -318,53 +329,34 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void setMusic(){
         mediaPlayer = MediaPlayer.create(this, R.raw.in_game); //*** put the music here !!!
         mediaPlayer.setLooping(true);
-        if(MusicMode.getInstance().getMode() == "MUSIC") {
+        if(musicMode) {
             mediaPlayer.start(); /* continue music */
+        }
+    }
+
+    /* set music stop */
+    public void stopMusic(){
+        if(musicMode) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
         }
     }
 
 
     /* method go to MainActivity */
     public void openMainActivity(){
-        if(MusicMode.getInstance().getMode() == "MUSIC") {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+        stopMusic();
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(MainActivity.class,this,textToSpeech,"double tap to go to home",500);
         }
-        Intent intent = new Intent(this,MainActivity.class);
-        finish();
-        startActivity(intent);
-    }
-
-    /* method to MainActivity with AccessibilityMode */
-    public void openMainAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to home";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time go to MainActivity */
-                else if(tapCount==2){
-                    openMainActivity();
-                    dialog.cancel();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        else {
+            NewIntent.launchActivity(MainActivity.class, this);
+        }
     }
 
     /* method to restart game */
     public void playAgain(){
-        if(MusicMode.getInstance().getMode() == "MUSIC") {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-        }
-        soundClick.stopMediaPlayer();
-        soundClick.releaseMediaPlayer();
+        stopMusic();
         dialog.dismiss();
         finish();
         startActivity(getIntent());
@@ -438,7 +430,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraphic[1] = R.drawable.custom_pair_cake;
         buttonGraphic[2] = R.drawable.custom_pair_candy;
         /* if AccessibilityMode on set buttonGraphicTexts */
-        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY" || BlindMode.getInstance().getMode()=="BLIND"){
+        if(accessibilityMode || blindMode){
             /* set text each buttonGraphic */
             buttonGraphicTexts[0] = "brownies";
             buttonGraphicTexts[1] = "cakes";
@@ -456,7 +448,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraphic[4] = R.drawable.custom_pair_cookie;
         buttonGraphic[5] = R.drawable.custom_pair_donut;
         /* if AccessibilityMode on set buttonGraphicTexts */
-        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
+        if(accessibilityMode|| blindMode){
             /* set text each buttonGraphic */
             buttonGraphicTexts[0] = "brownies";
             buttonGraphicTexts[1] = "cakes";
@@ -480,7 +472,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraphic[7] = R.drawable.custom_pair_macaron;
         buttonGraphic[8] = R.drawable.custom_pair_pancake;
         /* if AccessibilityMode on set buttonGraphicTexts */
-        if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
+        if(accessibilityMode|| blindMode){
             /* set text each buttonGraphic */
             buttonGraphicTexts[0] = "brownies";
             buttonGraphicTexts[1] = "cakes";
@@ -530,17 +522,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
             }
         }, 500);
-
-    }
-
-    @Override
-    public void onBackPressed(){
-        if(MusicMode.getInstance().getMode() == "MUSIC") {
-            mediaPlayer.stop(); /*stop the music*/
-            mediaPlayer.release();
-        }
-        soundClick.releaseMediaPlayer();
-        super.onBackPressed(); /* Back to the previous activity*/
     }
 
     @Override
@@ -562,7 +543,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             /* play sound when click */
             soundClick.playSoundClick(); /* sound click */
             /* if AccessibilityMode on speak symbol and position */
-            if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
+            if(accessibilityMode|| blindMode){
                 speak(buttonSelected1.getSymbol() + " " +buttonSelected1.getPosition());
             }
             return;
@@ -577,7 +558,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             /* flipped the second one to user */
             button.flipped();
             /* speak if in Accessibility mode */
-            if(AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND"){
+            if(accessibilityMode|| blindMode){
                 speak(button.getSymbol() + " " + button.getPosition()+matchedWord());
             }
             /* tell it that was matched */
@@ -600,17 +581,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     buttonSelected1 = null; /* set to null for getting new data */
                     itWasBusy = false;
                 }
-            }, 500);
+            }, 50);
 
             /* if all button matched */
             if(checkAllMatched() == true ){
-                textToSpeech.shutdown();
-                if(MusicMode.getInstance().getMode() == "MUSIC") {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                }
-                soundClick.stopMediaPlayer();
-                soundClick.releaseMediaPlayer();
                 textViewTimer.setText(timeScore);
                 /* end game and go to EndgameActivity */
                 Intent intent = new Intent(this, EndgameActivity.class);
@@ -633,7 +607,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 buttonSelected2 = button;
                 buttonSelected2.flipped();      /* flipped button */
                 /* if AccessibilityMode on speak not matched */
-                if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"|| BlindMode.getInstance().getMode()=="BLIND") {
+                if (accessibilityMode|| blindMode) {
                     /* speak not matched */
                     speak(buttonSelected2.getSymbol() + " " + buttonSelected2.getPosition()+"not matched");
                 }

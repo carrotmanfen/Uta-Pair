@@ -1,19 +1,20 @@
 package com.example.utapair;
 
-import static com.example.utapair.R.raw.sc;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
 /* This file is about SelectLevelActivity
  * it keep all method that use
  * in Select level of game page */
@@ -26,12 +27,16 @@ public class SelectLevelActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private SoundClick soundClick;
     private int tapCount = 0;
+    private boolean accessibilityMode;
 
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_select_level); /* menu page file layout */
+        /* set mode from share preference */
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
+
         soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -51,12 +56,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openEasyGameActivityAccessibility();
-                }
-                else {
-                    openEasyGameActivity();
-                }
+                openEasyGameActivity();
             }
         });
 
@@ -68,12 +68,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openNormalGameActivityAccessibility();
-                }
-                else {
-                    openNormalGameActivity();
-                }
+                openNormalGameActivity();
             }
         });
 
@@ -85,12 +80,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openHardGameActivityAccessibility();
-                }
-                else {
-                    openHardGameActivity();
-                }
+                openHardGameActivity();
             }
         });
 
@@ -102,7 +92,7 @@ public class SelectLevelActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     onBackPressedAccessibility();
                 }
                 else {
@@ -117,7 +107,7 @@ public class SelectLevelActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(accessibilityMode) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -129,6 +119,14 @@ public class SelectLevelActivity extends AppCompatActivity {
         }
     }
 
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
+    }
+
     /* method to start GameActivity easy mode */
     public void openEasyGameActivity(){
         /* set data mode layout_id and grid_id to GameActivity with putExtra */
@@ -137,90 +135,50 @@ public class SelectLevelActivity extends AppCompatActivity {
         intent.putExtra("LAYOUT_ID", R.layout.activity_game_easy2);
         intent.putExtra("GRID_ID", R.id.GridLayout_easy);
         startActivity(intent);
-    }
 
-    /* method to start GameActivity easy mode with AccessibilityMode */
-    public void openEasyGameActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to play level easy";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start GameActivity */
-                else if(tapCount==2){
-                    openEasyGameActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        Map Map = new HashMap<String,Integer>();
+        Map.put("MODE", -1);
+        Map.put("LAYOUT_ID", R.layout.activity_game_easy2);
+        Map.put("GRID_ID",R.id.GridLayout_easy);
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(GameActivity.class, this, textToSpeech, "double tap to play level easy", 500);
+        }
+        else{
+            NewIntent.launchActivity(GameActivity.class,this,Map);
+        }
     }
 
     /* method to start GameActivity normal mode */
     public void openNormalGameActivity(){
         /* set data mode layout_id and grid_id to GameActivity with putExtra */
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("MODE", 0);
-        intent.putExtra("LAYOUT_ID", R.layout.activity_game_normal);
-        intent.putExtra("GRID_ID",R.id.GridLayout_meduim);
-        startActivity(intent);
+        Map Map = new HashMap<String,Integer>();
+        Map.put("MODE", 0);
+        Map.put("LAYOUT_ID", R.layout.activity_game_normal);
+        Map.put("GRID_ID",R.id.GridLayout_meduim);
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(GameActivity.class, this, textToSpeech, "double tap to play level normal", 500);
+        }
+        else{
+            NewIntent.launchActivity(GameActivity.class,this,Map);
+        }
     }
 
-    /* method to start GameActivity normal mode with AccessibilityMode */
-    public void openNormalGameActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to play level normal";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start GameActivity */
-                else if(tapCount==2){
-                    openNormalGameActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
-    }
 
     /* method to start GameActivity hard mode */
     public void openHardGameActivity(){
         /* set data mode layout_id and grid_id to GameActivity with putExtra */
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("MODE", 1);
-        intent.putExtra("LAYOUT_ID", R.layout.activity_game_hard);
-        intent.putExtra("GRID_ID",R.id.GridLayout_hard);
-        startActivity(intent);
+        Map Map = new HashMap<String,Integer>();
+        Map.put("MODE", 1);
+        Map.put("LAYOUT_ID", R.layout.activity_game_hard);
+        Map.put("GRID_ID",R.id.GridLayout_hard);
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(GameActivity.class, this, textToSpeech, "double tap to play level hard", 500);
+        }
+        else{
+            NewIntent.launchActivity(GameActivity.class,this,Map);
+        }
     }
 
-    /* method to start GameActivity hard mode with AccessibilityMode */
-    public void openHardGameActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to play level Hard";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start GameActivity */
-                else if(tapCount==2){
-                    openHardGameActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
-    }
 
     /* method to go to previous activity with AccessibilityMode */
     public void onBackPressedAccessibility(){

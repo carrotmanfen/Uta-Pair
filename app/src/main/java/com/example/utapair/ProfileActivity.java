@@ -73,6 +73,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences sh;
     private SharedPreferences.Editor editor;
     private SoundClick soundClick;
+    private boolean accessibilityMode;
 
     /* Connect Server */
     private String newNameURL = "https://uta-pair-api.herokuapp.com/checkNewName.php";
@@ -81,6 +82,10 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        /* set mode from share preference */
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
+
         soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -106,7 +111,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY")
+                if(accessibilityMode)
                     if (buttonCheckbox.isChecked()) {
                         String text = "Checked mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
@@ -134,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     logoutAccessibility();
                 }
                 else {
@@ -172,12 +177,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openScoreboardActivityAccessibility();
-                }
-                else {
-                    openScoreboardActivity();
-                }
+                openScoreboardActivity();
+
             }
         });
 
@@ -189,12 +190,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
-                    openSettingActivityAccessibility();
-                }
-                else {
-                    openSettingActivity();
-                }
+                openSettingActivity();
             }
         });
 
@@ -206,7 +202,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     onBackPressedAccessibility();
                 }
                 else {
@@ -220,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(accessibilityMode) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -236,6 +232,13 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 }
             }, 500);
         }
+    }
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
     }
 
     /* method to logout of user */
@@ -253,7 +256,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             /* Pop up logout successfully */
             Toast.makeText(ProfileActivity.this, "Logout Successfully ", Toast.LENGTH_SHORT).show();
             /* Navigate to MainActivity page */
-            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+            Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
             startActivity(intent);
             finish();
         }
@@ -283,61 +286,25 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     /* method to start ScoreboardActivity */
     public void openScoreboardActivity(){
         /* create new intent ScoreboardActivity Class and Start Activity */
-        Intent intent=new Intent(this, ScoreboardActivity.class);
-        finish();
-        textToSpeech.shutdown();
-        startActivity(intent);
-    }
-
-    /* method to start ScoreboardActivity with AccessibilityMode */
-    public void openScoreboardActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to scoreboard";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start ScoreboardActivity */
-                else if(tapCount==2){
-                    openScoreboardActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(ScoreboardActivity.class, this, textToSpeech, "double tap to go to scoreboard", 500);
+        }
+        else{
+            NewIntent.launchActivity(ScoreboardActivity.class, this);
+        }
     }
 
     /* method to start SettingActivity */
     public void openSettingActivity(){
         /* create new intent SettingActivity Class and Start Activity */
-        Intent intent=new Intent(this, SettingActivity.class);
-        finish();
-        startActivity(intent);
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(SettingActivity.class, this, textToSpeech, "double tap to go to setting", 500);
+        }
+        else{
+            NewIntent.launchActivity(SettingActivity.class, this);
+        }
     }
 
-    /* method to start SettingActivity with AccessibilityMode */
-    public void openSettingActivityAccessibility(){
-        tapCount++; /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to setting";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start SettingActivity */
-                else if(tapCount==2){
-                    openSettingActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
-    }
     /* This function use to pop up interface for user to editname */
     public void EditName(){
         /* Declare variables */
@@ -345,7 +312,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         final View popupView = getLayoutInflater().inflate(R.layout.popup_edit_name,null);
         popupErrorText=popupView.findViewById(R.id.new_name_errorText);
         popupEditText = popupView.findViewById(R.id.new_name_edittext);
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+        if(accessibilityMode){
             popupEditText.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -363,10 +330,12 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         popupEditText.setText(saveName);
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         dialog.show();      /* show popup */
         popupErrorText.setText("");
         popupEditText.setBackground(getResources().getDrawable(R.drawable.custom_input));
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+        if(accessibilityMode){
             String text = "edit profile name";
             textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
         }
@@ -374,7 +343,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                if(accessibilityMode){
                     tapCount++; /* when tap button count in tapCount */
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -468,7 +437,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if (accessibilityMode) {
                     String text = "change name cancel";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
@@ -497,7 +466,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     profileUserList.clear();    /* clear data */
                     setAdapter();   /* show in recyclerView */
                     Toast.makeText(ProfileActivity.this, "There is no record of your gameplay", Toast.LENGTH_SHORT).show();
-                    if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                    if(accessibilityMode){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -521,43 +490,43 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                             Integer endTime = productobject.getInt("endTime");
                             String minute = String.valueOf(endTime/6000);
                             String second = String.valueOf((endTime/100)%60);
-                            String mSecond = String.valueOf(endTime%100);
+                            String milliSecond = String.valueOf(endTime%100);
                             System.out.println(second.length());
                             /* If length of "second" less 2 (0:0:00) */
                             if(second.length()<2){
-                                /* If length of "mSecond" less 2 (0:0:0) */
-                                if(mSecond.length()<2){
-                                    score = minute+":"+"0"+second+":"+"0"+mSecond;
+                                /* If length of "milliSecond" less 2 (0:0:0) */
+                                if(milliSecond.length()<2){
+                                    score = minute+":"+"0"+second+":"+"0"+milliSecond;
                                 }
-                                /* else length of "mSecond" not less 2 (0:0:00) */
+                                /* else length of "milliSecond" not less 2 (0:0:00) */
                                 else{
-                                    score = minute+":"+"0"+second+":"+mSecond;
+                                    score = minute+":"+"0"+second+":"+milliSecond;
                                 }
                             }
-                            /* If length of "mSecond" less 2 (0:00:0) */
-                            else if(mSecond.length()<2){
+                            /* If length of "milliSecond" less 2 (0:00:0) */
+                            else if(milliSecond.length()<2){
                                 /* If length of "second" less 2 (0:0:0) */
                                 if(second.length()<2){
-                                    score = minute+":"+"0"+second+":"+"0"+mSecond;
+                                    score = minute+":"+"0"+second+":"+"0"+milliSecond;
                                 }
                                 /* else length of "second" not less 2 (0:00:0) */
                                 else{
-                                    score = minute+":"+second+":"+"0"+mSecond;
+                                    score = minute+":"+second+":"+"0"+milliSecond;
                                 }
                             }
                             /* else length of "second" not less 2 (0:00:00) */
                             else{
-                                score = minute+":"+second+":"+mSecond;
+                                score = minute+":"+second+":"+milliSecond;
                             }
                             if(count==0) {
-                                textBestPlace = "your best place is " + row_index + " and your score is " + minute + "minute" + second + "second" + mSecond + "millisecond";
+                                textBestPlace = "your best place is " + row_index + " and your score is " + minute + "minute" + second + "second" + milliSecond + "millisecond";
                                 count++;
                             }
                             profileUserList.add(new ProfileUser(i+1,row_index,score));       /* add data from database */
                             setAdapter();       /* show in recyclerView */
                         }
                         /* If AccessibilityMode on speak and delay more than speak in method onStart */
-                        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
+                        if(accessibilityMode){
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
@@ -600,7 +569,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
     /* method to speak change name failed */
     public void sayFailed(){
-        if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if (accessibilityMode) {
             String text = "change name failed";
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
@@ -617,7 +586,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         if (sdCount>1) {
             soundClick.playSoundClick();
             /* speak when AccessibilityMode on */
-            if (AccessibilityMode.getInstance().getMode() == "ACCESSIBILITY"){
+            if (accessibilityMode){
                 String text = "Select level " + textLevel;
                 textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 if(PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).getBoolean("BLIND_PROFILE",false)){
@@ -690,7 +659,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     popupEditText.setText(newUsername); /* put the new username into text box on edit name pop up */
                     Toast.makeText(ProfileActivity.this, "Success", Toast.LENGTH_SHORT).show(); /* Pop up Success */
                     checkChange =1;
-                    if (AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                    if (accessibilityMode) {
                         String text = "change name success";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }

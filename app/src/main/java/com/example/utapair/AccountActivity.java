@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
@@ -27,11 +28,15 @@ public class AccountActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private SoundClick soundClick;
     private int tapCount = 0;
+    private boolean accessibilityMode;
     @Override
     /* this part will run when create this Activity */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);      /* set layout file */
+
+        /* set mode from share preference */
+        accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
 
         soundClick = new SoundClick(this);
 
@@ -52,13 +57,7 @@ public class AccountActivity extends AppCompatActivity {
             /* set when click buttonRegister start RegisterActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openRegisterActivityAccessibility();
-                }
-                else {
-                    openRegisterActivity();
-                }
+                openRegisterActivity();
             }
         });
 
@@ -70,12 +69,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openLoginActivityAccessibility();
-                }
-                else {
-                    openLoginActivity();
-                }
+                openLoginActivity();
             }
         });
 
@@ -87,7 +81,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+                if(accessibilityMode) {
                     onBackPressedAccessibility();
                 }
                 else {
@@ -104,12 +98,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
-                    openScoreboardActivityAccessibility();
-                }
-                else {
-                    openScoreboardActivity();
-                }
+                openScoreboardActivity();
             }
         });
 
@@ -121,12 +110,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY"){
-                    openSettingActivityAccessibility();
-                }
-                else {
-                    openSettingActivity();
-                }
+                openSettingActivity();
             }
         });
     }
@@ -135,7 +119,7 @@ public class AccountActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
-        if(AccessibilityMode.getInstance().getMode()=="ACCESSIBILITY") {
+        if(accessibilityMode) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -147,118 +131,56 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
+    /* this part is about when exit this activity */
+    protected void onDestroy() {
+        super.onDestroy();
+        textToSpeech.shutdown();
+        soundClick.stopMediaPlayer();
+        soundClick.releaseMediaPlayer();
+    }
+
     /* method to start RegisterActivity */
     public void openRegisterActivity(){
         /* create new intent RegisterActivity Class and Start Activity */
-        Intent intent=new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
-
-    /* method to start RegisterActivity with AccessibilityMode */
-    public void openRegisterActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to Register";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start ScoreboardActivity */
-                else if(tapCount==2){
-                    openRegisterActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        if(accessibilityMode) {
+            NewIntent.launchActivityAccessibility(RegisterActivity.class,this,textToSpeech,"double tap to go to Register",500);
+        }
+        else{
+            NewIntent.launchActivity(RegisterActivity.class, this);
+        }
     }
 
     /* method to start LoginActivity */
     public void openLoginActivity(){
         /* create new intent LoginActivity Class and Start Activity */
-        Intent intent=new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    /* method to start LoginActivity with AccessibilityMode */
-    public void openLoginActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to Login";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start ScoreboardActivity */
-                else if(tapCount==2){
-                    openLoginActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        if(accessibilityMode) {
+            NewIntent.launchActivityAccessibility(LoginActivity.class,this,textToSpeech,"double tap to go to Login",500);
+        }
+        else{
+            NewIntent.launchActivity(LoginActivity.class, this);
+        }
     }
 
     /* method to start ScoreboardActivity */
     public void openScoreboardActivity(){
         /* create new intent ScoreboardActivity Class and Start Activity */
-        Intent intent=new Intent(this, ScoreboardActivity.class);
-        finish();
-        startActivity(intent);
-    }
-
-    /* method to start ScoreboardActivity with AccessibilityMode */
-    public void openScoreboardActivityAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to scoreboard";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start ScoreboardActivity */
-                else if(tapCount==2){
-                    openScoreboardActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        if(accessibilityMode){
+            NewIntent.launchActivityAccessibility(ScoreboardActivity.class,this,textToSpeech,"double tap to go to Scoreboard",500);
+        }
+        else {
+            NewIntent.launchActivity(ScoreboardActivity.class, this);
+        }
     }
 
     /* method to start SettingActivity */
     public void openSettingActivity(){
         /* create new intent SettingActivity Class and Start Activity */
-        Intent intent=new Intent(this, SettingActivity.class);
-        finish();
-        startActivity(intent);
-    }
-
-    /* method to start SettingActivity with AccessibilityMode */
-    public void openSettingActivityAccessibility(){
-        tapCount++; /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go to setting";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start SettingActivity */
-                else if(tapCount==2){
-                    openSettingActivity();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
+        if (accessibilityMode){
+            NewIntent.launchActivityAccessibility(SettingActivity.class,this,textToSpeech,"double tap to go to setting",500);
+        }
+        else {
+            NewIntent.launchActivity(SettingActivity.class, this);
+        }
     }
 
     /* method to go to previous activity with AccessibilityMode */
