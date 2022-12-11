@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
