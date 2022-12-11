@@ -36,7 +36,6 @@ public class ShareScore extends AppCompatActivity {
     private Context context;
     private Activity activity;
 
-    // constructor
     public static ShareScore getInstance(){
         if (instance == null)
             instance = new ShareScore();

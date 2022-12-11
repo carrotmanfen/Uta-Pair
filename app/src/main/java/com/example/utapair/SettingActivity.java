@@ -301,6 +301,11 @@ public class SettingActivity extends AppCompatActivity {
 
     /* method set AccessibilityMode and share preference */
     public  void setAccessibilityMode(){
+        /* set AccessibilityMode follow Checkbox */
+        if(checkBoxAccessibilityMode.isChecked()){
+            String text = "Accessibility mode on";
+            textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+        }
         /* set AccessibilityMode to shared preference */
         switch(checkBoxAccessibilityMode.getId()) {
             case R.id.accessibility_checkbox:
@@ -328,6 +333,8 @@ public class SettingActivity extends AppCompatActivity {
                 else if(tapCount==2){
                     checkBoxAccessibilityMode.setChecked(false);        /* set checkbox to uncheck */
                     setAccessibilityMode();
+                    String text = "Accessibility mode off";
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 tapCount = 0;   /* reset tapCount */
             }

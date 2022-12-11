@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -342,7 +341,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     /* method go to MainActivity */
     public void openMainActivity(){
         stopMusic();
@@ -353,6 +351,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             NewIntent.launchActivity(MainActivity.class, this);
         }
     }
+
 
     /* method to restart game */
     public void playAgain(){
@@ -581,7 +580,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     buttonSelected1 = null; /* set to null for getting new data */
                     itWasBusy = false;
                 }
-            }, 50);
+            }, 10);
 
             /* if all button matched */
             if(checkAllMatched() == true ){
