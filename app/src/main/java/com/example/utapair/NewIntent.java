@@ -46,6 +46,7 @@ public class NewIntent {
                 }
                 /* if double tap in time start Activity */
                 else if(tapCount==2){
+                    textToSpeech.stop();
                     launchActivity(nextActivityClass,currentActivity);
                 }
                 tapCount = 0;   /* reset tapCount */
@@ -67,6 +68,7 @@ public class NewIntent {
                 }
                 /* if double tap in time start Activity */
                 else if(tapCount==2){
+                    textToSpeech.stop();
                     launchActivity(nextActivityClass,currentActivity,extrasMap);
                 }
                 tapCount = 0;   /* reset tapCount */
