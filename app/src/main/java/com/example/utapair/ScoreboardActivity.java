@@ -319,9 +319,9 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                         scoreboardUserList.clear();     /* clear data */
                         JSONArray products = new JSONArray(response);
                             for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
-                                JSONObject productobject = products.getJSONObject(i);
-                                String username = productobject.getString("username");
-                                Integer endTime = productobject.getInt("endTime");
+                                JSONObject productObject = products.getJSONObject(i);
+                                String username = productObject.getString("username");
+                                Integer endTime = productObject.getInt("endTime");
                                 String minute = String.valueOf(endTime/6000);
                                 String second = String.valueOf((endTime/100)%60);
                                 String milliSecond = String.valueOf(endTime%100);
@@ -412,8 +412,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                     try {
                         JSONArray products = new JSONArray(response);
                         for(int i=0;i<products.length();i++){   /* for loop to collect data from database */
-                            JSONObject productobject = products.getJSONObject(i);
-                            Integer row_index = productobject.getInt("row_index");
+                            JSONObject productObject = products.getJSONObject(i);
+                            Integer row_index = productObject.getInt("row_index");
                             String text ="Congratulations! your best score is on "+ row_index + "th place.";
                             Toast.makeText(ScoreboardActivity.this,text , Toast.LENGTH_LONG).show();
                             /* If AccessibilityMode on speak and delay more than speak in method onStart */

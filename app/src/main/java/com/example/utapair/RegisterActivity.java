@@ -211,13 +211,22 @@ public class RegisterActivity extends AppCompatActivity {
                 sayFailed("Password do not match.");
             }
             /* If username and password is less than 16 character */
-            else if ((username.length() <= 16) && (editTextPassword.length() <= 16)) {
+            else if ((username.length() <= 16) && (password.length() <= 16)) {
                 /* If blind button is checked */
                 if(buttonCheck.isChecked()){
                     blindModeString = "1";
                 }
                 addData();
             }
+            else if(username.length()>16&&password.length()>16){
+                 textViewUsernameError.setText("Unable to use more than 16 characters username.");
+                 editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                 textViewPasswordError.setText("Unable to use more than 16 characters password.");
+                 editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                 editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                 Toast.makeText(this, "Invalid username and password input", Toast.LENGTH_SHORT).show();
+                 sayFailed("Unable to use more than 16 characters username and password.");
+             }
             /* If username is unable to use */
             else if(username.length()>16){
                 /* appear Unable to use more than 16 characters username.
