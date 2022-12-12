@@ -162,10 +162,9 @@ public class LoginActivity extends AppCompatActivity {
         soundClick.releaseMediaPlayer();
     }
 
-    /* method to speak failed register */
-    public void sayFailed(){
+    /* method to speak failed login */
+    public void sayFailed(String text){
         if (accessibilityMode) {
-            String text = "login failed";
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
@@ -184,27 +183,27 @@ public class LoginActivity extends AppCompatActivity {
         if ((username.equals("")) && (sPassword.equals(""))) {
             /* Set background to custom_input_error (Drawable)
              * and set text to error Message */
-            TextViewUsernameError.setText("Username cannot be empty");
+            TextViewUsernameError.setText("Username can not be empty");
             editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-            TextViewPasswordError.setText("Password cannot be empty");
+            TextViewPasswordError.setText("Password can not be empty");
             editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-            sayFailed();
+            sayFailed("Username and password can not be empty");
         }
         /* If editText username is only empty field */
         else if (username.equals("")) {
             /* Set background to custom_input_error (Drawable)
              * and set text to error Message */
-            TextViewUsernameError.setText("Username cannot be empty");
+            TextViewUsernameError.setText("Username can not be empty");
             editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-            sayFailed();
+            sayFailed("Username cannot be empty");
         }
         /* If editText password is only empty field */
         else if (sPassword.equals("")) {
             /* Set background to custom_input_error (Drawable)
              * and set text to error Message */
-            TextViewPasswordError.setText("Password cannot be empty");
+            TextViewPasswordError.setText("Password can not be empty");
             editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
-            sayFailed();
+            sayFailed("Password cannot be empty");
         } else {
             /* Call method userLogin to allow users to access the application. */
             userLogin();
@@ -253,6 +252,8 @@ public class LoginActivity extends AppCompatActivity {
                             String text = "login success";
                             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                         }
+                        editTextName.setText("");
+                        editTextPassword.setText("");
                         openProfileActivity();
 
                     }
@@ -263,7 +264,7 @@ public class LoginActivity extends AppCompatActivity {
                     editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                     editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                     Toast.makeText(LoginActivity.this, "Invalid login Name/Password.", Toast.LENGTH_SHORT).show();
-                    sayFailed();
+                    sayFailed("Invalid login Name or Password.");
                 }
             }
         }, new Response.ErrorListener() {
@@ -272,7 +273,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 /* this page alert "Server error. Please try again later" */
                 Toast.makeText(LoginActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
-                sayFailed();
+                sayFailed("Server error. Please try again later");
             }
         }) {
             @Nullable
