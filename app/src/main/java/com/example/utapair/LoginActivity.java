@@ -254,8 +254,13 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         editTextName.setText("");
                         editTextPassword.setText("");
-                        openProfileActivity();
-
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                openProfileActivity();
+                            }
+                        }, 1000);
                     }
                 }
                 /* if response is failure */
@@ -292,6 +297,12 @@ public class LoginActivity extends AppCompatActivity {
     /* Method for using open profile page */
     public void openProfileActivity () {
         NewIntent.launchActivity(ProfileActivity.class,this);
+    }
+
+    /* method when pres back button */
+    @Override
+    public void onBackPressed() {
+        NewIntent.launchActivity(AccountActivity.class,this);
     }
 
     /* method to go to previous activity with AccessibilityMode */

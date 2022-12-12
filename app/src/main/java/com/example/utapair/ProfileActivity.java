@@ -258,9 +258,15 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             Toast.makeText(ProfileActivity.this, "Logout Successfully ", Toast.LENGTH_SHORT).show();
             /* Navigate to MainActivity page */
             Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
-            startActivity(intent);
             sayFailed("Logout successfully");
-            finish();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(intent);
+                    finish();
+                }
+            }, 1000);
         }
     }
 
@@ -307,7 +313,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
-    /* This function use to pop up interface for user to editname */
+    /* This function use to pop up interface for user to edit name */
     public void EditName(){
         /* Declare variables */
         dialogBuilder = new AlertDialog.Builder(this,R.style.dialog);
@@ -487,9 +493,9 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                         JSONArray products = new JSONArray(response);
                         int count = 0;
                         for(int i=0;i<products.length();i++){   /* dor loop to collect data from database */
-                            JSONObject productobject = products.getJSONObject(i);
-                            Integer row_index = productobject.getInt("row_index");
-                            Integer endTime = productobject.getInt("endTime");
+                            JSONObject productObject = products.getJSONObject(i);
+                            Integer row_index = productObject.getInt("row_index");
+                            Integer endTime = productObject.getInt("endTime");
                             String minute = String.valueOf(endTime/6000);
                             String second = String.valueOf((endTime/100)%60);
                             String milliSecond = String.valueOf(endTime%100);

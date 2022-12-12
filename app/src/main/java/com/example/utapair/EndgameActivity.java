@@ -212,10 +212,6 @@ public class EndgameActivity extends Activity {
 
     /* method to playAgain in same level */
     public void playAgain(){
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        soundClick.stopMediaPlayer();
-        soundClick.releaseMediaPlayer();
         Bundle bundle = getIntent().getExtras();
         int mode = bundle.getInt("MODE");
             if (mode==-1){      /* level easy */

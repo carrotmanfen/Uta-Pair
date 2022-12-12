@@ -211,13 +211,22 @@ public class RegisterActivity extends AppCompatActivity {
                 sayFailed("Password do not match.");
             }
             /* If username and password is less than 16 character */
-            else if ((username.length() <= 16) && (editTextPassword.length() <= 16)) {
+            else if ((username.length() <= 16) && (password.length() <= 16)) {
                 /* If blind button is checked */
                 if(buttonCheck.isChecked()){
                     blindModeString = "1";
                 }
                 addData();
             }
+            else if(username.length()>16&&password.length()>16){
+                 textViewUsernameError.setText("Unable to use more than 16 characters username.");
+                 editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                 textViewPasswordError.setText("Unable to use more than 16 characters password.");
+                 editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                 editTextRePassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
+                 Toast.makeText(this, "Invalid username and password input", Toast.LENGTH_SHORT).show();
+                 sayFailed("Unable to use more than 16 characters username and password.");
+             }
             /* If username is unable to use */
             else if(username.length()>16){
                 /* appear Unable to use more than 16 characters username.
@@ -296,14 +305,27 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.equals("SUCCESS")) {
                     /* Pop up Success */
                     Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    if(buttonCheck.isChecked()){
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("ACCESSIBILITY_MODE", buttonCheck.isChecked()).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("BLIND_MODE", buttonCheck.isChecked()).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("BLIND_PROFILE", buttonCheck.isChecked()).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("BLIND_SCOREBOARD", buttonCheck.isChecked()).commit();
+
+                    }
                     if (accessibilityMode) {
                         String text = "register success";
-                        if(buttonCheck.isChecked()){
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                    .putBoolean("ACCESSIBILITY_MODE", true).commit();
-                        }
-                        openAccountActivity();
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                openAccountActivity();
+                            }
+                        }, 1000);
                     }
                     else {
                         openAccountActivity();
@@ -421,6 +443,12 @@ public class RegisterActivity extends AppCompatActivity {
         else {
             sayFailed("confirm password can not be empty");
         }
+    }
+
+    /* method when pres back button */
+    @Override
+    public void onBackPressed() {
+        NewIntent.launchActivity(AccountActivity.class,this);
     }
 
     /* method to go to previous activity with AccessibilityMode */

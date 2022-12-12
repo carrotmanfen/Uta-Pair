@@ -17,6 +17,7 @@ public class NewIntent {
         Intent launchIntent = new Intent(currentActivity, nextActivityClass);
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         currentActivity.startActivity(launchIntent);
+        currentActivity.finish();
     }
 
     /* this method is create new intent and have inputExtra */
@@ -30,6 +31,7 @@ public class NewIntent {
         }
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         currentActivity.startActivity(launchIntent);
+        currentActivity.finish();
     }
 
     /* this method is create new intent with accessibility mode */
