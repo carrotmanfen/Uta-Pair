@@ -302,6 +302,12 @@ public class RegisterActivity extends AppCompatActivity {
                         if(buttonCheck.isChecked()){
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
                                     .putBoolean("ACCESSIBILITY_MODE", true).commit();
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                    .putBoolean("ฺBLIND_MODE", true).commit();
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                    .putBoolean("BLIND_PROFILE", true).commit();
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                    .putBoolean("BLIND_SCOREBOARD", true).commit();
                         }
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
