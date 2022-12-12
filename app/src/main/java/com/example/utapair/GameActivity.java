@@ -175,6 +175,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     /* this part is about when exit this activity */
     protected void onDestroy() {
         super.onDestroy();
+        if (dialog.isShowing()){
+            dialog.cancel();
+        }
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
         soundClick.releaseMediaPlayer();
@@ -320,8 +323,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                openMainActivity();
                 dialog.cancel();
+                openMainActivity();
+
             }
         });
     }
@@ -344,7 +348,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     /* method go to MainActivity */
     public void openMainActivity(){
-        stopMusic();
         if (accessibilityMode){
             NewIntent.launchActivityAccessibility(MainActivity.class,this,textToSpeech,"double tap to go to home",500);
         }
@@ -356,7 +359,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     /* method to restart game */
     public void playAgain(){
-        stopMusic();
         dialog.dismiss();
         finish();
         startActivity(getIntent());
