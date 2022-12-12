@@ -147,6 +147,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /* this part will run when this Activity start */
+    @Override
     protected void onStart() {
         super.onStart();
         /* if AccessibilityMode on when this activity start play sound */
@@ -173,10 +174,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     /* this part is about when exit this activity */
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialog.isShowing()){
-            dialog.cancel();
+        if (dialog != null){
+            if(dialog.isShowing())
+                dialog.cancel();
         }
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
