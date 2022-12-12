@@ -296,19 +296,20 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.equals("SUCCESS")) {
                     /* Pop up Success */
                     Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    if(buttonCheck.isChecked()){
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("ACCESSIBILITY_MODE", buttonCheck.isChecked()).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("BLIND_MODE", buttonCheck.isChecked()).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("BLIND_PROFILE", buttonCheck.isChecked()).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("BLIND_SCOREBOARD", buttonCheck.isChecked()).commit();
+
+                    }
                     if (accessibilityMode) {
                         String text = "register success";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-                        if(buttonCheck.isChecked()){
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                    .putBoolean("ACCESSIBILITY_MODE", true).commit();
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                    .putBoolean("ฺBLIND_MODE", true).commit();
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                    .putBoolean("BLIND_PROFILE", true).commit();
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                    .putBoolean("BLIND_SCOREBOARD", true).commit();
-                        }
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
