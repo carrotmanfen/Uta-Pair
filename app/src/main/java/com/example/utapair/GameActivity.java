@@ -629,4 +629,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /* method when pres back button */
+
+    @Override
+    public void onBackPressed() {
+        NewIntent.launchActivity(SelectLevelActivity.class,this);
+    }
+
 }
