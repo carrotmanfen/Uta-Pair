@@ -254,8 +254,13 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         editTextName.setText("");
                         editTextPassword.setText("");
-                        openProfileActivity();
-
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                openProfileActivity();
+                            }
+                        }, 1000);
                     }
                 }
                 /* if response is failure */

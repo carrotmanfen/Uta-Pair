@@ -298,12 +298,18 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     if (accessibilityMode) {
                         String text = "register success";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                         if(buttonCheck.isChecked()){
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
                                     .putBoolean("ACCESSIBILITY_MODE", true).commit();
                         }
-                        openAccountActivity();
-                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                openAccountActivity();
+                            }
+                        }, 1000);
                     }
                     else {
                         openAccountActivity();
