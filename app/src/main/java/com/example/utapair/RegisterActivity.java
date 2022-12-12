@@ -432,6 +432,12 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /* method when pres back button */
+    @Override
+    public void onBackPressed() {
+        NewIntent.launchActivity(AccountActivity.class,this);
+    }
+
     /* method to go to previous activity with AccessibilityMode */
     public void onBackPressedAccessibility(){
         tapCount++;     /* when tap button count in tapCount */

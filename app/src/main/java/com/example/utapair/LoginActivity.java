@@ -294,6 +294,12 @@ public class LoginActivity extends AppCompatActivity {
         NewIntent.launchActivity(ProfileActivity.class,this);
     }
 
+    /* method when pres back button */
+    @Override
+    public void onBackPressed() {
+        NewIntent.launchActivity(AccountActivity.class,this);
+    }
+
     /* method to go to previous activity with AccessibilityMode */
     public void onBackPressedAccessibility(){
         tapCount++;     /* when tap button count in tapCount */

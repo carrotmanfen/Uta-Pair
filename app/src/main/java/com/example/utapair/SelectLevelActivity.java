@@ -135,10 +135,10 @@ public class SelectLevelActivity extends AppCompatActivity {
         Map.put("LAYOUT_ID", R.layout.activity_game_easy2);
         Map.put("GRID_ID",R.id.GridLayout_easy);
         if (accessibilityMode){
-            NewIntent.launchActivityAccessibilityNotFinish(GameActivity.class, this,Map, textToSpeech, "double tap to play level easy", 500);
+            NewIntent.launchActivityAccessibility(GameActivity.class, this,Map, textToSpeech, "double tap to play level easy", 500);
         }
         else{
-            NewIntent.launchActivityNotFinish(GameActivity.class,this,Map);
+            NewIntent.launchActivity(GameActivity.class,this,Map);
         }
     }
 
@@ -150,10 +150,10 @@ public class SelectLevelActivity extends AppCompatActivity {
         Map.put("LAYOUT_ID", R.layout.activity_game_normal);
         Map.put("GRID_ID",R.id.GridLayout_meduim);
         if (accessibilityMode){
-            NewIntent.launchActivityAccessibilityNotFinish(GameActivity.class, this,Map, textToSpeech, "double tap to play level normal", 500);
+            NewIntent.launchActivityAccessibility(GameActivity.class, this,Map, textToSpeech, "double tap to play level normal", 500);
         }
         else{
-            NewIntent.launchActivityNotFinish(GameActivity.class,this,Map);
+            NewIntent.launchActivity(GameActivity.class,this,Map);
         }
     }
 
@@ -166,13 +166,14 @@ public class SelectLevelActivity extends AppCompatActivity {
         Map.put("LAYOUT_ID", R.layout.activity_game_hard);
         Map.put("GRID_ID",R.id.GridLayout_hard);
         if (accessibilityMode){
-            NewIntent.launchActivityAccessibilityNotFinish(GameActivity.class, this,Map, textToSpeech, "double tap to play level hard", 500);
+            NewIntent.launchActivityAccessibility(GameActivity.class, this,Map, textToSpeech, "double tap to play level hard", 500);
         }
         else{
-            NewIntent.launchActivityNotFinish(GameActivity.class,this,Map);
+            NewIntent.launchActivity(GameActivity.class,this,Map);
         }
     }
 
+    /* method when pres back button */
     @Override
     public void onBackPressed() {
         NewIntent.launchActivity(MainActivity.class, this);
