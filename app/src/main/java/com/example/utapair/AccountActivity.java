@@ -183,6 +183,11 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        NewIntent.launchActivity(MainActivity.class, this);
+    }
+
     /* method to go to previous activity with AccessibilityMode */
     public void onBackPressedAccessibility(){
         tapCount++;     /* when tap button count in tapCount */

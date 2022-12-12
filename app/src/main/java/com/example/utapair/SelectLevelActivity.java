@@ -130,21 +130,15 @@ public class SelectLevelActivity extends AppCompatActivity {
     /* method to start GameActivity easy mode */
     public void openEasyGameActivity(){
         /* set data mode layout_id and grid_id to GameActivity with putExtra */
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("MODE", -1);
-        intent.putExtra("LAYOUT_ID", R.layout.activity_game_easy2);
-        intent.putExtra("GRID_ID", R.id.GridLayout_easy);
-        startActivity(intent);
-
         Map Map = new HashMap<String,Integer>();
         Map.put("MODE", -1);
         Map.put("LAYOUT_ID", R.layout.activity_game_easy2);
         Map.put("GRID_ID",R.id.GridLayout_easy);
         if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(GameActivity.class, this, textToSpeech, "double tap to play level easy", 500);
+            NewIntent.launchActivityAccessibilityNotFinish(GameActivity.class, this,Map, textToSpeech, "double tap to play level easy", 500);
         }
         else{
-            NewIntent.launchActivity(GameActivity.class,this,Map);
+            NewIntent.launchActivityNotFinish(GameActivity.class,this,Map);
         }
     }
 
@@ -156,10 +150,10 @@ public class SelectLevelActivity extends AppCompatActivity {
         Map.put("LAYOUT_ID", R.layout.activity_game_normal);
         Map.put("GRID_ID",R.id.GridLayout_meduim);
         if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(GameActivity.class, this, textToSpeech, "double tap to play level normal", 500);
+            NewIntent.launchActivityAccessibilityNotFinish(GameActivity.class, this,Map, textToSpeech, "double tap to play level normal", 500);
         }
         else{
-            NewIntent.launchActivity(GameActivity.class,this,Map);
+            NewIntent.launchActivityNotFinish(GameActivity.class,this,Map);
         }
     }
 
@@ -172,13 +166,17 @@ public class SelectLevelActivity extends AppCompatActivity {
         Map.put("LAYOUT_ID", R.layout.activity_game_hard);
         Map.put("GRID_ID",R.id.GridLayout_hard);
         if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(GameActivity.class, this, textToSpeech, "double tap to play level hard", 500);
+            NewIntent.launchActivityAccessibilityNotFinish(GameActivity.class, this,Map, textToSpeech, "double tap to play level hard", 500);
         }
         else{
-            NewIntent.launchActivity(GameActivity.class,this,Map);
+            NewIntent.launchActivityNotFinish(GameActivity.class,this,Map);
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        NewIntent.launchActivity(MainActivity.class, this);
+    }
 
     /* method to go to previous activity with AccessibilityMode */
     public void onBackPressedAccessibility(){
