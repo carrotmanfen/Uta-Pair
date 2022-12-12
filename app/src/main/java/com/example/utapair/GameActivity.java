@@ -30,9 +30,9 @@ import java.util.TimerTask;
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int numberOfElements;
-    private MemoryButton[] button; // ปุ่มที่จะเอาขึ้นไปวางไว้บน GridLayout
-    private int[] buttonGraphicLocation; // ตำแหน่ง Graphic ของ Button แต่ละตัวที่จะนำไป drawable
-    private int[] buttonGraphic; // เก็บภาพจาก drawable มาใส่ array ไว้
+    private MemoryButton[] button; /* button that we put on GridLayout */
+    private int[] buttonGraphicLocation; /* Position graphic of Button each one will be drawable */
+    private int[] buttonGraphic; /* Get picture from drawable and put in array */
     private String[] buttonGraphicTexts;
     private MemoryButton buttonSelected1;
     private MemoryButton buttonSelected2;
@@ -561,7 +561,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(button.isMatched) {
             return;
         }
-        /* if click not busy and not matched then check it have data in bttn 1 yet */
+        /* if click not busy and not matched then check it have data in button 1 yet */
         if(buttonSelected1 == null ){
             buttonSelected1 = button;
             buttonSelected1.flipped();      /* flipped button */
