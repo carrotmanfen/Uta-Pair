@@ -109,13 +109,7 @@ public class ShareScore extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT,"UTA is the best app");
         intent.putExtra(Intent.EXTRA_TEXT, "Come on, Let’s play with me.");
         intent.putExtra(Intent.EXTRA_STREAM,uri);
-//        Intent intent = new Intent(Intent.ACTION_SEND);
-//        intent.setType("text/plain");
-//        String Body = "UTA is the best app";
-//        String sub = "Application Link here !!"; /* link of webpage app */
-//        intent.putExtra(Intent.EXTRA_SUBJECT,Body);
-//        intent.putExtra(Intent.EXTRA_TEXT,sub);
-//        startActivity(Intent.createChooser(intent,"Share using"));
+
         Intent chooser = Intent.createChooser(intent,"Share File");
 
         List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
