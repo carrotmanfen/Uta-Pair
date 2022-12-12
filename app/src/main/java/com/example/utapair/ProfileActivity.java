@@ -258,9 +258,15 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             Toast.makeText(ProfileActivity.this, "Logout Successfully ", Toast.LENGTH_SHORT).show();
             /* Navigate to MainActivity page */
             Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
-            startActivity(intent);
             sayFailed("Logout successfully");
-            finish();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(intent);
+                    finish();
+                }
+            }, 1000);
         }
     }
 
