@@ -133,6 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     login();
                 }
+                buttonLogin.setClickable(false);
             }
         });
 
@@ -188,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
             TextViewPasswordError.setText("Password can not be empty");
             editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             sayFailed("Username and password can not be empty");
+            buttonLogin.setClickable(true);
         }
         /* If editText username is only empty field */
         else if (username.equals("")) {
@@ -196,6 +198,7 @@ public class LoginActivity extends AppCompatActivity {
             TextViewUsernameError.setText("Username can not be empty");
             editTextName.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             sayFailed("Username cannot be empty");
+            buttonLogin.setClickable(true);
         }
         /* If editText password is only empty field */
         else if (sPassword.equals("")) {
@@ -204,6 +207,7 @@ public class LoginActivity extends AppCompatActivity {
             TextViewPasswordError.setText("Password can not be empty");
             editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
             sayFailed("Password cannot be empty");
+            buttonLogin.setClickable(true);
         } else {
             /* Call method userLogin to allow users to access the application. */
             userLogin();
@@ -238,6 +242,7 @@ public class LoginActivity extends AppCompatActivity {
             /* when request have response to application */
             public void onResponse(String response) {
                 /* If response is success */
+
                 if (response.equals("SUCCESS")) {
                     String loginName = editTextName.getText().toString();
                     String loginPassword = editTextPassword.getText().toString();
@@ -270,6 +275,7 @@ public class LoginActivity extends AppCompatActivity {
                     editTextPassword.setBackground(getResources().getDrawable(R.drawable.custom_input_error));
                     Toast.makeText(LoginActivity.this, "Invalid login Name/Password.", Toast.LENGTH_SHORT).show();
                     sayFailed("Invalid login Name or Password.");
+                    buttonLogin.setClickable(true);
                 }
             }
         }, new Response.ErrorListener() {
@@ -279,6 +285,7 @@ public class LoginActivity extends AppCompatActivity {
                 /* this page alert "Server error. Please try again later" */
                 Toast.makeText(LoginActivity.this, "Server error. Please try again later", Toast.LENGTH_SHORT).show();
                 sayFailed("Server error. Please try again later");
+                buttonLogin.setClickable(true);
             }
         }) {
             @Nullable
