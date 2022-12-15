@@ -10,7 +10,6 @@ import java.io.IOException;
 * that have 2 media for play sound
 * when click button faster than sound that play */
 public class SoundClick{
-    private Context context;
     private MediaPlayer mediaPlayerClick;
     private MediaPlayer mediaPlayerClick2;
 
@@ -24,7 +23,7 @@ public class SoundClick{
         mediaPlayerClick2 = MediaPlayer.create(context, uriMedia2);
     }
 
-    public void setMediaPlayerClick(Uri uriMedia,Uri uriMedia2) {
+    public void setMediaPlayerClick(Uri uriMedia,Uri uriMedia2,Context context) {
         this.mediaPlayerClick = MediaPlayer.create(context, uriMedia);
         this.mediaPlayerClick2 = MediaPlayer.create(context, uriMedia2);
     }
