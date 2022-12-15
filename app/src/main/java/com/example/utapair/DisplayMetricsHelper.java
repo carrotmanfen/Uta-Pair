@@ -1,31 +1,39 @@
 package com.example.utapair;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.DisplayMetrics;
 
-public class DisplayMetricsHelper {
+import androidx.appcompat.app.AppCompatActivity;
 
-    public static int getWidthScreen(Activity activity){
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        if(activity != null){
-            activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        }
-        return  displayMetrics.widthPixels;
-    }
-    public static int getHeightScreen(Activity activity){
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        if(activity != null){
-            activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        }
-        return  displayMetrics.heightPixels;
+public class DisplayMetricsHelper extends AppCompatActivity {
+    private static DisplayMetricsHelper instance;
+    private int width;
+    private int height;
+
+    public static DisplayMetricsHelper getInstance(){
+        if (instance == null)
+            instance = new DisplayMetricsHelper();
+        return instance;
     }
 
-    public static double getScreenSize(Activity activity){
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        double xdpi = Math.pow(getWidthScreen(activity)/displayMetrics.xdpi,2);
-        double ydpi = Math.pow(getHeightScreen(activity)/displayMetrics.ydpi,2);
-        double screenSize = Math.sqrt(xdpi + ydpi);
-        return (double) Math.round(screenSize * 10) / 10;
+    public void setWidthPixels(Context context){
+        this.width = context.getResources().getDisplayMetrics().widthPixels;
     }
+    public void setHeightPixels(Context context){
+        this.height = context.getResources().getDisplayMetrics().heightPixels;
+    }
+
+    public int getWidthPixels(){
+        return this.width;
+    }
+    public int getHeightPixels(){
+        return this.height;
+    }
+    /* method for convert dp to pixel */
+    public float getPixelsFromDp(int dp, Context context){
+        float px = dp * (context.getResources().getDisplayMetrics().densityDpi / 160);
+        return  Math.round(px);
+    }
+
 }
