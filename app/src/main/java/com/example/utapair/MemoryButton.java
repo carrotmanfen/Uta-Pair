@@ -53,22 +53,32 @@ public class MemoryButton extends AppCompatButton {
         GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(r),GridLayout.spec(c)); /* it tell position of grid */
 
         /* set dimension and density*/
-        tempParams.width = (int) (Math.round(getResources().getDisplayMetrics().widthPixels / columnsNum) - getPixelsFromDp(20)); // (getResources().getDisplayMetrics().density * 5)
-        tempParams.height = (int) (Math.round(getResources().getDisplayMetrics().heightPixels / rowsNum) - getPixelsFromDp(40)); // (getResources().getDisplayMetrics().density * 70)
-        if(tempParams.width>=tempParams.height){
-            tempParams.width=tempParams.height;
-        }else{
-            tempParams.height=tempParams.width;
-        }
+
+        /*send context of activity to find the display */
+        DisplayMetricsHelper.getInstance().setHeightPixels(context);
+        DisplayMetricsHelper.getInstance().setWidthPixels(context);
+
+        /*calculate the size of card up to display of user's phone*/
+        int widthButton = (int) (Math.round(DisplayMetricsHelper.getInstance().getWidthPixels() / columnsNum) - DisplayMetricsHelper.getInstance().getPixelsFromDp(20,context));;
+        int heightButton = (int) (Math.round(DisplayMetricsHelper.getInstance().getHeightPixels() / rowsNum) - DisplayMetricsHelper.getInstance().getPixelsFromDp(40,context));
+        /* make card square*/
+        checkWidthEqualsToHeight(widthButton,heightButton);
+        /*set the size for a card*/
+        tempParams.width = checkWidthEqualsToHeight(widthButton,heightButton);; // (getResources().getDisplayMetrics().density * 5)
+        tempParams.height = checkWidthEqualsToHeight(widthButton,heightButton);; // (getResources().getDisplayMetrics().density * 70)
+
+
         setLayoutParams(tempParams);
 
     }
 
+    private int checkWidthEqualsToHeight(int widthPixels, int heightPixels){
 
-    /* method for convert dp to pixel */
-    public float getPixelsFromDp(int dp){
-        float px = dp * (getResources().getDisplayMetrics().densityDpi / 160);
-        return  Math.round(px);
+        if(widthPixels >= heightPixels){
+            return heightPixels;
+        }else{
+            return widthPixels;
+        }
     }
 
     /* method to check Matched */
