@@ -133,7 +133,6 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     login();
                 }
-                buttonLogin.setClickable(false);
             }
         });
 
@@ -213,6 +212,7 @@ public class LoginActivity extends AppCompatActivity {
             userLogin();
 
         }
+        buttonLogin.setClickable(false);
     }
 
     /* method to sign up with AccessibilityMode */
