@@ -94,12 +94,12 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                         String text = "Checked off mode blind";
                         textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                     }
-                    switch(buttonCheckbox.getId()) {
-                        case R.id.blind_mode_checkbox:
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                    .putBoolean("BLIND_SCOREBOARD", buttonCheckbox.isChecked()).commit();
-                            break;
-                    }
+                }
+                switch(buttonCheckbox.getId()) {
+                    case R.id.blind_mode_checkbox:
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                                .putBoolean("BLIND_SCOREBOARD", buttonCheckbox.isChecked()).commit();
+                        break;
                 }
                 showScore();
             }

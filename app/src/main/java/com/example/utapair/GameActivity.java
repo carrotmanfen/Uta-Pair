@@ -30,9 +30,9 @@ import java.util.TimerTask;
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int numberOfElements;
-    private MemoryButton[] button; // ปุ่มที่จะเอาขึ้นไปวางไว้บน GridLayout
-    private int[] buttonGraphicLocation; // ตำแหน่ง Graphic ของ Button แต่ละตัวที่จะนำไป drawable
-    private int[] buttonGraphic; // เก็บภาพจาก drawable มาใส่ array ไว้
+    private MemoryButton[] button; /* button that we put on GridLayout */
+    private int[] buttonGraphicLocation; /* Position graphic of Button each one will be drawable */
+    private int[] buttonGraphic; /* Get picture from drawable and put in array */
     private String[] buttonGraphicTexts;
     private MemoryButton buttonSelected1;
     private MemoryButton buttonSelected2;
@@ -326,9 +326,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                dialog.cancel();
-                openMainActivity();
-
+                if (accessibilityMode){
+                    openMainActivityAccessibility();
+                }
+                else {
+                    openMainActivity();
+                }
             }
         });
     }
@@ -351,12 +354,29 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     /* method go to MainActivity */
     public void openMainActivity(){
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(MainActivity.class,this,textToSpeech,"double tap to go to home",500);
-        }
-        else {
-            NewIntent.launchActivity(MainActivity.class, this);
-        }
+        dialog.dismiss();
+        NewIntent.launchActivity(MainActivity.class, this);
+    }
+
+    /* method go to MainActivity with Accessibility */
+    public void openMainActivityAccessibility(){
+        tapCount++;     /* when tap button count in tapCount */
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /* if a tap play sound */
+                if (tapCount==1){
+                    String text = "double tap to restart game";
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
+                }
+                /* if double tap in time to go to MainActivity */
+                else if(tapCount==2){
+                    openMainActivity();
+                }
+                tapCount = 0;   /* reset tapCount */
+            }
+        },500);     /* in 500 millisecond */
     }
 
 
@@ -541,7 +561,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(button.isMatched) {
             return;
         }
-        /* if click not busy and not matched then check it have data in bttn 1 yet */
+        /* if click not busy and not matched then check it have data in button 1 yet */
         if(buttonSelected1 == null ){
             buttonSelected1 = button;
             buttonSelected1.flipped();      /* flipped button */
