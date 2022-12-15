@@ -78,4 +78,25 @@ public class NewIntent {
         },delay);     /* in millisecond */
     }
 
+    /* this method is about open next activity */
+    public static void openNextActivity(Class<? extends Activity> nextActivityClass ,Activity currentActivity,TextToSpeech textToSpeech, String text, int delay ,boolean mode){
+        if(mode){
+            NewIntent.launchActivityAccessibility(nextActivityClass,currentActivity,textToSpeech,text,delay);
+        }
+        else{
+            NewIntent.launchActivity(nextActivityClass,currentActivity);
+        }
+    }
+
+    /* this method is about open next activity */
+    public static void openNextActivity(Class<? extends Activity> nextActivityClass ,Activity currentActivity,Map<String, Integer> extrasMap
+            ,TextToSpeech textToSpeech, String text, int delay ,boolean mode){
+        if(mode){
+            NewIntent.launchActivityAccessibility(nextActivityClass,currentActivity,extrasMap,textToSpeech,text,delay);
+        }
+        else{
+            NewIntent.launchActivity(nextActivityClass,currentActivity,extrasMap);
+        }
+    }
+
 }

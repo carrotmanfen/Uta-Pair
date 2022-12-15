@@ -4,6 +4,7 @@ import static com.example.utapair.R.raw.sc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -57,7 +58,7 @@ public class AccountActivity extends AppCompatActivity {
             /* set when click buttonRegister start RegisterActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                openRegisterActivity();
+                NewIntent.openNextActivity(RegisterActivity.class,AccountActivity.this,textToSpeech,"double tap to go to register",500,accessibilityMode);
             }
         });
 
@@ -68,8 +69,8 @@ public class AccountActivity extends AppCompatActivity {
             /* set when click buttonLogin start LoginActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openLoginActivity();
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(LoginActivity.class,AccountActivity.this,textToSpeech,"double tap to go to login",500,accessibilityMode);
             }
         });
 
@@ -81,12 +82,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(accessibilityMode) {
-                    onBackPressedAccessibility();
-                }
-                else {
-                    onBackPressed();        /* go to previous activity */
-                }
+                NewIntent.openNextActivity(MainActivity.class,AccountActivity.this,textToSpeech,"double tap to go back",500,accessibilityMode);
             }
         });
 
@@ -98,7 +94,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                openScoreboardActivity();
+                NewIntent.openNextActivity(ScoreboardActivity.class,AccountActivity.this,textToSpeech,"double tap to go to scoreboard",500,accessibilityMode);
             }
         });
 
@@ -110,7 +106,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                openSettingActivity();
+                NewIntent.openNextActivity(SettingActivity.class,AccountActivity.this,textToSpeech,"double tap to go to setting",500,accessibilityMode);
             }
         });
     }
@@ -133,54 +129,11 @@ public class AccountActivity extends AppCompatActivity {
 
     /* this part is about when exit this activity */
     protected void onDestroy() {
+        /* when destroy shutdown and turn off everything */
         super.onDestroy();
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
         soundClick.releaseMediaPlayer();
-    }
-
-    /* method to start RegisterActivity */
-    public void openRegisterActivity(){
-        /* create new intent RegisterActivity Class and Start Activity */
-        if(accessibilityMode) {
-            NewIntent.launchActivityAccessibility(RegisterActivity.class,this,textToSpeech,"double tap to go to Register",500);
-        }
-        else{
-            NewIntent.launchActivity(RegisterActivity.class, this);
-        }
-    }
-
-    /* method to start LoginActivity */
-    public void openLoginActivity(){
-        /* create new intent LoginActivity Class and Start Activity */
-        if(accessibilityMode) {
-            NewIntent.launchActivityAccessibility(LoginActivity.class,this,textToSpeech,"double tap to go to Login",500);
-        }
-        else{
-            NewIntent.launchActivity(LoginActivity.class, this);
-        }
-    }
-
-    /* method to start ScoreboardActivity */
-    public void openScoreboardActivity(){
-        /* create new intent ScoreboardActivity Class and Start Activity */
-        if(accessibilityMode){
-            NewIntent.launchActivityAccessibility(ScoreboardActivity.class,this,textToSpeech,"double tap to go to Scoreboard",500);
-        }
-        else {
-            NewIntent.launchActivity(ScoreboardActivity.class, this);
-        }
-    }
-
-    /* method to start SettingActivity */
-    public void openSettingActivity(){
-        /* create new intent SettingActivity Class and Start Activity */
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(SettingActivity.class,this,textToSpeech,"double tap to go to setting",500);
-        }
-        else {
-            NewIntent.launchActivity(SettingActivity.class, this);
-        }
     }
 
     /* method when pres back button */
@@ -189,24 +142,4 @@ public class AccountActivity extends AppCompatActivity {
         NewIntent.launchActivity(MainActivity.class, this);
     }
 
-    /* method to go to previous activity with AccessibilityMode */
-    public void onBackPressedAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go back";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start GameActivity */
-                else if(tapCount==2){
-                    onBackPressed();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
-    }
 }
