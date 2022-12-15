@@ -86,14 +86,15 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(accessibilityMode){
+                    String text;
                     if (buttonCheckbox.isChecked()) {
-                        String text = "Checked mode blind";
-                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                        text = "Checked mode blind";
+
                     }
                     else {
-                        String text = "Checked off mode blind";
-                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                        text = "Checked off mode blind";
                     }
+                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 switch(buttonCheckbox.getId()) {
                     case R.id.blind_mode_checkbox:
@@ -129,8 +130,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openAccountActivity();
+                if(sh.contains("SAVED_NAME")){  /* if login go to profile otherwise go to account */
+                    /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                    NewIntent.openNextActivity(ProfileActivity.class,ScoreboardActivity.this,textToSpeech,"double tap to go to Profile",500,accessibilityMode);
+                }
+                else{
+                    /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                    NewIntent.openNextActivity(AccountActivity.class,ScoreboardActivity.this,textToSpeech,"double tap to go to Account",500,accessibilityMode);
+                }
 
             }
         });
@@ -142,8 +149,8 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openSettingActivity();
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(SettingActivity.class,ScoreboardActivity.this,textToSpeech,"double tap to go to setting",500,accessibilityMode);
 
             }
         });
@@ -155,21 +162,14 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
             /* set when click button go to previous activity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                if(accessibilityMode) {
-                    onBackPressedAccessibility();
-                }
-                else {
-                    onBackPressed();        /* go to previous activity */
-                }
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(MainActivity.class,ScoreboardActivity.this,textToSpeech,"double tap to go back",500,accessibilityMode);
             }
         });
     }
     @Override
     public void onBackPressed() {
-            Intent intent = new Intent(this, MainActivity.class);
-            finishAffinity();
-            startActivity(intent);
+        NewIntent.launchActivity(MainActivity.class, this);
     }
 
     /* this part will run when this Activity start */
@@ -184,8 +184,10 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
                 public void run() {
                     String text = "Scoreboard";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    /* let textToSpeech speak 2 time because if speak all word in one time it to fast and hard to understand */
                     text = "level easy";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_ADD,null);
+                    /* if on blind mode say it to */
                     if(PreferenceManager.getDefaultSharedPreferences(ScoreboardActivity.this).getBoolean("BLIND_SCOREBOARD",false)){
                         text = "on blind Mode";
                         textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
@@ -196,63 +198,11 @@ public class ScoreboardActivity extends AppCompatActivity implements AdapterView
     }
     /* this part is about when exit this activity */
     protected void onDestroy() {
+        /* when destroy shutdown and turn off everything */
         super.onDestroy();
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
         soundClick.releaseMediaPlayer();
-    }
-
-    /* method to start AccountActivity */
-    public void openAccountActivity(){
-        /* create new intent AccountActivity Class and Start Activity */
-        if(checkLoginData()==1){
-            if (accessibilityMode) {
-                NewIntent.launchActivityAccessibility(ProfileActivity.class, this, textToSpeech, "double tap to go to profile", 500);
-            }
-            else {
-                NewIntent.launchActivity(ProfileActivity.class, this);
-            }
-        }
-        else{
-            if (accessibilityMode) {
-                NewIntent.launchActivityAccessibility(AccountActivity.class, this, textToSpeech, "double tap to go to account", 500);
-            }
-            else {
-                NewIntent.launchActivity(AccountActivity.class, this);
-            }
-        }
-    }
-
-    /* method to start SettingActivity */
-    public void openSettingActivity(){
-        /* create new intent SettingActivity Class and Start Activity */
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(SettingActivity.class, this, textToSpeech, "double tap to go to setting", 500);
-        }
-        else{
-            NewIntent.launchActivity(SettingActivity.class, this);
-        }
-    }
-
-    /* method to go to previous activity with AccessibilityMode */
-    public void onBackPressedAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go back";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start GameActivity */
-                else if(tapCount==2){
-                    onBackPressed();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
     }
 
     /* method to set data in layout */

@@ -152,17 +152,18 @@ public class EndgameActivity extends Activity {
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                openMainActivity();
+                NewIntent.openNextActivity(MainActivity.class,EndgameActivity.this,textToSpeech,"double tap to go to home",500,accessibilityMode);
             }
         });
         if(checkLoginData()==1){
             insertScore(completeScore);
         }
-        else;
+
     }
 
     /* this part is about when exit this activity */
     protected void onDestroy() {
+        /* when destroy shutdown and turn off everything */
         super.onDestroy();
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
@@ -200,16 +201,6 @@ public class EndgameActivity extends Activity {
         },500);     /* in 500 millisecond */
     }
 
-    /* method to go to MainActivity */
-    public void openMainActivity(){
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(MainActivity.class,this,textToSpeech,"double tap to go to home",500);
-        }
-        else {
-            NewIntent.launchActivity(MainActivity.class, this);
-        }
-    }
-
     /* method to playAgain in same level */
     public void playAgain(){
         Bundle bundle = getIntent().getExtras();
@@ -231,7 +222,6 @@ public class EndgameActivity extends Activity {
                 Map.put("LAYOUT_ID", R.layout.activity_game_hard);
                 Map.put("GRID_ID",R.id.GridLayout_hard);
             }
-        /*  */
         NewIntent.openNextActivity(GameActivity.class,EndgameActivity.this,Map,textToSpeech,"double tap to play again",500,accessibilityMode);
     }
 

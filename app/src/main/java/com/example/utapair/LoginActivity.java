@@ -111,13 +111,8 @@ public class LoginActivity extends AppCompatActivity {
             /* set when click button go to previous activity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                if(accessibilityMode) {
-                    onBackPressedAccessibility();
-                }
-                else {
-                    onBackPressed();        /* go to previous activity */
-                }
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(MainActivity.class,LoginActivity.this,textToSpeech,"double tap to go back",500,accessibilityMode);
             }
         });
 
@@ -156,6 +151,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /* this part is about when exit this activity */
     protected void onDestroy() {
+        /* when destroy shutdown and turn off everything */
         super.onDestroy();
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
@@ -210,9 +206,9 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             /* Call method userLogin to allow users to access the application. */
             userLogin();
-
+            buttonLogin.setClickable(false);
         }
-        buttonLogin.setClickable(false);
+
     }
 
     /* method to sign up with AccessibilityMode */
@@ -264,6 +260,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 openProfileActivity();
+                                NewIntent.launchActivity(ProfileActivity.class,LoginActivity.this);
                             }
                         }, 1000);
                     }
@@ -310,27 +307,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         NewIntent.launchActivity(AccountActivity.class,this);
-    }
-
-    /* method to go to previous activity with AccessibilityMode */
-    public void onBackPressedAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go back";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start GameActivity */
-                else if(tapCount==2){
-                    onBackPressed();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
     }
 
 }

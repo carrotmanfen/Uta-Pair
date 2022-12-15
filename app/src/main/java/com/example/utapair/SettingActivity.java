@@ -63,13 +63,8 @@ public class SettingActivity extends AppCompatActivity {
             /* set when click button go to previous activity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                if(accessibilityMode) {
-                    onBackPressedAccessibility();
-                }
-                else {
-                    onBackPressed();        /* go to previous activity */
-                }
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(MainActivity.class,SettingActivity.this,textToSpeech,"double tap to go back",500,accessibilityMode);
             }
         });
 
@@ -80,8 +75,14 @@ public class SettingActivity extends AppCompatActivity {
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openAccountActivity();
+                if(sh.contains("SAVED_NAME")){  /* if login go to profile otherwise go to account */
+                    /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                    NewIntent.openNextActivity(ProfileActivity.class,SettingActivity.this,textToSpeech,"double tap to go to Profile",500,accessibilityMode);
+                }
+                else{
+                    /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                    NewIntent.openNextActivity(AccountActivity.class,SettingActivity.this,textToSpeech,"double tap to go to Account",500,accessibilityMode);
+                }
                 }
         });
 
@@ -92,9 +93,8 @@ public class SettingActivity extends AppCompatActivity {
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openScoreboardActivity();
-
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(ScoreboardActivity.class,SettingActivity.this,textToSpeech,"double tap to go to scoreboard",500,accessibilityMode);
             }
         });
 
@@ -186,6 +186,7 @@ public class SettingActivity extends AppCompatActivity {
     }
     /* this part is about when exit this activity */
     protected void onDestroy() {
+        /* when destroy shutdown and turn off everything */
         super.onDestroy();
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
@@ -342,57 +343,6 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-    /* method to start AccountActivity */
-    public void openAccountActivity(){
-        if(checkLoginData()==1){
-            if (accessibilityMode) {
-                NewIntent.launchActivityAccessibility(ProfileActivity.class, this, textToSpeech, "double tap to go to profile", 500);
-            }
-            else {
-                NewIntent.launchActivity(ProfileActivity.class, this);
-            }
-        }
-        else{
-            if (accessibilityMode) {
-                NewIntent.launchActivityAccessibility(AccountActivity.class, this, textToSpeech, "double tap to go to account", 500);
-            }
-            else {
-                NewIntent.launchActivity(AccountActivity.class, this);
-            }
-        }
-    }
-
-
-    /* method to start ScoreboardActivity */
-    public void openScoreboardActivity(){
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(ScoreboardActivity.class, this, textToSpeech, "double tap to go to scoreboard", 500);
-        }
-        else{
-            NewIntent.launchActivity(ScoreboardActivity.class, this);
-        }
-    }
-
-    /* method to go to previous activity with AccessibilityMode */
-    public void onBackPressedAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go back";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start GameActivity */
-                else if(tapCount==2){
-                    onBackPressed();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
-    }
     /* method to check if user is logged in */
     public int checkLoginData(){
         /* check the data in sharedPreference */
@@ -408,9 +358,7 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        finishAffinity();
-        startActivity(intent);
+        NewIntent.launchActivity(MainActivity.class, this);
     }
 
 }

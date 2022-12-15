@@ -111,21 +111,23 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                if(accessibilityMode)
+                if(accessibilityMode) {
+                    String text;
                     if (buttonCheckbox.isChecked()) {
-                        String text = "Checked mode blind";
-                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                        text = "Checked mode blind";
                     }
                     else {
-                        String text = "Checked off mode blind";
-                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                        text = "Checked off mode blind";
                     }
-                    switch(buttonCheckbox.getId()) {
+                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
+                    switch (buttonCheckbox.getId()) {
                         case R.id.modeblind_checkbox:
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
                                     .putBoolean("BLIND_PROFILE", buttonCheckbox.isChecked()).commit();
                             break;
                     }
+
                 showScore();
             }
         });
@@ -176,9 +178,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openScoreboardActivity();
-
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(ScoreboardActivity.class,ProfileActivity.this,textToSpeech,"double tap to go to scoreboard",500,accessibilityMode);
             }
         });
 
@@ -189,8 +190,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openSettingActivity();
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(SettingActivity.class,ProfileActivity.this,textToSpeech,"double tap to go to setting",500,accessibilityMode);
             }
         });
 
@@ -201,13 +202,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             /* set when click button go to previous activity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                if(accessibilityMode) {
-                    onBackPressedAccessibility();
-                }
-                else {
-                    onBackPressed();        /* go to previous activity */
-                }
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(MainActivity.class,ProfileActivity.this,textToSpeech,"double tap to go back",500,accessibilityMode);
             }
         });
     }
@@ -223,6 +219,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 public void run() {
                     String text = "profile";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    /* let textToSpeech speak 2 time because if speak all word in one time it to fast and hard to understand */
                     text = "level easy";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
                     if(PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).getBoolean("BLIND_PROFILE",false)){
@@ -235,6 +232,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     }
     /* this part is about when exit this activity */
     protected void onDestroy() {
+        /* when destroy shutdown and turn off everything */
         super.onDestroy();
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
@@ -289,28 +287,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 tapCount = 0;   /* reset tapCount */
             }
         },500);     /* in 500 millisecond */
-    }
-
-    /* method to start ScoreboardActivity */
-    public void openScoreboardActivity(){
-        /* create new intent ScoreboardActivity Class and Start Activity */
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(ScoreboardActivity.class, this, textToSpeech, "double tap to go to scoreboard", 500);
-        }
-        else{
-            NewIntent.launchActivity(ScoreboardActivity.class, this);
-        }
-    }
-
-    /* method to start SettingActivity */
-    public void openSettingActivity(){
-        /* create new intent SettingActivity Class and Start Activity */
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(SettingActivity.class, this, textToSpeech, "double tap to go to setting", 500);
-        }
-        else{
-            NewIntent.launchActivity(SettingActivity.class, this);
-        }
     }
 
     /* This function use to pop up interface for user to edit name */
@@ -723,25 +699,5 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
-    /* method to go to previous activity with AccessibilityMode */
-    public void onBackPressedAccessibility(){
-        tapCount++;     /* when tap button count in tapCount */
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to go back";
-                    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time start GameActivity */
-                else if(tapCount==2){
-                    onBackPressed();
-                }
-                tapCount = 0;   /* reset tapCount */
-            }
-        },500);     /* in 500 millisecond */
-    }
 
 }

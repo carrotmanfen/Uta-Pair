@@ -79,8 +79,8 @@ public class NewIntent {
     }
 
     /* this method is about open next activity */
-    public static void openNextActivity(Class<? extends Activity> nextActivityClass ,Activity currentActivity,TextToSpeech textToSpeech, String text, int delay ,boolean mode){
-        if(mode){
+    public static void openNextActivity(Class<? extends Activity> nextActivityClass ,Activity currentActivity,TextToSpeech textToSpeech, String text, int delay ,boolean accessibilityMode){
+        if(accessibilityMode){
             NewIntent.launchActivityAccessibility(nextActivityClass,currentActivity,textToSpeech,text,delay);
         }
         else{
@@ -90,8 +90,8 @@ public class NewIntent {
 
     /* this method is about open next activity */
     public static void openNextActivity(Class<? extends Activity> nextActivityClass ,Activity currentActivity,Map<String, Integer> extrasMap
-            ,TextToSpeech textToSpeech, String text, int delay ,boolean mode){
-        if(mode){
+            ,TextToSpeech textToSpeech, String text, int delay ,boolean accessibilityMode){
+        if(accessibilityMode){
             NewIntent.launchActivityAccessibility(nextActivityClass,currentActivity,extrasMap,textToSpeech,text,delay);
         }
         else{

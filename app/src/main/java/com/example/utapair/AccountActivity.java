@@ -58,6 +58,7 @@ public class AccountActivity extends AppCompatActivity {
             /* set when click buttonRegister start RegisterActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
                 NewIntent.openNextActivity(RegisterActivity.class,AccountActivity.this,textToSpeech,"double tap to go to register",500,accessibilityMode);
             }
         });
@@ -81,7 +82,7 @@ public class AccountActivity extends AppCompatActivity {
             /* set when click button go to previous activity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
                 NewIntent.openNextActivity(MainActivity.class,AccountActivity.this,textToSpeech,"double tap to go back",500,accessibilityMode);
             }
         });
@@ -93,7 +94,7 @@ public class AccountActivity extends AppCompatActivity {
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
                 NewIntent.openNextActivity(ScoreboardActivity.class,AccountActivity.this,textToSpeech,"double tap to go to scoreboard",500,accessibilityMode);
             }
         });
@@ -105,7 +106,7 @@ public class AccountActivity extends AppCompatActivity {
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
                 NewIntent.openNextActivity(SettingActivity.class,AccountActivity.this,textToSpeech,"double tap to go to setting",500,accessibilityMode);
             }
         });
