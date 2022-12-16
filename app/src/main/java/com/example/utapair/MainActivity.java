@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
             /* set when click buttonPlay start SelectLevelActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openSelectLevelActivity();
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(SelectLevelActivity.class,MainActivity.this,textToSpeech,"double tap to play",500,accessibilityMode);
             }
         });
 
@@ -87,9 +87,14 @@ public class MainActivity extends AppCompatActivity {
             /* set when click buttonProfile start AccountActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openAccountActivity();
-
+                if(sh.contains("SAVED_NAME")){  /* if login go to profile otherwise go to account */
+                    /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                    NewIntent.openNextActivity(ProfileActivity.class,MainActivity.this,textToSpeech,"double tap to go to Profile",500,accessibilityMode);
+                }
+                else{
+                    /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                    NewIntent.openNextActivity(AccountActivity.class,MainActivity.this,textToSpeech,"double tap to go to Account",500,accessibilityMode);
+                }
             }
         });
 
@@ -100,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
             /* set when click buttonScoreboard start ScoreboardActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openScoreboardActivity();
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(ScoreboardActivity.class,MainActivity.this,textToSpeech,"double tap to go to Scoreboard",500,accessibilityMode);
 
             }
         });
@@ -113,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
             /* set when click buttonSetting start SettingActivity */
             public void onClick(View view) {
                 soundClick.playSoundClick(); /* sound click */
-                /* use method follow AccessibilityMode */
-                openSettingActivity();
+                /* use NewIntent.openNextActivity to create Intent and start Activity follow AccessibilityMode and pass argument that need */
+                NewIntent.openNextActivity(SettingActivity.class,MainActivity.this,textToSpeech,"double tap to go to setting",500,accessibilityMode);
             }
         });
         if(firstStart){
@@ -152,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
     /* this part is about when exit this activity */
     protected void onDestroy() {
+        /* when destroy shutdown and turn off everything */
         super.onDestroy();
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
@@ -164,60 +170,6 @@ public class MainActivity extends AppCompatActivity {
         blindMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("BLIND_MODE",false);
         accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
         musicMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("MUSIC_MODE",false);
-    }
-
-    /* method to start SelectLevelActivity */
-    public void openSelectLevelActivity(){
-        if (accessibilityMode) {
-            NewIntent.launchActivityAccessibility(SelectLevelActivity.class, this, textToSpeech, "double tap to play", 500);
-        }
-        else {
-            NewIntent.launchActivity(SelectLevelActivity.class, this);
-        }
-    }
-
-    /* method to start AccountActivity */
-    public void openAccountActivity(){
-        /* if user has logged in then go to Profile page */
-        if(sh.contains("SAVED_NAME")){
-            if (accessibilityMode) {
-                NewIntent.launchActivityAccessibility(ProfileActivity.class, this, textToSpeech, "double tap to go to profile", 500);
-            }
-            else {
-                NewIntent.launchActivity(ProfileActivity.class, this);
-            }
-        }
-        /* if user hasn't logged in then go to account page */
-        else {
-            if (accessibilityMode) {
-                NewIntent.launchActivityAccessibility(AccountActivity.class, this, textToSpeech, "double tap to go to account", 500);
-            }
-            else {
-                NewIntent.launchActivity(AccountActivity.class, this);
-            }
-        }
-    }
-
-    /* method to start ScoreboardActivity */
-    public void openScoreboardActivity(){
-        /* create new intent ScoreboardActivity Class and Start Activity */
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(ScoreboardActivity.class, this, textToSpeech, "double tap to go to scoreboard", 500);
-        }
-        else{
-            NewIntent.launchActivity(ScoreboardActivity.class, this);
-        }
-    }
-
-    /* method to start SettingActivity */
-    public void openSettingActivity(){
-        /* create new intent SettingActivity Class and Start Activity */
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(SettingActivity.class, this, textToSpeech, "double tap to go to setting", 500);
-        }
-        else{
-            NewIntent.launchActivity(SettingActivity.class, this);
-        }
     }
 
     /* This function use to appear alert dialog for first time use */

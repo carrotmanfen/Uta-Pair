@@ -152,17 +152,18 @@ public class EndgameActivity extends Activity {
             public void onClick(View v) {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
-                openMainActivity();
+                NewIntent.openNextActivity(MainActivity.class,EndgameActivity.this,textToSpeech,"double tap to go to home",500,accessibilityMode);
             }
         });
         if(checkLoginData()==1){
             insertScore(completeScore);
         }
-        else;
+
     }
 
     /* this part is about when exit this activity */
     protected void onDestroy() {
+        /* when destroy shutdown and turn off everything */
         super.onDestroy();
         textToSpeech.shutdown();
         soundClick.stopMediaPlayer();
@@ -200,59 +201,29 @@ public class EndgameActivity extends Activity {
         },500);     /* in 500 millisecond */
     }
 
-    /* method to go to MainActivity */
-    public void openMainActivity(){
-        if (accessibilityMode){
-            NewIntent.launchActivityAccessibility(MainActivity.class,this,textToSpeech,"double tap to go to home",500);
-        }
-        else {
-            NewIntent.launchActivity(MainActivity.class, this);
-        }
-    }
-
     /* method to playAgain in same level */
     public void playAgain(){
         Bundle bundle = getIntent().getExtras();
-        int mode = bundle.getInt("MODE");
+        int mode = bundle.getInt("MODE");  /* collect mode in variable */
+        Map Map = new HashMap<String,Integer>();  /* create new HashMap */
+        /* put data follow mode */
             if (mode==-1){      /* level easy */
-                Map Map = new HashMap<String,Integer>();
                 Map.put("MODE", -1);
                 Map.put("LAYOUT_ID", R.layout.activity_game_easy2);
                 Map.put("GRID_ID",R.id.GridLayout_easy);
-                if (accessibilityMode){
-                    NewIntent.launchActivityAccessibility(GameActivity.class,this,Map,textToSpeech,"double tap to play again",500);
-                }
-                else {
-                    NewIntent.launchActivity(GameActivity.class, this, Map);
-                }
             }
             else if (mode==0) {     /* level normal */
-                Map Map = new HashMap<String,Integer>();
                 Map.put("MODE", 0);
                 Map.put("LAYOUT_ID", R.layout.activity_game_normal);
                 Map.put("GRID_ID",R.id.GridLayout_meduim);
-                if (accessibilityMode){
-                    NewIntent.launchActivityAccessibility(GameActivity.class,this,Map,textToSpeech,"double tap to play again",500);
-                }
-                else {
-                    NewIntent.launchActivity(GameActivity.class, this, Map);
-                }
             }
             else if (mode==1) {     /* level hard */
-                Map Map = new HashMap<String,Integer>();
                 Map.put("MODE", 1);
                 Map.put("LAYOUT_ID", R.layout.activity_game_hard);
                 Map.put("GRID_ID",R.id.GridLayout_hard);
-                if (accessibilityMode){
-                    NewIntent.launchActivityAccessibility(GameActivity.class,this,Map,textToSpeech,"double tap to play again",500);
-                }
-                else {
-                    NewIntent.launchActivity(GameActivity.class, this, Map);
-                }
             }
-
+        NewIntent.openNextActivity(GameActivity.class,EndgameActivity.this,Map,textToSpeech,"double tap to play again",500,accessibilityMode);
     }
-
 
     /* method to set text mode in layout */
     public String setTextMode(){
