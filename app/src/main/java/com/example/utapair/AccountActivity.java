@@ -121,7 +121,7 @@ public class AccountActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    String text = "Account";
+                    String text = "You're now on Account page which has 2 button which is login and register";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, 500);

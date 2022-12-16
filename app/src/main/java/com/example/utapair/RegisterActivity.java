@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -40,11 +41,14 @@ public class RegisterActivity extends AppCompatActivity {
     private ImageButton buttonBack;
     private String username, password, confirmedPassword, blindModeString;
     private TextToSpeech textToSpeech;
-    private int tapCount = 0;
+    private int tapCount = 0, clickedRegister = 0 ;
     private SoundClick soundClick;
     private boolean accessibilityMode;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor preferenceEditor;
     /* Connect server */
     private String registerURL = "https://uta-pair-api.herokuapp.com/register.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -72,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 /* use method follow AccessibilityMode */
                 if(accessibilityMode){
-                    String text = "Type your name";
+                    String text = "Type your name in english language from 1 to 16 characters";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 return false;
@@ -86,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 /* use method follow AccessibilityMode */
                 if(accessibilityMode){
-                    String text = "Type your password";
+                    String text = "Type your password in english language from 1 to 16 characters";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 return false;
@@ -100,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 /* use method follow AccessibilityMode */
                 if(accessibilityMode){
-                    String text = "Type confirm your password";
+                    String text = "Type the same as your password in this fill to confirm your password";
                     textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
                 }
                 return false;
@@ -114,7 +118,14 @@ public class RegisterActivity extends AppCompatActivity {
                 soundClick.playSoundClick(); /* sound click */
                 /* use method follow AccessibilityMode */
                 if(accessibilityMode) {
+                    if (clickedRegister==0&&!buttonCheck.isChecked()){
+                        String text = "Don't forget to check you're blind person button,if you're need accessibility mode on";
+                        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+                        clickedRegister++;
+                    }
+                    else {
                     signUpAccessibility();
+                    }
                 }
                 else {
                     checkRegisterInput();
@@ -168,7 +179,7 @@ public class RegisterActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    String text = "register";
+                    String text = "You're now on register page. This page has 3 text box and 1 check button ";
                     textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }, 500);
@@ -279,15 +290,15 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void run() {
                 /* if a tap play sound */
-                if (tapCount==1){
-                    String text = "double tap to register";
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
-                }
-                /* if double tap in time to sign up */
-                else if(tapCount==2){
-                    checkRegisterInput();
-                }
-                tapCount = 0;   /* reset tapCount */
+                    if (tapCount == 1) {
+                        String text = "double tap to register";
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    /* if double tap in time to sign up */
+                    else if (tapCount == 2) {
+                        checkRegisterInput();
+                    }
+                    tapCount = 0;   /* reset tapCount */
             }
         },500);     /* in 500 millisecond */
     }
@@ -299,6 +310,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 if (response.equals("SUCCESS")) {
+                    clickedRegister=0;
                     /* Pop up Success */
                     Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     if(buttonCheck.isChecked()){
