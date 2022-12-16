@@ -41,8 +41,6 @@ public class EndgameActivity extends Activity {
     private Button buttonPlayAgain;
     private Button buttonShare;
     private ImageButton imageButtonHome;
-    private ImageButton imageButtonPlayAgain;
-    private ImageButton imageButtonShare;
     private TextToSpeech textToSpeech;
     private MediaPlayer mediaPlayer;
     private SoundClick soundClick;
