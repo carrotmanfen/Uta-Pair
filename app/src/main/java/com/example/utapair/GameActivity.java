@@ -448,80 +448,36 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         return checkAllMatched;
     }
 
-    /* set buttonGraphic level easy */
-    public void setButtonGraphicLevelEasy(){
-        /* set drawable each buttonGraphic */
-        buttonGraphic[0] = R.drawable.custom_pair_brownies;
-        buttonGraphic[1] = R.drawable.custom_pair_cake;
-        buttonGraphic[2] = R.drawable.custom_pair_candy;
-        /* if AccessibilityMode on set buttonGraphicTexts */
-        if(accessibilityMode || blindMode){
-            /* set text each buttonGraphic */
-            buttonGraphicTexts[0] = "brownies";
-            buttonGraphicTexts[1] = "cakes";
-            buttonGraphicTexts[2] = "candy";
-        }
-    }
-
-    /* set buttonGraphic level normal */
-    public void setButtonGraphicLevelNormal(){
-        /* set drawable each buttonGraphic */
-        buttonGraphic[0] = R.drawable.custom_pair_brownies;
-        buttonGraphic[1] = R.drawable.custom_pair_cake;
-        buttonGraphic[2] = R.drawable.custom_pair_candy;
-        buttonGraphic[3] = R.drawable.custom_pair_chocolate;
-        buttonGraphic[4] = R.drawable.custom_pair_cookie;
-        buttonGraphic[5] = R.drawable.custom_pair_donut;
-        /* if AccessibilityMode on set buttonGraphicTexts */
-        if(accessibilityMode|| blindMode){
-            /* set text each buttonGraphic */
-            buttonGraphicTexts[0] = "brownies";
-            buttonGraphicTexts[1] = "cakes";
-            buttonGraphicTexts[2] = "candy";
-            buttonGraphicTexts[3] = "chocolate";
-            buttonGraphicTexts[4] = "cookies";
-            buttonGraphicTexts[5] = "donut";
-        }
-    }
-
-    /* set buttonGraphic level hard */
-    public void setButtonGraphicLevelHard(){
-        /* set drawable each buttonGraphic */
-        buttonGraphic[0] = R.drawable.custom_pair_brownies;
-        buttonGraphic[1] = R.drawable.custom_pair_cake;
-        buttonGraphic[2] = R.drawable.custom_pair_candy;
-        buttonGraphic[3] = R.drawable.custom_pair_chocolate;
-        buttonGraphic[4] = R.drawable.custom_pair_cookie;
-        buttonGraphic[5] = R.drawable.custom_pair_donut;
-        buttonGraphic[6] = R.drawable.custom_pair_icecream;
-        buttonGraphic[7] = R.drawable.custom_pair_macaron;
-        buttonGraphic[8] = R.drawable.custom_pair_pancake;
-        /* if AccessibilityMode on set buttonGraphicTexts */
-        if(accessibilityMode|| blindMode){
-            /* set text each buttonGraphic */
-            buttonGraphicTexts[0] = "brownies";
-            buttonGraphicTexts[1] = "cakes";
-            buttonGraphicTexts[2] = "candy";
-            buttonGraphicTexts[3] = "chocolate";
-            buttonGraphicTexts[4] = "cookies";
-            buttonGraphicTexts[5] = "donut";
-            buttonGraphicTexts[6] = "ice cream";
-            buttonGraphicTexts[7] = "macaroon";
-            buttonGraphicTexts[8] = "pancake";
-        }
-    }
-
     /* method set buttonGraphic all level */
     public void setButtonGraphic(){
+        ButtonGraphics graphicTemp = new ButtonGraphics();
         switch (mode){
             case -1: /* easy mode */
-                setButtonGraphicLevelEasy();
+                /*set graphic of a card*/
+                buttonGraphic = graphicTemp.getButtonGraphicEasy();
+                /* if AccessibilityMode on set buttonGraphicTexts */
+                if(accessibilityMode|| blindMode){
+                    buttonGraphicTexts = graphicTemp.getTextButtonEasy();
+                }
+//                setButtonGraphicLevelEasy();
                 break;
             case 0: /* normal mode */
-                setButtonGraphicLevelNormal();
+                /*set graphic of a card*/
+                buttonGraphic = graphicTemp.getButtonGraphicNormal();
+                /* if AccessibilityMode on set buttonGraphicTexts */
+                if(accessibilityMode|| blindMode){
+                    buttonGraphicTexts = graphicTemp.getTextButtonNormal();
+                }
+//                setButtonGraphicLevelNormal();
                 break;
             case 1: /* hard mode */
-                setButtonGraphicLevelHard();
+                /*set graphic of a card*/
+                buttonGraphic = graphicTemp.getButtonGraphicHard();
+                /* if AccessibilityMode on set buttonGraphicTexts */
+                if(accessibilityMode|| blindMode){
+                    buttonGraphicTexts = graphicTemp.getTextButtonHard();
+                }
+
                 break;
         }
     }
