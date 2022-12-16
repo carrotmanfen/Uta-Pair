@@ -1,14 +1,11 @@
 package com.example.utapair;
 
-import static com.example.utapair.R.raw.sc;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.print.PrintAttributes;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
@@ -52,8 +49,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textViewTimer;
     private Timer timer;
     private TimerTask timerTask;
-    private int time = 0;
-    private String timeScore;
+    private TimeScore timeScore = new TimeScore();
+    private String timeScoreText;
     private TextToSpeech textToSpeech;
     private int tapCount = 0;
     private MediaPlayer mediaPlayer;
@@ -150,6 +147,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
+        timeScore.resetTime();
         /* if AccessibilityMode on when this activity start play sound */
         if(accessibilityMode||blindMode) {
             Handler handler = new Handler();
@@ -202,28 +200,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     /* when timer is counting continuous running time and change text */
                     public void run() {
-                        time++;     /* running time */
-                        textViewTimer.setText(getTimerText());      /* change text */
+                        timeScore.tickTime();     /* running time */
+                        textViewTimer.setText(timeScore.getTimerText());      /* change text */
                     }
                 });
             }
         };
         timer.scheduleAtFixedRate(timerTask,0,1);       /* set speed od timerTask */
-    }
-
-    /* method to change time to millisecond, second and minute */
-    public String getTimerText() {
-        /* Change unite and put in to formatTime that we want */
-        int milliSec = time%100;
-        int second = (time/1000)%60;
-        int minute = (time/1000)/60;
-        return formatTime(milliSec,second,minute);
-    }
-
-    /* method get time and set in to string format that we want */
-    public  String formatTime(int milliSec,int second, int minute){
-        /* set string format */
-        return String.format("%02d",minute)+" : "+ String.format("%02d",second)+" : "+ String.format("%02d",milliSec);
     }
 
     /* method to pause game */
@@ -441,8 +424,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         /* if all match stop time */
         if(checkAllMatched){
             timerTask.cancel();
-            timeScore=getTimerText();
-            textViewTimer.setText(timeScore);
+            timeScoreText =timeScore.getTimerText();
+            textViewTimer.setText(timeScoreText);
         }
         /* if all pair item matched return true and that mean end game */
         return checkAllMatched;
@@ -566,7 +549,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             /* if all button matched */
             if(checkAllMatched() == true ){
-                textViewTimer.setText(timeScore);
+                textViewTimer.setText(timeScoreText);
                 /* end game and go to EndgameActivity */
                 Intent intent = new Intent(this, EndgameActivity.class);
                 /* set delay for correct time score */
@@ -605,9 +588,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         itWasBusy = false;  /* end of delay */
                     }
                 }, 500);
-
         }
-
     }
 
     /* method when pres back button */
