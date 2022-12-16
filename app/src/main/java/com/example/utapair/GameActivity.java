@@ -31,6 +31,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private int numberOfElements;
     private MemoryButton[] button; /* button that we put on GridLayout */
+    private ButtonGraphics buttonGraphicsTemp;
     private int[] buttonGraphicLocation; /* Position graphic of Button each one will be drawable */
     private int[] buttonGraphic; /* Get picture from drawable and put in array */
     private String[] buttonGraphicTexts;
@@ -95,8 +96,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         button = new MemoryButton[numberOfElements];    /* create MemoryButton objects same number of element */
 
         /* set graphic half of element because 1 picture have 2 pair item to matched */
-        buttonGraphic = new int[numberOfElements/2];
-        buttonGraphicTexts = new String[numberOfElements/2];
+        setCardDetail();
 
         /* set language for Accessibility ion this case we use US */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -108,11 +108,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        setButtonGraphic();     /* generate graphic in any level */
-
-        buttonGraphicLocation = new int[numberOfElements];      /* create array to keep data of location */
-
-        shuffleButtonGraphics();        /* random location */
 
         /* set button in to location */
         for(int r = 0; r < numRows; r++) {
@@ -379,6 +374,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         },500);     /* in 500 millisecond */
     }
 
+    public void setCardDetail(){
+        /* create object */
+        buttonGraphicsTemp = new ButtonGraphics();
+        buttonGraphic = new int[numberOfElements/2];
+        buttonGraphicTexts = new String[numberOfElements/2];
+
+        /* set graphic for a card */
+        buttonGraphic = buttonGraphicsTemp.getButtonGraphic(mode);
+        /* set text for a card*/
+        if(accessibilityMode || blindMode){
+            buttonGraphicTexts = buttonGraphicsTemp.getButtonGraphicText(mode);
+        }
+
+        /* set location for a card */
+        buttonGraphicLocation = new int[numberOfElements];      /* create array to keep data of location */
+        buttonGraphicLocation = buttonGraphicsTemp.shuffleButtonGraphics(numberOfElements);        /* random location */
+
+    }
 
     /* method to restart game */
     public void playAgain(){
@@ -408,24 +421,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         },500);     /* in 500 millisecond */
     }
 
-    /* method to random location */
-    public void shuffleButtonGraphics(){
-        Random rand = new Random();
-        for (int i = 0 ; i < numberOfElements ; i++){
-            /* mod by unique value because it have different picture (3 picture and  6 pair) */
-            buttonGraphicLocation[i] = i % (numberOfElements/2);
-        }
-        for(int i = 0; i < numberOfElements ; i++){
-            int temp = buttonGraphicLocation[i];
-            int randIndex = rand.nextInt(6); /* 0-5 random int number */
-
-            /* swap number of buttonGraphic */
-            buttonGraphicLocation[i] = buttonGraphicLocation[randIndex];
-            buttonGraphicLocation[randIndex] = temp;
-
-        }
-    }
-
     /* method to check all pair item match (end game) */
     public boolean checkAllMatched(){
         boolean checkAllMatched = true;
@@ -446,40 +441,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         /* if all pair item matched return true and that mean end game */
         return checkAllMatched;
-    }
-
-    /* method set buttonGraphic all level */
-    public void setButtonGraphic(){
-        ButtonGraphics graphicTemp = new ButtonGraphics();
-        switch (mode){
-            case -1: /* easy mode */
-                /*set graphic of a card*/
-                buttonGraphic = graphicTemp.getButtonGraphicEasy();
-                /* if AccessibilityMode on set buttonGraphicTexts */
-                if(accessibilityMode|| blindMode){
-                    buttonGraphicTexts = graphicTemp.getTextButtonEasy();
-                }
-//                setButtonGraphicLevelEasy();
-                break;
-            case 0: /* normal mode */
-                /*set graphic of a card*/
-                buttonGraphic = graphicTemp.getButtonGraphicNormal();
-                /* if AccessibilityMode on set buttonGraphicTexts */
-                if(accessibilityMode|| blindMode){
-                    buttonGraphicTexts = graphicTemp.getTextButtonNormal();
-                }
-//                setButtonGraphicLevelNormal();
-                break;
-            case 1: /* hard mode */
-                /*set graphic of a card*/
-                buttonGraphic = graphicTemp.getButtonGraphicHard();
-                /* if AccessibilityMode on set buttonGraphicTexts */
-                if(accessibilityMode|| blindMode){
-                    buttonGraphicTexts = graphicTemp.getTextButtonHard();
-                }
-
-                break;
-        }
     }
 
     /* method random word to speech when matched and in AccessibilityMode on */
