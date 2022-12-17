@@ -45,6 +45,7 @@ public class SettingActivity extends AppCompatActivity {
         accessibilityMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ACCESSIBILITY_MODE",false);
         musicMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("MUSIC_MODE",false);
 
+        sh = getSharedPreferences("MY_SHARED_PREF", Context.MODE_PRIVATE);
         soundClick = new SoundClick(this);
         /* create object textToSpeak and set the language */
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
